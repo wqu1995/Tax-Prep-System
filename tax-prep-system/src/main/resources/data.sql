@@ -27,3 +27,65 @@ VALUES (888999000, 'William', 'Davis', 'william.davis@example.com', 7776665555, 
 
 INSERT INTO users (social, first_name, last_name, email, phone, street_addr, city, state, zip, status)
 VALUES (333444555, 'Olivia', 'Anderson', 'olivia.anderson@example.com', 2223334444, '123 Oak Ln', 'New York', 'NY', 10002, 'S');
+
+
+INSERT INTO w2 (social, emp_tin, wages, fed_withheld)
+VALUES (123456789, 111222333, 567657567, 0);
+
+INSERT INTO w2 (social, emp_tin, wages, fed_withheld)
+VALUES (987654321, 111222333, 57686, 100);
+
+INSERT INTO w2 (social, emp_tin, wages, fed_withheld)
+VALUES (987654321, 222333444, 234546, 1090);
+
+INSERT INTO w2 (social, emp_tin, wages, fed_withheld)
+VALUES (987654321, 444555666, 678876, 678);
+
+INSERT INTO w2 (social, emp_tin, wages, fed_withheld)
+VALUES (333444555, 111222333, 456546, 45);
+
+INSERT INTO w2 (social, emp_tin, wages, fed_withheld)
+VALUES (333444555, 444555666, 491074, 57);
+
+INSERT INTO w2 (social, emp_tin, wages, fed_withheld)
+VALUES (333444555, 456456456, 4563378, 36);
+
+INSERT INTO w2 (social, emp_tin, wages, fed_withheld)
+VALUES (333444555, 777888999, 459873, 345);
+
+INSERT INTO w2 (social, emp_tin, wages, fed_withheld)
+VALUES (888999000, 777888999, 459873, 8795);
+
+INSERT INTO w2 (social, emp_tin, wages, fed_withheld)
+VALUES (888999000, 444555666, 67453, 3455);
+
+
+INSERT INTO '1099' (social, payer_tin, compensation, fed_withheld)
+VALUES (888999000, 588599500, 4556756, 34545);
+
+INSERT INTO '1099' (social, payer_tin, compensation, fed_withheld)
+VALUES (888999000, 688699600, 4356, 2);
+
+INSERT INTO '1099' (social, payer_tin, compensation, fed_withheld)
+VALUES (888999000, 788799700, 112367, 3455);
+
+INSERT INTO '1099' (social, payer_tin, compensation, fed_withheld)
+VALUES (789123456, 588599500, 57854, 6777);
+
+INSERT INTO '1099' (social, payer_tin, compensation, fed_withheld)
+VALUES (789123456, 444555666, 555667773, 65757);
+
+INSERT INTO '1099' (social, payer_tin, compensation, fed_withheld)
+VALUES (789123456, 688699600, 4566, 456);
+
+INSERT INTO '1099' (social, payer_tin, compensation, fed_withheld)
+VALUES (777888999, 444555666, 67453, 3455);
+
+INSERT INTO '1099' (social, payer_tin, compensation, fed_withheld)
+VALUES (777888999, 777878999, 992589, 871);
+
+INSERT INTO '1099' (social, payer_tin, compensation, fed_withheld)
+VALUES (777888999, 444555666, 6691356, 2346);
+
+INSERT INTO '1099' (social, payer_tin, compensation, fed_withheld)
+VALUES (675747231, 444555666, 550956, 5678);
