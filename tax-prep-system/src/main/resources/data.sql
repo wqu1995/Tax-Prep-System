@@ -53,29 +53,29 @@ INSERT INTO w2 (social, emp_tin, wages, fed_withheld)
 VALUES (333444555, 777888999, 459873, 345);
 
 INSERT INTO w2 (social, emp_tin, wages, fed_withheld)
-VALUES (888999000, 777888999, 459873, 8795);
+VALUES (666777888, 777888999, 459873, 8795);
 
 INSERT INTO w2 (social, emp_tin, wages, fed_withheld)
-VALUES (888999000, 444555666, 67453, 3455);
+VALUES (666777888, 444555666, 67453, 3455);
 
 
 INSERT INTO ten99 (social, payer_tin, compensation, fed_withheld)
-VALUES (888999000, 588599500, 4556756, 34545);
+VALUES (666777888, 588599500, 4556756, 34545);
 
 INSERT INTO ten99 (social, payer_tin, compensation, fed_withheld)
-VALUES (888999000, 688699600, 4356, 2);
+VALUES (666777888, 688699600, 4356, 2);
 
 INSERT INTO ten99 (social, payer_tin, compensation, fed_withheld)
-VALUES (888999000, 788799700, 112367, 3455);
+VALUES (666777888, 788799700, 112367, 3455);
 
 INSERT INTO ten99 (social, payer_tin, compensation, fed_withheld)
-VALUES (789123456, 588599500, 57854, 6777);
+VALUES (222333444, 588599500, 57854, 6777);
 
 INSERT INTO ten99 (social, payer_tin, compensation, fed_withheld)
-VALUES (789123456, 444555666, 5556773, 65757);
+VALUES (222333444, 444555666, 5556773, 65757);
 
 INSERT INTO ten99 (social, payer_tin, compensation, fed_withheld)
-VALUES (789123456, 688699600, 4566, 456);
+VALUES (222333444, 688699600, 4566, 456);
 
 INSERT INTO ten99 (social, payer_tin, compensation, fed_withheld)
 VALUES (777888999, 444555666, 67453, 3455);
