@@ -1,33 +1,32 @@
-INSERT INTO users (social, first_name, last_name, email, phone, street_addr, city, state, zip, status)
-VALUES (123456789, 'John', 'Doe', 'john.doe@example.com', 9876543210, '123 Main St', 'New York', 'NY', 10001, 'M');
+INSERT INTO users (social, first_name, last_name, email, password, phone, street_addr, city, state, zip, status)
+VALUES (123456789, 'John', 'Doe', 'john.doe@example.com', 'password123', 1234567890, '123 Main St', 'New York', 'NY', 10001, 'M');
 
-INSERT INTO users (social, first_name, last_name, email, phone, street_addr, city, state, zip, status)
-VALUES (987654321, 'Jane', 'Smith', 'jane.smith@example.com', 1234567890, '456 Oak Ave', 'Los Angeles', 'CA', 90001, 'M');
+INSERT INTO users (social, first_name, last_name, email, password, phone, street_addr, city, state, zip, status)
+VALUES (987654321, 'Jane', 'Smith', 'jane.smith@example.com', 'securepass', 9876543210, '456 Elm St', 'Los Angeles', 'CA', 90001, 'S');
 
-INSERT INTO users (social, first_name, last_name, email, phone, street_addr, city, state, zip, status)
-VALUES (456789123, 'Michael', 'Johnson', 'michael.johnson@example.com', 5556667777, '789 Elm Rd', 'Chicago', 'IL', 60601, 'S');
+INSERT INTO users (social, first_name, last_name, email, password, phone, street_addr, city, state, zip, status)
+VALUES (555555555, 'Michael', 'Johnson', 'michael.johnson@example.com', 'test123', 5555555555, '789 Oak St', 'Chicago', 'IL', 60601, 'M');
 
-INSERT INTO users (social, first_name, last_name, email, phone, street_addr, city, state, zip, status)
-VALUES (789123456, 'Emily', 'Brown', 'emily.brown@example.com', 9998887777, '101 Maple Ln', 'Houston', 'TX', 77002, 'M');
+INSERT INTO users (social, first_name, last_name, email, password, phone, street_addr, city, state, zip, status)
+VALUES (111222333, 'Alice', 'Johnson', 'alice.johnson@example.com', 'pass123', 1112223333, '789 Pine St', 'San Francisco', 'CA', 94101, 'S');
 
-INSERT INTO users (social, first_name, last_name, email, phone, street_addr, city, state, zip, status)
-VALUES (654789321, 'David', 'Williams', 'david.williams@example.com', 4443332222, '222 Pine Blvd', 'San Francisco', 'CA', 94101, 'S');
+INSERT INTO users (social, first_name, last_name, email, password, phone, street_addr, city, state, zip, status)
+VALUES (444555666, 'Robert', 'Williams', 'robert.williams@example.com', 'hello123', 4445556666, '321 Oak Ave', 'Seattle', 'WA', 98101, 'M');
 
-INSERT INTO users (social, first_name, last_name, email, phone, street_addr, city, state, zip, status)
-VALUES (111222333, 'Sarah', 'Johnson', 'sarah.johnson@example.com', 5551112222, '789 Oak Ave', 'Los Angeles', 'CA', 90002, 'S');
+INSERT INTO users (social, first_name, last_name, email, password, phone, street_addr, city, state, zip, status)
+VALUES (777888999, 'Emily', 'Davis', 'emily.davis@example.com', 'test456', 7778889999, '456 Maple Rd', 'Boston', 'MA', 02101, 'S');
 
-INSERT INTO users (social, first_name, last_name, email, phone, street_addr, city, state, zip, status)
-VALUES (444555666, 'Robert', 'Smith', 'robert.smith@example.com', 9997778888, '456 Maple St', 'Chicago', 'IL', 60602, 'M');
+INSERT INTO users (social, first_name, last_name, email, password, phone, street_addr, city, state, zip, status)
+VALUES (222333444, 'Daniel', 'Anderson', 'daniel.anderson@example.com', 'secure456', 2223334444, '987 Elm Ave', 'Miami', 'FL', 33101, 'M');
 
-INSERT INTO users (social, first_name, last_name, email, phone, street_addr, city, state, zip, status)
-VALUES (777888999, 'Jessica', 'Brown', 'jessica.brown@example.com', 3334445555, '222 Elm Rd', 'Houston', 'TX', 77003, 'M');
+INSERT INTO users (social, first_name, last_name, email, password, phone, street_addr, city, state, zip, status)
+VALUES (666777888, 'Olivia', 'Martinez', 'olivia.martinez@example.com', 'pass987', 6667778888, '741 Birch Rd', 'Dallas', 'TX', 75201, 'S');
 
-INSERT INTO users (social, first_name, last_name, email, phone, street_addr, city, state, zip, status)
-VALUES (888999000, 'William', 'Davis', 'william.davis@example.com', 7776665555, '101 Pine Blvd', 'San Francisco', 'CA', 94102, 'S');
+INSERT INTO users (social, first_name, last_name, email, password, phone, street_addr, city, state, zip, status)
+VALUES (999888777, 'William', 'Lee', 'william.lee@example.com', 'pass789', 9998887777, '852 Cherry Lane', 'Houston', 'TX', 77001, 'M');
 
-INSERT INTO users (social, first_name, last_name, email, phone, street_addr, city, state, zip, status)
-VALUES (333444555, 'Olivia', 'Anderson', 'olivia.anderson@example.com', 2223334444, '123 Oak Ln', 'New York', 'NY', 10002, 'S');
-
+INSERT INTO users (social, first_name, last_name, email, password, phone, street_addr, city, state, zip, status)
+VALUES (333444555, 'Sophia', 'Garcia', 'sophia.garcia@example.com', 'secure789', 3334445555, '963 Pine Lane', 'Atlanta', 'GA', 30301, 'S');
 
 INSERT INTO w2 (social, emp_tin, wages, fed_withheld)
 VALUES (123456789, 111222333, 567657567, 0);
