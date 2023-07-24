@@ -18,7 +18,7 @@ import com.skillstorm.taxprepsystem.services.W2Service;
 public class W2Controller {
 
     @Autowired
-    W2Service w2Service;
+    private W2Service w2Service;
 
     @GetMapping
     public ResponseEntity<List<W2>> findAllBySocial(@RequestParam(value="social") long social) {
@@ -26,6 +26,8 @@ public class W2Controller {
 
         return new ResponseEntity<List<W2>>(allW2, HttpStatus.OK);
     }
+
+    
 
 
     

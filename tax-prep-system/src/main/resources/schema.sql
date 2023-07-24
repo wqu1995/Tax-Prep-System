@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users(
     social BIGINT PRIMARY KEY,
@@ -24,9 +24,9 @@ CREATE TABLE w2 (
     FOREIGN KEY (social) REFERENCES users(social)
 );
 
-DROP TABLE IF EXISTS '1099';
+DROP TABLE IF EXISTS ten99;
 
-CREATE TABLE "1099" (
+CREATE TABLE ten99 (
     social BIGINT,
     payer_tin INT,
     compensation DECIMAL(10,2) NOT NULL CHECK (compensation >= 0),

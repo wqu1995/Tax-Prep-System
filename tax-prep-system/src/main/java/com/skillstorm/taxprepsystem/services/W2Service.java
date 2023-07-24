@@ -12,10 +12,10 @@ import com.skillstorm.taxprepsystem.repositories.W2Repository;
 public class W2Service {
 
     @Autowired
-    W2Repository w2Repository;
+    private W2Repository w2Repository;
 
     public List<W2> findAllBySocial(long social) {
-        return w2Repository.findByIdSocial(social);
+        return w2Repository.findByW2IdUser(social);
     }
     
 }
