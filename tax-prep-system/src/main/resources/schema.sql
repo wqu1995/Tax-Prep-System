@@ -11,7 +11,7 @@ CREATE TABLE users(
     city VARCHAR(255),
     state CHAR(2),
     zip INT,
-    status ENUM('M', 'S')
+    status ENUM('MJ', 'MS', 'S')
 );
 
 DROP TABLE IF EXISTS w2;
