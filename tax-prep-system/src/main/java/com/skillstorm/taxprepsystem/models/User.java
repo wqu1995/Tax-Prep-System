@@ -42,12 +42,12 @@ public class User {
     private int zip;
 
     @Column
-    private char status;
+    private String status;
 
     public User() {
     }
 
-    public User(long social, String firstName, String lastName, String email, String password, long phone, String streetAddr, String city, String state, int zip, char status) {
+    public User(long social, String firstName, String lastName, String email, String password, long phone, String streetAddr, String city, String state, int zip, String status) {
         this.social = social;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -133,11 +133,11 @@ public class User {
         this.zip = zip;
     }
 
-    public char getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(char status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -154,7 +154,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return social == user.social && phone == user.phone && zip == user.zip && status == user.status && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(streetAddr, user.streetAddr) && Objects.equals(city, user.city) && Objects.equals(state, user.state);
+        return social == user.social && phone == user.phone && zip == user.zip && status.equals(user.status) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(streetAddr, user.streetAddr) && Objects.equals(city, user.city) && Objects.equals(state, user.state);
     }
 
     @Override
