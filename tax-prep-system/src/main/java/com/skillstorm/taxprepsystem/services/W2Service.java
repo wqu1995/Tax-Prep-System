@@ -15,7 +15,38 @@ public class W2Service {
     private W2Repository w2Repository;
 
     public List<W2> findAllBySocial(long social) {
-        return w2Repository.findByW2IdUser(social);
+        return w2Repository.findByW2IdUserSocial(social);
     }
     
+    public W2 saveNewW2(W2 w2) {
+        List<W2> allW2 = w2Repository.findAll();
+        for (W2 currentW2: allW2) {
+            if (currentW2.getW2Id().equals(w2.getW2Id())) {                 // If the W2 already exists, don't create a new one
+                return null;
+            }
+        }
+
+        return w2Repository.save(w2);
+    }
+
+    public W2 updateW2(W2 w2) {
+        List<W2> allW2 = w2Repository.findAll();
+        for (W2 currentW2: allW2) {
+            if (currentW2.getW2Id().equals(w2.getW2Id())) {                // Check if the W2 exists before updating to avoid creating a new W2
+
+                return w2Repository.save(w2);                              // If it exists, update it
+            }
+        }
+
+        return null;                                                      // If it doesn't, do nothing
+
+    }
+
+    public void deleteBySocial(long social) {
+        w2Repository.deleteAllByW2IdUserSocial(social);
+    }
+
+    public void deleteByEmpTin(long empTin) {
+        w2Repository.deleteAllByW2IdEmpTin(empTin);
+    }
 }
