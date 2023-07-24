@@ -10,4 +10,9 @@ class TaxPreparationSystemApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void testW2FindBySocial() {
+		
+	}
+
 }
