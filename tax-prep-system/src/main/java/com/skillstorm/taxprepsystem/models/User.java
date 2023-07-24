@@ -24,6 +24,9 @@ public class User {
     private String email;
 
     @Column
+    private String password;
+
+    @Column
     private long phone;
 
     @Column(name = "street_addr")
@@ -44,11 +47,12 @@ public class User {
     public User() {
     }
 
-    public User(long social, String firstName, String lastName, String email, long phone, String streetAddr, String city, String state, int zip, char status) {
+    public User(long social, String firstName, String lastName, String email, String password, long phone, String streetAddr, String city, String state, int zip, char status) {
         this.social = social;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
         this.phone = phone;
         this.streetAddr = streetAddr;
         this.city = city;
@@ -137,17 +141,25 @@ public class User {
         this.status = status;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return social == user.social && phone == user.phone && zip == user.zip && status == user.status && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(streetAddr, user.streetAddr) && Objects.equals(city, user.city) && Objects.equals(state, user.state);
+        return social == user.social && phone == user.phone && zip == user.zip && status == user.status && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(streetAddr, user.streetAddr) && Objects.equals(city, user.city) && Objects.equals(state, user.state);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(social, firstName, lastName, email, phone, streetAddr, city, state, zip, status);
+        return Objects.hash(social, firstName, lastName, email, password, phone, streetAddr, city, state, zip, status);
     }
 
     @Override
@@ -157,6 +169,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", phone=" + phone +
                 ", streetAddr='" + streetAddr + '\'' +
                 ", city='" + city + '\'' +
