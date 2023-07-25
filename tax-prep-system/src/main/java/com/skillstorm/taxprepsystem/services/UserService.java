@@ -13,12 +13,23 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Find all users from User table.
+     *
+     * @return the list
+     */
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
-    public User findUserBySocial(Long id) {
+    /**
+     * Find user in User table that matches the social security number.
+     *
+     * @param social the ssn
+     * @return the user
+     */
+    public User findUserBySocial(Long social) {
 
-        return userRepository.findBySocial(id);
+        return userRepository.findBySocial(social);
     }
 }

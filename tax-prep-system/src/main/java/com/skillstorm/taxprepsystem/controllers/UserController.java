@@ -17,6 +17,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Handler for GET request ("/users").
+     *
+     * @return the response entity
+     */
     @GetMapping
     public ResponseEntity<List<User>> findAllUsers(){
         List<User> results = userService.findAllUsers();
@@ -28,6 +33,12 @@ public class UserController {
 
     }
 
+    /**
+     * Handler for GET request ("/users/user/{social}").
+     *
+     * @param social the social
+     * @return the response entity
+     */
     @GetMapping("/user/{social}")
     public ResponseEntity<User> findUserBySocial(@PathVariable Long social){
         User result = userService.findUserBySocial(social);
