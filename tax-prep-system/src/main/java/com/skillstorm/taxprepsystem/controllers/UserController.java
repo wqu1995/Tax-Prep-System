@@ -40,10 +40,57 @@ public class UserController {
      * @return the response entity
      */
     @GetMapping("/user/{social}")
-    public ResponseEntity<User> findUserBySocial(@PathVariable Long social){
+    public ResponseEntity<User> findUserBySocial(@PathVariable long social){
         User result = userService.findUserBySocial(social);
 
-        if(result!= null){
+        if(result != null){
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Handler for POST request("/users/newUser").
+     *
+     * @param userData the user data
+     * @return the response entity
+     */
+    @PostMapping("/newUser")
+    public ResponseEntity<User> addNewUser(@RequestBody User userData){
+        User result = userService.addNewUser(userData);
+
+        if(result != null){
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Handler for PUT request("/users/updateUser").
+     *
+     * @param userData the user data
+     * @return the response entity
+     */
+    @PutMapping("/updateUser")
+    public ResponseEntity<User> updateUser(@RequestBody User userData){
+        User result = userService.updateUser(userData);
+        if(result != null){
+            return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Handler for DELETE request("/users/deleteUser{social}").
+     *
+     * @param social the social
+     * @return the response entity
+     */
+    @DeleteMapping("/deleteUser/{social}")
+    public ResponseEntity<Integer> deleteUser(@PathVariable Long social){
+        int result = userService.deleteUser(social);
+
+        if(result != 0){
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
