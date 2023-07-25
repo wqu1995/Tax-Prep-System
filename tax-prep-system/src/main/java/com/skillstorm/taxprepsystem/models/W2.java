@@ -38,6 +38,17 @@ public class W2 {
         this.fedWithheld = fedWithheld;
     }
 
+    
+
+    public W2(W2Id w2Id, double wages, double fedWithheld, User user) {
+        this.w2Id = w2Id;
+        this.wages = wages;
+        this.fedWithheld = fedWithheld;
+        this.user = user;
+    }
+
+    
+
     public W2Id getW2Id() {
         return w2Id;
     }
@@ -60,6 +71,14 @@ public class W2 {
 
     public void setFedWithheld(double fedWithheld) {
         this.fedWithheld = fedWithheld;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -100,6 +119,7 @@ public class W2 {
     public String toString() {
         return "W2 [w2Id=" + w2Id + ", wages=" + wages + ", fedWithheld=" + fedWithheld + "]";
     }
+
 
     
 

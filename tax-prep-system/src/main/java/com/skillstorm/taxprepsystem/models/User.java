@@ -50,6 +50,9 @@ public class User {
     @OneToMany(targetEntity = W2.class, mappedBy = "user")
     private Set<W2> W2s;
 
+    @OneToMany(targetEntity = Ten99.class, mappedBy = "user")
+    private Set<Ten99> ten99s;
+
 
     public User() {
     }

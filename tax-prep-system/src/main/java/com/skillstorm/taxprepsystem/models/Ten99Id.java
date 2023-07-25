@@ -4,15 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Embeddable
 public class Ten99Id implements Serializable{
     
-    @ManyToOne
-    @JoinColumn(name = "social")
-    private User user;
+    @Column(name = "social")
+    private long social;
 
     @Column(name = "payer_tin")
     private long payerTin;
@@ -20,17 +17,17 @@ public class Ten99Id implements Serializable{
     public Ten99Id() {
     }
 
-    public Ten99Id(User user, long payerTin) {
-        this.user = user;
+    public Ten99Id(long social, long payerTin) {
+        this.social = social;
         this.payerTin = payerTin;
     }
 
-    public User getUser() {
-        return user;
+    public long getSocial() {
+        return social;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setSocial(long social) {
+        this.social = social;
     }
 
     public long getPayerTin() {
@@ -45,7 +42,7 @@ public class Ten99Id implements Serializable{
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((user == null) ? 0 : user.hashCode());
+        result = prime * result + (int) (social ^ (social >>> 32));
         result = prime * result + (int) (payerTin ^ (payerTin >>> 32));
         return result;
     }
@@ -59,10 +56,7 @@ public class Ten99Id implements Serializable{
         if (getClass() != obj.getClass())
             return false;
         Ten99Id other = (Ten99Id) obj;
-        if (user == null) {
-            if (other.user != null)
-                return false;
-        } else if (!user.equals(other.user))
+        if (social != other.social)
             return false;
         if (payerTin != other.payerTin)
             return false;
@@ -71,7 +65,7 @@ public class Ten99Id implements Serializable{
 
     @Override
     public String toString() {
-        return "Ten99Id [user=" + user + ", payerTin=" + payerTin + "]";
+        return "Ten99Id [social=" + social + ", payerTin=" + payerTin + "]";
     }
 
     

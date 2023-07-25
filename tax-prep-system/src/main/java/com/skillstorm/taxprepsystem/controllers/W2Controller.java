@@ -57,7 +57,7 @@ public class W2Controller {
 
     @DeleteMapping("/w2/deleteFor{social}/{empTin}")
     @Transactional
-    public int deleteByEmpTin(@PathVariable long social, @PathVariable long empTin) {
+    public int deleteByW2Id(@PathVariable long social, @PathVariable long empTin) {
         w2Service.deleteByW2Id(social, empTin);
 
         return 1;
