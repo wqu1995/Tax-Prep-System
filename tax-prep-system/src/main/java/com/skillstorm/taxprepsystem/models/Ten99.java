@@ -18,6 +18,7 @@ public class Ten99 {
     @Column(name = "fed_withheld")
     private double fedWithheld;
 
+
     public Ten99() {
     }
 

@@ -4,40 +4,37 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Embeddable
 public class W2Id implements Serializable{
     
-    @ManyToOne
-    @JoinColumn(name = "social")
-    private User user;
+    @Column(name = "social")
+    private long social;
 
     @Column(name = "emp_tin")
-    private Long empTin;
+    private long empTin;
 
     public W2Id() {
     }
 
-    public W2Id(User user, Long empTin) {
-        this.user = user;
+    public W2Id(long social, long empTin) {
+        this.social = social;
         this.empTin = empTin;
     }
 
-    public User getUser() {
-        return user;
+    public long getSocial() {
+        return social;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setSocial(long social) {
+        this.social = social;
     }
 
-    public Long getEmpTin() {
+    public long getEmpTin() {
         return empTin;
     }
 
-    public void setEmpTin(Long empTin) {
+    public void setEmpTin(long empTin) {
         this.empTin = empTin;
     }
 
@@ -45,8 +42,8 @@ public class W2Id implements Serializable{
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((user == null) ? 0 : user.hashCode());
-        result = prime * result + ((empTin == null) ? 0 : empTin.hashCode());
+        result = prime * result + (int) (social ^ (social >>> 32));
+        result = prime * result + (int) (empTin ^ (empTin >>> 32));
         return result;
     }
 
@@ -59,22 +56,16 @@ public class W2Id implements Serializable{
         if (getClass() != obj.getClass())
             return false;
         W2Id other = (W2Id) obj;
-        if (user == null) {
-            if (other.user != null)
-                return false;
-        } else if (!user.equals(other.user))
+        if (social != other.social)
             return false;
-        if (empTin == null) {
-            if (other.empTin != null)
-                return false;
-        } else if (!empTin.equals(other.empTin))
+        if (empTin != other.empTin)
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "W2Id [user=" + user + ", empTin=" + empTin + "]";
+        return "W2Id [social=" + social + ", empTin=" + empTin + "]";
     }
 
     

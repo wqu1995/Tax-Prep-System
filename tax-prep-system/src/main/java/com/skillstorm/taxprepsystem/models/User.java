@@ -3,8 +3,11 @@ package com.skillstorm.taxprepsystem.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -43,6 +46,10 @@ public class User {
 
     @Column
     private String status;
+
+    @OneToMany(targetEntity = W2.class, mappedBy = "user")
+    private Set<W2> W2s;
+
 
     public User() {
     }
