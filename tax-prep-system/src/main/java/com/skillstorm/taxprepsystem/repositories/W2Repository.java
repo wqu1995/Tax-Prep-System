@@ -11,10 +11,10 @@ import com.skillstorm.taxprepsystem.models.W2Id;
 @Repository
 public interface W2Repository extends JpaRepository<W2, W2Id>{
 
-    List<W2> findByW2IdUserSocial(long social);
+    List<W2> findByW2IdSocial(long social);
 
-    void deleteAllByW2IdUserSocial(long social);
+    void deleteAllByW2IdSocial(long social);
 
-    void deleteAllByW2IdEmpTin(long empTin);
+    void deleteAllByW2Id(W2Id w2Id);
     
 }

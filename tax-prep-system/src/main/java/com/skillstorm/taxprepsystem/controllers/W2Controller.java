@@ -9,11 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skillstorm.taxprepsystem.models.W2;
@@ -26,8 +26,8 @@ public class W2Controller {
     @Autowired
     private W2Service w2Service;
 
-    @GetMapping
-    public ResponseEntity<List<W2>> findAllBySocial(@RequestParam(value="social") long social) {
+    @GetMapping("/{social}")
+    public ResponseEntity<List<W2>> findAllBySocial(@PathVariable long social) {
         List<W2> allW2 = w2Service.findAllBySocial(social);
 
         return new ResponseEntity<List<W2>>(allW2, HttpStatus.OK);
@@ -47,18 +47,18 @@ public class W2Controller {
         return new ResponseEntity<W2>(newW2, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/w2")
+    @DeleteMapping("/w2/deleteFor{social}")
     @Transactional
-    public int deleteBySocial(@RequestParam(value="social") long social) {
+    public int deleteBySocial(@PathVariable long social) {
         w2Service.deleteBySocial(social);
 
         return 1;
     }
 
-    @DeleteMapping("/w2")
+    @DeleteMapping("/w2/deleteFor{social}/{empTin}")
     @Transactional
-    public int deleteByEmpTin(@RequestParam(value="empTin") long empTin) {          // ***UPDATE THIS TO BE DLETE BY W2ID NOT EMPTIN - EMPTIN DELETES ALL WITH SAME EMPTIN
-        w2Service.deleteByEmpTin(empTin);
+    public int deleteByEmpTin(@PathVariable long social, @PathVariable long empTin) {
+        w2Service.deleteByW2Id(social, empTin);
 
         return 1;
     }

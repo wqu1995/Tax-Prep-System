@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skillstorm.taxprepsystem.models.W2;
+import com.skillstorm.taxprepsystem.models.W2Id;
 import com.skillstorm.taxprepsystem.repositories.W2Repository;
 
 @Service
@@ -15,7 +16,7 @@ public class W2Service {
     private W2Repository w2Repository;
 
     public List<W2> findAllBySocial(long social) {
-        return w2Repository.findByW2IdUserSocial(social);
+        return w2Repository.findByW2IdSocial(social);
     }
     
     public W2 saveNewW2(W2 w2) {
@@ -43,10 +44,11 @@ public class W2Service {
     }
 
     public void deleteBySocial(long social) {
-        w2Repository.deleteAllByW2IdUserSocial(social);
+        w2Repository.deleteAllByW2IdSocial(social);
     }
 
-    public void deleteByEmpTin(long empTin) {
-        w2Repository.deleteAllByW2IdEmpTin(empTin);
+    public void deleteByW2Id(long social, long empTin) {
+        
+        w2Repository.deleteAllByW2Id(new W2Id(social, empTin));
     }
 }

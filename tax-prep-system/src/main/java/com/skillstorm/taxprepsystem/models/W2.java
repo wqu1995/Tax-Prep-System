@@ -3,7 +3,12 @@ package com.skillstorm.taxprepsystem.models;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "w2")
@@ -17,6 +22,12 @@ public class W2 {
 
     @Column(name = "fed_withheld")
     private double fedWithheld;
+
+    @ManyToOne
+    @MapsId("social")
+    @JsonBackReference
+    @JoinColumn(name = "social")
+    private User user;
 
     public W2() {
     }
