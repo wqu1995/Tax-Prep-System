@@ -10,9 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
     "@trussworks/react-uswds": "^5.1.1",
     "axios": "^1.4.0",
-    "i18next": "^23.2.11",
+    "i18next": "^23.3.0",
     "jest": "^29.6.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
