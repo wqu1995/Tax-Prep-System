@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface UserRepository extends MongoRepository<User, Long> {
 
+    User findBySocial(long social);
+
     @Transactional
     int deleteBySocial(long social);
 }
