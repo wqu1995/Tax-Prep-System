@@ -15,7 +15,8 @@ public interface W2Repository extends MongoRepository<W2, W2Id>{
     @Query("{'w2Id.social' : ?0}")
     List<W2> findAllBySocial(long social);
 
-    void deleteAllByW2IdSocial(long social);
+    @Query(value = "{'w2Id.social' : ?0}", delete = true)
+    List<W2> deleteBySocial(long social);
 
     void deleteAllByW2Id(W2Id w2Id);
     

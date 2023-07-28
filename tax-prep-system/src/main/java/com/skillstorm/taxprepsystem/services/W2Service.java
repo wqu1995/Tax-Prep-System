@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.skillstorm.taxprepsystem.models.User;
 import com.skillstorm.taxprepsystem.models.W2;
@@ -31,7 +32,6 @@ public class W2Service {
             return null;
         }
 
-        //w2.setUser(user);
         return w2Repository.save(w2);
     }
 
@@ -39,8 +39,7 @@ public class W2Service {
         List<W2> allW2 = w2Repository.findAll();
         for (W2 currentW2: allW2) {
             if (currentW2.getW2Id().equals(w2.getW2Id())) {                // Check if the W2 exists before updating to avoid creating a new W2
-                //w2.setUser(currentW2.getUser());                           // If it exists, associate the update with the correct user
-                return w2Repository.save(w2);                              // then update it
+                return w2Repository.save(w2);                              // If it exists, then update it
             }
         }
 
@@ -48,10 +47,12 @@ public class W2Service {
 
     }
 
+    @Transactional
     public void deleteBySocial(long social) {
-        w2Repository.deleteAllByW2IdSocial(social);
+        w2Repository.deleteBySocial(social);
     }
 
+    @Transactional
     public void deleteByW2Id(long social, long empTin) {
         
         w2Repository.deleteAllByW2Id(new W2Id(social, empTin));

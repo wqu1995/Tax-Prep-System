@@ -4,9 +4,7 @@ package com.skillstorm.taxprepsystem.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-@Document
+@Document(collection = "ten99s")
 public class Ten99 {
     
     @Id

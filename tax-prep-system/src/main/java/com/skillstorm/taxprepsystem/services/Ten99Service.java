@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.skillstorm.taxprepsystem.models.Ten99;
 import com.skillstorm.taxprepsystem.models.Ten99Id;
@@ -31,7 +32,6 @@ public class Ten99Service {
             return null;
         }
 
-        //ten99.setUser(user);
         return ten99Repository.save(ten99);
     }
 
@@ -39,19 +39,20 @@ public class Ten99Service {
         List<Ten99> allTen99 = ten99Repository.findAll();
         for (Ten99 currentTen99: allTen99) {
             if (currentTen99.getTen99Id().equals(ten99.getTen99Id())) {                // Check if the Ten99 exists before updating to avoid creating a new Ten99
-                //ten99.setUser(currentTen99.getUser());                           // If it exists, associate the update with the correct user
-                return ten99Repository.save(ten99);                              // then update it
+                return ten99Repository.save(ten99);                                    // It it exists, then update it
             }
         }
 
-        return null;                                                      // If it doesn't, do nothing
+        return null;                                                                   // If it doesn't, do nothing
 
     }
 
+    @Transactional
     public void deleteBySocial(long social) {
-        ten99Repository.deleteAllByTen99IdSocial(social);
+        ten99Repository.deleteBySocial(social);
     }
 
+    @Transactional
     public void deleteByTen99Id(long social, long payerTin) {
         
         ten99Repository.deleteAllByTen99Id(new Ten99Id(social, payerTin));
