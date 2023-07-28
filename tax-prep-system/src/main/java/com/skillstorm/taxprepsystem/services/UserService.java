@@ -3,6 +3,7 @@ package com.skillstorm.taxprepsystem.services;
 import com.skillstorm.taxprepsystem.models.User;
 import com.skillstorm.taxprepsystem.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class UserService {
      * @return the list
      */
     public List<User> findAllUsers() {
+
         return userRepository.findAll();
     }
 
@@ -30,7 +32,7 @@ public class UserService {
      */
     public User findUserBySocial(long social) {
 
-        return userRepository.findBySocial(social);
+        return userRepository.findById(social).orElse(null);
     }
 
     /**

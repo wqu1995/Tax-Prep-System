@@ -1,34 +1,20 @@
 package com.skillstorm.taxprepsystem.models;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.Table;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-@Entity
-@Table(name = "ten99")
+@Document
 public class Ten99 {
     
-    @EmbeddedId
+    @Id
     private Ten99Id ten99Id;
 
-    @Column
     private double compensation;
 
-    @Column(name = "fed_withheld")
     private double fedWithheld;
-
-    @ManyToOne
-    @MapsId("social")
-    @JsonBackReference
-    @JoinColumn(name = "social")
-    private User user;
-
 
     public Ten99() {
     }
@@ -37,15 +23,6 @@ public class Ten99 {
         this.ten99Id = ten99Id;
         this.compensation = compensation;
         this.fedWithheld = fedWithheld;
-    }
-
-    
-
-    public Ten99(Ten99Id ten99Id, double compensation, double fedWithheld, User user) {
-        this.ten99Id = ten99Id;
-        this.compensation = compensation;
-        this.fedWithheld = fedWithheld;
-        this.user = user;
     }
 
     public Ten99Id getTen99Id() {
@@ -72,13 +49,6 @@ public class Ten99 {
         this.fedWithheld = fedWithheld;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
     @Override
     public int hashCode() {
         final int prime = 31;
