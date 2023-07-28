@@ -31,7 +31,7 @@ public class Ten99Service {
             return null;
         }
 
-        ten99.setUser(user);
+        //ten99.setUser(user);
         return ten99Repository.save(ten99);
     }
 
@@ -39,7 +39,7 @@ public class Ten99Service {
         List<Ten99> allTen99 = ten99Repository.findAll();
         for (Ten99 currentTen99: allTen99) {
             if (currentTen99.getTen99Id().equals(ten99.getTen99Id())) {                // Check if the Ten99 exists before updating to avoid creating a new Ten99
-                ten99.setUser(currentTen99.getUser());                           // If it exists, associate the update with the correct user
+                //ten99.setUser(currentTen99.getUser());                           // If it exists, associate the update with the correct user
                 return ten99Repository.save(ten99);                              // then update it
             }
         }

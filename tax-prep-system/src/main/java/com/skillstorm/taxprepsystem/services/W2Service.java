@@ -21,7 +21,7 @@ public class W2Service {
     private UserRepository userRepository;
 
     public List<W2> findAllBySocial(long social) {
-        return w2Repository.findByW2IdSocial(social);
+        return w2Repository.findAllBySocial(social);
     }
     
     public W2 saveNewW2(W2 w2) {
@@ -31,7 +31,7 @@ public class W2Service {
             return null;
         }
 
-        w2.setUser(user);
+        //w2.setUser(user);
         return w2Repository.save(w2);
     }
 
@@ -39,7 +39,7 @@ public class W2Service {
         List<W2> allW2 = w2Repository.findAll();
         for (W2 currentW2: allW2) {
             if (currentW2.getW2Id().equals(w2.getW2Id())) {                // Check if the W2 exists before updating to avoid creating a new W2
-                w2.setUser(currentW2.getUser());                           // If it exists, associate the update with the correct user
+                //w2.setUser(currentW2.getUser());                           // If it exists, associate the update with the correct user
                 return w2Repository.save(w2);                              // then update it
             }
         }

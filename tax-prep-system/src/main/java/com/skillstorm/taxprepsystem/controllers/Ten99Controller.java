@@ -2,8 +2,6 @@ package com.skillstorm.taxprepsystem.controllers;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +47,6 @@ public class Ten99Controller {
     }
 
     @DeleteMapping("/ten99/deleteFor{social}")
-    @Transactional
     public int deleteBySocial(@PathVariable long social) {
         ten99Service.deleteBySocial(social);
 
@@ -57,7 +54,6 @@ public class Ten99Controller {
     }
 
     @DeleteMapping("/ten99/deleteFor{social}/{payerTin}")
-    @Transactional
     public int deleteByTen99Id(@PathVariable long social, @PathVariable long payerTin) {
         ten99Service.deleteByTen99Id(social, payerTin);
 

@@ -2,7 +2,6 @@ package com.skillstorm.taxprepsystem.controllers;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,7 +47,6 @@ public class W2Controller {
     }
 
     @DeleteMapping("/w2/deleteFor{social}")
-    @Transactional
     public int deleteBySocial(@PathVariable long social) {
         w2Service.deleteBySocial(social);
 
@@ -56,7 +54,6 @@ public class W2Controller {
     }
 
     @DeleteMapping("/w2/deleteFor{social}/{empTin}")
-    @Transactional
     public int deleteByW2Id(@PathVariable long social, @PathVariable long empTin) {
         w2Service.deleteByW2Id(social, empTin);
 

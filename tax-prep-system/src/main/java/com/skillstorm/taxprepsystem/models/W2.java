@@ -1,33 +1,18 @@
 package com.skillstorm.taxprepsystem.models;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "w2")
+@Document(collection = "W2s")
 public class W2 {
     
-    @EmbeddedId
+    @Id
     private W2Id w2Id;
 
-    @Column
     private double wages;
 
-    @Column(name = "fed_withheld")
     private double fedWithheld;
-
-    @ManyToOne
-    @MapsId("social")
-    @JsonBackReference
-    @JoinColumn(name = "social")
-    private User user;
 
     public W2() {
     }
@@ -36,15 +21,6 @@ public class W2 {
         this.w2Id = w2Id;
         this.wages = wages;
         this.fedWithheld = fedWithheld;
-    }
-
-    
-
-    public W2(W2Id w2Id, double wages, double fedWithheld, User user) {
-        this.w2Id = w2Id;
-        this.wages = wages;
-        this.fedWithheld = fedWithheld;
-        this.user = user;
     }
 
     
@@ -73,13 +49,6 @@ public class W2 {
         this.fedWithheld = fedWithheld;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     @Override
     public int hashCode() {
