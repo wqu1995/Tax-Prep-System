@@ -19,6 +19,7 @@ public class UserService {
      * @return the list
      */
     public List<User> findAllUsers() {
+
         return userRepository.findAll();
     }
 
@@ -30,7 +31,7 @@ public class UserService {
      */
     public User findUserBySocial(long social) {
 
-        return userRepository.findBySocial(social);
+        return userRepository.findById(social).orElse(null);
     }
 
     /**

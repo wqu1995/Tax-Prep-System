@@ -1,58 +1,35 @@
 package com.skillstorm.taxprepsystem.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Objects;
-import java.util.Set;
 
-@Entity
-@Table(name = "users")
+@Document(collection = "users")
 public class User {
 
     @Id
-    @Column
     private long social;
 
-    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
     private String lastName;
 
-    @Column
     private String email;
 
-    @Column
     private String password;
 
-    @Column
     private long phone;
 
-    @Column(name = "street_addr")
     private String streetAddr;
 
-    @Column
     private String city;
 
-    @Column
     private String state;
 
-    @Column
     private int zip;
 
-    @Column
     private String status;
-
-    @OneToMany(targetEntity = W2.class, mappedBy = "user")
-    private Set<W2> W2s;
-
-    @OneToMany(targetEntity = Ten99.class, mappedBy = "user")
-    private Set<Ten99> ten99s;
-
 
     public User() {
     }

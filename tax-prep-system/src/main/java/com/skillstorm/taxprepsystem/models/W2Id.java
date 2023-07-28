@@ -2,16 +2,11 @@ package com.skillstorm.taxprepsystem.models;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-
-@Embeddable
 public class W2Id implements Serializable{
     
-    @Column(name = "social")
+
     private long social;
 
-    @Column(name = "emp_tin")
     private long empTin;
 
     public W2Id() {

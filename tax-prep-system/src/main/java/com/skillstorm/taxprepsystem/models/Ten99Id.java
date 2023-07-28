@@ -2,16 +2,10 @@ package com.skillstorm.taxprepsystem.models;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-
-@Embeddable
 public class Ten99Id implements Serializable{
     
-    @Column(name = "social")
     private long social;
 
-    @Column(name = "payer_tin")
     private long payerTin;
 
     public Ten99Id() {
