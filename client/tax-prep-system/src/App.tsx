@@ -1,3 +1,4 @@
+import W2Form from './Components/W2/W2Form.tsx';
 import W2Page from './Components/W2/W2Page.tsx'
 import '@trussworks/react-uswds/lib/index.css';
 
