@@ -6,9 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface UserRepository extends MongoRepository<User, Integer> {
-
-    User findBySocial(long social);
+public interface UserRepository extends MongoRepository<User, Long> {
 
     @Transactional
     int deleteBySocial(long social);
