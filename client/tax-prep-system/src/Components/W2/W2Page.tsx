@@ -1,29 +1,22 @@
-import { Accordion, AccordionItemProps, Button, Grid, GridContainer} from "@trussworks/react-uswds";
+import { Accordion, Button, Grid, GridContainer} from "@trussworks/react-uswds";
+import {useDispatch, useSelector} from "react-redux";
+import { addNewW2, initialW2 } from "../../Slices/W2Slice";
 
 
 export default function W2Page() {
+    const w2Array = useSelector((state: any) => state.w2s.value);
+    const dispatch = useDispatch();
 
-    const testItems: AccordionItemProps[] = [
-        {
-          title: 'W2 #1',
-          content: (
-            <p>
-              This is where the W2 Form will go once I add State!!!
-            </p>
-          ),
-          expanded: true,
-          id: '123',
-          headingLevel: 'h4',
-        }
-    ]
     return (
         <>
           <GridContainer>
-            <div>Do you have more than one W2 to add?</div>
-            <Accordion items={testItems} multiselectable={true}/>
+            <Accordion items={w2Array} multiselectable={true}/>
             <Grid row>
+              <Grid col = {5} offset = {8}>
+                <div>Do you have more than one W2 to add?</div>
+              </Grid>
               <Grid col = {2} offset = {10}>
-                <Button type="button">Add A New W2</Button>
+                <Button id="newW2" type="button" onClick={() => {dispatch(addNewW2());}}>Add A New W2</Button>
               </Grid>
             </Grid>
             <Grid row>
