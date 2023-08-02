@@ -1,37 +1,58 @@
 import { Accordion, Button, Grid, GridContainer} from "@trussworks/react-uswds";
 import {useDispatch, useSelector} from "react-redux";
 import { useState } from "react";
-import { addNewTen99 } from "../../Slices/Ten99Slice";
+import { addNewTen99Form } from "../../Slices/Ten99Slice";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 import W2Form from "./W2Form";
+import { addNewW2Form } from "../../Slices/W2Slice";
+import Ten99Form from "../Ten99/Ten99Form";
 
 var w2InitialArray: AccordionItemProps[] = [{
   title: 'W2 #1',
-  content: <W2Form />,
-  expanded: true,
+  content: <W2Form index={0}/>,
+  expanded: false,
   id: 'w2-1',
+  headingLevel: 'h4',
+}]
+
+var ten99InitialArray: AccordionItemProps[] = [{
+  title: '1099 #1',
+  content: <Ten99Form index={0}/>,
+  expanded: false,
+  id: '1099-1',
   headingLevel: 'h4',
 }]
 
 export default function W2Page() {
     const [w2Array, setw2Array] = useState(w2InitialArray);
-    const ten99Array = useSelector((state: any) => state.ten99s.value);
+    const [ten99Array, setTen99Array] = useState(ten99InitialArray);
+    const ten99FormArray = useSelector((state: any) => state.ten99s);
     const dispatch = useDispatch();
     const [w2OrTen99, setw2OrTen99] = useState("w2");
-  // IDEA:
-  // Create a usestate for Accordian items; everytime button is clicked, add a new item to the array (the item being the initialState currently in the store)
-  // Instead of sote being for state of amount of forms, it can be for the data for each form
+    const w2FormArray = useSelector((state:any) => state.w2s);
 
     function incrementw2Array() {
+      dispatch(addNewW2Form());
       setw2Array([...w2Array, {
         title: `W2 #${w2Array.length + 1}`,
-        content: <W2Form />,
+        content: <W2Form index={w2FormArray.forms.length}/>,
         expanded: true,
         id: `w2-${w2Array.length + 1}`,
         headingLevel: 'h4',
     }])
     }
 
+    function incrementTen99Array() {
+      dispatch(addNewTen99Form());
+      setTen99Array([...ten99Array, {
+        title: `1099 #${ten99Array.length + 1}`,
+        content: <Ten99Form index={ten99FormArray.forms.length}/>,
+        expanded: true,
+        id: `ten99-${ten99Array.length + 1}`,
+        headingLevel: 'h4',
+    }])
+    }
+    console.log(ten99Array)
     if (w2OrTen99 === "w2") {
       return (
         <>
@@ -64,10 +85,10 @@ export default function W2Page() {
             <Accordion items={ten99Array} multiselectable={true}/>
             <Grid row>
               <Grid col = {5} offset = {8}>
-                <div>Do you have more than one W2 to add?</div>
+                <div>Do you have more than one 1099 to add?</div>
               </Grid>
               <Grid col = {2} offset = {10}>
-                <Button id="newW2" type="button" onClick={() => {dispatch(addNewTen99());}}>Add A New 1099</Button>
+                <Button id="newTen99" type="button" onClick={() => {incrementTen99Array()}}>Add A New 1099</Button>
               </Grid>
             </Grid>
             <Grid row>
