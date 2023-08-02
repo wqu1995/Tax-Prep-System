@@ -7,6 +7,8 @@ import TaxHeader from './Components/Header/TaxHeader.tsx';
 import TaxFooter from './Components/Footer/TaxFooter.tsx';
 import Home from './Components/Home/Home.tsx';
 import Results from './Components/Results/Results.tsx';
+import UserLogInForm from './Components/User/UserLogInForm.tsx';
+import UserRegisterForm from './Components/User/UserRegisterForm.tsx';
 
 
 
@@ -17,7 +19,7 @@ function App() {
                 <div className='container'>
                     <TaxHeader/>
                     <Routes>
-                        <Route path='/' element={<Home/>}></Route>
+                        <Route path='/' element={<UserRegisterForm/>}></Route>
                         <Route path='/home' element={<Home/>}></Route>
                         <Route path='/calculate' element={<W2Page/>}></Route>
                         <Route path='/results' element={<Results/>}></Route>
