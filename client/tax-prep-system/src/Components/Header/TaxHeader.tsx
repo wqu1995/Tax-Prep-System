@@ -47,7 +47,7 @@ function TaxHeader() {
         <Header basic={true}>
         <div className="usa-nav-container">
           <div className="usa-navbar">
-            <Title>Project Title</Title>
+            <Title>Tax Preparation System</Title>
             <NavMenuButton onClick={onClick} label="Menu" />
           </div>
           <PrimaryNav

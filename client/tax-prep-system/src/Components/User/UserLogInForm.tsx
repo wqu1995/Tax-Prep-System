@@ -1,4 +1,4 @@
-import { Button, Fieldset, Form, GovBanner, Grid, GridContainer, Header, Label, TextInput } from '@trussworks/react-uswds'
+import { Button, Fieldset, Form, Grid, GridContainer, Label, TextInput } from '@trussworks/react-uswds'
 import React, {useState} from 'react'
 
 function UserLogInForm() {
