@@ -1,6 +1,7 @@
 package com.skillstorm.taxprepsystem.controllers;
 
 import com.skillstorm.taxprepsystem.models.User;
+import com.skillstorm.taxprepsystem.models.UserDTO;
 import com.skillstorm.taxprepsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/users")
@@ -40,8 +42,8 @@ public class UserController {
      * @return the response entity
      */
     @GetMapping("/user/{social}")
-    public ResponseEntity<User> findUserBySocial(@PathVariable long social){
-        User result = userService.findUserBySocial(social);
+    public ResponseEntity<UserDTO> findUserBySocial(@PathVariable long social){
+        UserDTO result = userService.findUserBySocial(social);
 
         if(result != null){
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -56,14 +58,14 @@ public class UserController {
      * @return the response entity
      */
     @PostMapping("/newUser")
-    public ResponseEntity<User> addNewUser(@RequestBody User userData){
-        User result = userService.addNewUser(userData);
-
-        if(result != null){
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Object> addNewUser(@RequestBody User userData){
+        return userService.addNewUser(userData);
     }
+
+//    @PostMapping("/login")
+//    public ResponseEntity<Object> login(@RequestBody User userData){
+//        return userService.login(userData);
+//    }
 
     /**
      * Handler for PUT request("/users/updateUser").

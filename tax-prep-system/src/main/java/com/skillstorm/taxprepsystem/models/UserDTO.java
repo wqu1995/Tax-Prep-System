@@ -1,20 +1,9 @@
 package com.skillstorm.taxprepsystem.models;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
-@Document(collection = "users")
-public class User implements UserDetails{
-
-    @Id
+public class UserDTO{
     private long social;
 
     private String firstName;
@@ -22,8 +11,6 @@ public class User implements UserDetails{
     private String lastName;
 
     private String email;
-
-    private String password;
 
     private long phone;
 
@@ -37,31 +24,25 @@ public class User implements UserDetails{
 
     private String status;
 
-    private String role;
-
-    public User() {
+    public UserDTO() {
     }
 
-    public User(long social, String email, String password, String role) {
+    public UserDTO(long social, String email) {
         this.social = social;
         this.email = email;
-        this.password = password;
-        this.role = role;
     }
 
-    public User(long social, String firstName, String lastName, String email, String password, long phone, String streetAddr, String city, String state, int zip, String status, String role) {
+    public UserDTO(long social, String firstName, String lastName, String email, long phone, String streetAddr, String city, String state, int zip, String status) {
         this.social = social;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
         this.phone = phone;
         this.streetAddr = streetAddr;
         this.city = city;
         this.state = state;
         this.zip = zip;
         this.status = status;
-        this.role = role;
     }
 
     public long getSocial() {
@@ -145,82 +126,31 @@ public class User implements UserDetails{
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        SimpleGrantedAuthority userRole = new SimpleGrantedAuthority(this.role);
-        authorities.add(userRole);
-        return authorities;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return social == user.social && phone == user.phone && zip == user.zip && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(streetAddr, user.streetAddr) && Objects.equals(city, user.city) && Objects.equals(state, user.state) && Objects.equals(status, user.status) && Objects.equals(role, user.role);
+        UserDTO userDTO = (UserDTO) o;
+        return social == userDTO.social && phone == userDTO.phone && zip == userDTO.zip && Objects.equals(firstName, userDTO.firstName) && Objects.equals(lastName, userDTO.lastName) && Objects.equals(email, userDTO.email) && Objects.equals(streetAddr, userDTO.streetAddr) && Objects.equals(city, userDTO.city) && Objects.equals(state, userDTO.state) && Objects.equals(status, userDTO.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(social, firstName, lastName, email, password, phone, streetAddr, city, state, zip, status, role);
+        return Objects.hash(social, firstName, lastName, email, phone, streetAddr, city, state, zip, status);
     }
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserDTO{" +
                 "social=" + social +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", phone=" + phone +
                 ", streetAddr='" + streetAddr + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", zip=" + zip +
                 ", status='" + status + '\'' +
-                ", role='" + role + '\'' +
                 '}';
     }
 }
