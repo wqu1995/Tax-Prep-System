@@ -64,6 +64,18 @@ public class User implements UserDetails{
         this.role = role;
     }
 
+    public User(long social, String firstName, String lastName, long phone, String streetAddr, String city, String state, int zip, String status) {
+        this.social = social;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.streetAddr = streetAddr;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.status = status;
+    }
+
     public long getSocial() {
         return social;
     }

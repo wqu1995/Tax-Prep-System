@@ -18,8 +18,7 @@ public class SecurityConf {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests.mvcMatchers(HttpMethod.POST,"/users/newUser").permitAll()  //allowing all access to /users/hello without authentication
-                                .mvcMatchers(HttpMethod.GET, "/users").authenticated()
-                                .mvcMatchers(HttpMethod.GET,"/users/user/**").authenticated()
+                                .mvcMatchers("/users/**").authenticated()
         ).httpBasic();
 
         http.csrf((csrf)->

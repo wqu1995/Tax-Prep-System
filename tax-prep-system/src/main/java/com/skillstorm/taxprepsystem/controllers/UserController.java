@@ -74,12 +74,8 @@ public class UserController {
      * @return the response entity
      */
     @PutMapping("/updateUser")
-    public ResponseEntity<User> updateUser(@RequestBody User userData){
-        User result = userService.updateUser(userData);
-        if(result != null){
-            return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Object> updateUser(@RequestBody User userData){
+        return userService.updateUser(userData);
     }
 
     /**

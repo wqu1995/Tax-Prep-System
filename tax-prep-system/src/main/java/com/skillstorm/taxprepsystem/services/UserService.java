@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -79,9 +80,24 @@ public class UserService implements UserDetailsService {
      * @param userData the user data
      * @return the user
      */
-    public User updateUser(User userData) {
+    public ResponseEntity<Object> updateUser(User userData) {
         //probably need to rewrite this method to be more specific
-        return userRepository.save(userData);
+        User user = userRepository.findBySocial(userData.getSocial()).orElse(null);
+        if(user==null){
+            return ResponseEntity.badRequest().body("User does not exist!");
+        }else{
+            user.setFirstName(userData.getFirstName());
+            user.setLastName(userData.getLastName());
+            user.setPhone(userData.getPhone());
+            user.setStreetAddr(userData.getStreetAddr());
+            user.setCity(userData.getCity());
+            user.setState(userData.getState());
+            user.setZip(userData.getZip());
+            user.setStatus(userData.getStatus());
+
+            userRepository.save(user);
+        }
+        return ResponseEntity.ok().body(userMapper.toDto(user));
     }
 
     /**
