@@ -2,15 +2,10 @@ package com.skillstorm.taxprepsystem.services;
 
 import com.skillstorm.taxprepsystem.mappers.UserMapper;
 import com.skillstorm.taxprepsystem.models.User;
-import com.skillstorm.taxprepsystem.models.UserDTO;
-import com.skillstorm.taxprepsystem.payload.LoginRequest;
+import com.skillstorm.taxprepsystem.models.UserDto;
 import com.skillstorm.taxprepsystem.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -27,10 +21,10 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
 
 
@@ -50,7 +44,7 @@ public class UserService implements UserDetailsService {
      * @param social the ssn
      * @return the user
      */
-    public UserDTO findUserBySocial(long social) {
+    public UserDto findUserBySocial(long social) {
 
         User user = userRepository.findById(social).orElse(null);
         if(user!=null){
@@ -78,7 +72,7 @@ public class UserService implements UserDetailsService {
         }
 
 
-        return ResponseEntity.ok().body(new UserDTO(userData.getSocial(), userData.getUsername()));
+        return ResponseEntity.ok().body(new UserDto(userData.getSocial(), userData.getUsername()));
     }
 
     /**
@@ -120,6 +114,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException(username+ " not found!"));
+        //System.out.println(user.getUsername());
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getAuthorities());
     }
 

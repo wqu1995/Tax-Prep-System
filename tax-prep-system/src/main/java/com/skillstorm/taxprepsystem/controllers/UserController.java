@@ -1,22 +1,21 @@
 package com.skillstorm.taxprepsystem.controllers;
 
 import com.skillstorm.taxprepsystem.models.User;
-import com.skillstorm.taxprepsystem.models.UserDTO;
+import com.skillstorm.taxprepsystem.models.UserDto;
+import com.skillstorm.taxprepsystem.payload.AuthResponse;
 import com.skillstorm.taxprepsystem.payload.LoginRequest;
+import com.skillstorm.taxprepsystem.security.JWTGenerator;
 import com.skillstorm.taxprepsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/users")
@@ -26,7 +25,10 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JWTGenerator jwtGenerator;
 
 
     /**
@@ -52,8 +54,8 @@ public class UserController {
      * @return the response entity
      */
     @GetMapping("/user/{social}")
-    public ResponseEntity<UserDTO> findUserBySocial(@PathVariable long social){
-        UserDTO result = userService.findUserBySocial(social);
+    public ResponseEntity<UserDto> findUserBySocial(@PathVariable long social){
+        UserDto result = userService.findUserBySocial(social);
 
         if(result != null){
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -73,12 +75,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        
 
-        return ResponseEntity.ok().body("Login in success!");
+        String token = jwtGenerator.generateToken(authentication);
+
+        return ResponseEntity.ok().body(new AuthResponse(token));
     }
 
     /**

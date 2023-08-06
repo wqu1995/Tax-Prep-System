@@ -1,4 +1,4 @@
-package com.skillstorm.taxprepsystem.config;
+package com.skillstorm.taxprepsystem.database;
 
 import com.mongodb.MongoClientSettings;
 import org.springframework.beans.factory.annotation.Autowired;

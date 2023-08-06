@@ -3,7 +3,7 @@ package com.skillstorm.taxprepsystem.models;
 
 import java.util.Objects;
 
-public class UserDTO{
+public class UserDto {
     private long social;
 
     private String firstName;
@@ -24,15 +24,15 @@ public class UserDTO{
 
     private String status;
 
-    public UserDTO() {
+    public UserDto() {
     }
 
-    public UserDTO(long social, String email) {
+    public UserDto(long social, String email) {
         this.social = social;
         this.email = email;
     }
 
-    public UserDTO(long social, String firstName, String lastName, String email, long phone, String streetAddr, String city, String state, int zip, String status) {
+    public UserDto(long social, String firstName, String lastName, String email, long phone, String streetAddr, String city, String state, int zip, String status) {
         this.social = social;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -129,7 +129,7 @@ public class UserDTO{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserDTO userDTO = (UserDTO) o;
+        UserDto userDTO = (UserDto) o;
         return social == userDTO.social && phone == userDTO.phone && zip == userDTO.zip && Objects.equals(firstName, userDTO.firstName) && Objects.equals(lastName, userDTO.lastName) && Objects.equals(email, userDTO.email) && Objects.equals(streetAddr, userDTO.streetAddr) && Objects.equals(city, userDTO.city) && Objects.equals(state, userDTO.state) && Objects.equals(status, userDTO.status);
     }
 
@@ -140,7 +140,7 @@ public class UserDTO{
 
     @Override
     public String toString() {
-        return "UserDTO{" +
+        return "UserDto{" +
                 "social=" + social +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
