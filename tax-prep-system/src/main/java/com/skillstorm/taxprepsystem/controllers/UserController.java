@@ -2,10 +2,17 @@ package com.skillstorm.taxprepsystem.controllers;
 
 import com.skillstorm.taxprepsystem.models.User;
 import com.skillstorm.taxprepsystem.models.UserDTO;
+import com.skillstorm.taxprepsystem.payload.LoginRequest;
 import com.skillstorm.taxprepsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +25,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    AuthenticationManager authenticationManager;
+
 
     /**
      * Handler for GET request ("/users").
@@ -58,14 +68,18 @@ public class UserController {
      * @return the response entity
      */
     @PostMapping("/newUser")
-    public ResponseEntity<Object> addNewUser(@RequestBody User userData){
+    public ResponseEntity<?> addNewUser(@RequestBody User userData){
         return userService.addNewUser(userData);
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<Object> login(@RequestBody User userData){
-//        return userService.login(userData);
-//    }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        
+
+        return ResponseEntity.ok().body("Login in success!");
+    }
 
     /**
      * Handler for PUT request("/users/updateUser").
@@ -74,7 +88,7 @@ public class UserController {
      * @return the response entity
      */
     @PutMapping("/updateUser")
-    public ResponseEntity<Object> updateUser(@RequestBody User userData){
+    public ResponseEntity<?> updateUser(@RequestBody User userData){
         return userService.updateUser(userData);
     }
 
@@ -93,4 +107,6 @@ public class UserController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+
 }
