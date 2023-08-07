@@ -79,9 +79,12 @@ public class UserController {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String token = jwtGenerator.generateToken(authentication);
-
-        return ResponseEntity.ok().body(new AuthResponse(token));
+        long ssn = getSocial(loginRequest.getUsername());
+        if(ssn != -1){
+            String token = jwtGenerator.generateToken(authentication);
+            return ResponseEntity.ok().body(new AuthResponse(token, ssn));
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
     /**
@@ -109,6 +112,10 @@ public class UserController {
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    private long getSocial(String username){
+        return userService.getSocial(username);
     }
 
 

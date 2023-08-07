@@ -9,6 +9,7 @@ import Home from './Components/Home/Home.tsx';
 import Results from './Components/Results/Results.tsx';
 import UserLogInForm from './Components/User/UserLogInForm.tsx';
 import UserRegisterForm from './Components/User/UserRegisterForm.tsx';
+import UserInfo from './Components/User/UserInfo.tsx';
 
 
 
@@ -23,6 +24,7 @@ function App() {
                         <Route path='/home' element={<Home/>}></Route>
                         <Route path='/calculate' element={<W2Page/>}></Route>
                         <Route path='/results' element={<Results/>}></Route>
+                        <Route path='/userInfo' element={<UserInfo/>}></Route>
                     </Routes>
                     <TaxFooter/>
                 </div>
