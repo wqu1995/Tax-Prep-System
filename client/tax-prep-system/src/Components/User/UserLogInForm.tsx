@@ -26,7 +26,7 @@ function UserLogInForm() {
             dispatch(setCredentials({accessToken, ssn}));
             setUsername('')
             setPassword('')
-            navigate('/userInfo')
+            navigate('/calculate')
         }).catch((error) =>{
             console.log(error);
         })
