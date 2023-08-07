@@ -1,4 +1,7 @@
-import { SummaryBox, SummaryBoxHeading } from "@trussworks/react-uswds";
+import { Grid, GridContainer, SummaryBox, SummaryBoxHeading } from "@trussworks/react-uswds";
+import axios from "axios";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
 interface W2 {
@@ -15,11 +18,31 @@ interface Ten99 {
 
 
 export default function ResultsPage() {
-    const filingStatus = "s"                                                    //PLACEHOLDER FOR USER FILING STATUS AXIOS REQUEST
-    const w2s: W2[] = [{empTin: 0, wages: 0, fedWithheld: 0}];                //PLACEHOLDER FOR AXIOS REQUEST
-    const ten99s: Ten99[] = [{payerTin: 0, wages: 0, fedWithheld: 0}];             // PLACEHOLDER FOR AXIOS REQUEST
-    let totalWages: number = 0;                                                     // ALSO NEED TO IMPLEMENT I18N
+    const { t } = useTranslation();
+    // ALSO need a variable for user's ssn, not sure if that will be through redux Store or how
+    let filingStatus = ""
+    let w2s: W2[] = [];
+    let ten99s: Ten99[] = [];
+    let totalWages: number = 0;
     let totalWithheld: number = 0;
+
+    useEffect(() => {
+        axios.get(`place holder for url`)
+            .then(response => {
+                w2s = response.data;
+            })
+            .catch(error => console.error(error));
+        axios.get(`place holder for url`)
+            .then(response => {
+                ten99s = response.data;
+            })
+            .catch(error => console.error(error));
+        axios.get(`place holder for url`)
+            .then(response => {
+                filingStatus = response.data.filingStatus;
+            })
+            .catch(error => console.error(error));
+    }, []);
 
     function calculateTaxableIncome(w2Array: W2[], ten99Array: Ten99[], filingStatus: any) {
         w2Array.forEach((w2) => totalWages = totalWages + w2.wages)
@@ -32,8 +55,14 @@ export default function ResultsPage() {
             case "s":
                 deduction = 12950;
                 break;
-            case "m":
+            case "sms":
+                deduction = 12950;
+                break;
+            case "mj":
                 deduction = 25900;
+                break;
+            case "h":
+                deduction = 19400;
                 break;
             default:
                 console.log("invalid filing status");
@@ -121,21 +150,30 @@ export default function ResultsPage() {
     }
 
     const taxOwed = calculateTaxes(w2s, ten99s, filingStatus)
+    const taxOwedValue = Math.abs(taxOwed).toLocaleString();
 
     if (taxOwed > 0) {
         return (
             <>
-                <SummaryBox>
-                    <SummaryBoxHeading headingLevel="h3">You owe {taxOwed} in federal taxes.</SummaryBoxHeading>
-                </SummaryBox>
+                <GridContainer>
+                    <Grid row offset={3}>
+                        <SummaryBox>
+                            <SummaryBoxHeading headingLevel="h3">You owe ${taxOwedValue} in federal taxes.</SummaryBoxHeading>
+                        </SummaryBox>
+                    </Grid>
+                </GridContainer>
             </>
         )
     } else {
         return (
             <>
-                <SummaryBox>
-                    <SummaryBoxHeading headingLevel="h3">You have a tax refund of {taxOwed}!</SummaryBoxHeading>
-                </SummaryBox>
+                <GridContainer>
+                    <Grid row offset={3}>
+                        <SummaryBox>
+                            <SummaryBoxHeading headingLevel="h3">You have a tax refund of ${taxOwedValue}!</SummaryBoxHeading>
+                        </SummaryBox>
+                    </Grid>
+                </GridContainer>
             </>
         )
     }

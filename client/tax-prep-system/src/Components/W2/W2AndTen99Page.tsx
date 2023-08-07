@@ -23,7 +23,7 @@ var ten99InitialArray: AccordionItemProps[] = [{
   headingLevel: 'h4',
 }]
 
-export default function W2Page() {
+export default function W2AndTen99Page() {
     const [w2Array, setw2Array] = useState(w2InitialArray);
     const [ten99Array, setTen99Array] = useState(ten99InitialArray);
     const ten99FormArray = useSelector((state: any) => state.ten99s);
