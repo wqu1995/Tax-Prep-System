@@ -21,7 +21,8 @@ export default function W2Page() {
     const dispatch = useDispatch();
     const [w2OrTen99, setw2OrTen99] = useState("w2");
 
-    const accessToken = useSelector(selectCurrentToken);
+    //const accessToken = useSelector(selectCurrentToken);
+    const accessToken = localStorage.getItem('token');
     const ssn = useSelector(selectCurrentSSN);
 
   // IDEA:

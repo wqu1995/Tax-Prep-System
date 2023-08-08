@@ -24,6 +24,7 @@ function UserLogInForm() {
         api.post("/users/login", loginPayload).then((resposne)=>{
             const {accessToken, ssn} = resposne.data
             dispatch(setCredentials({accessToken, ssn}));
+            localStorage.setItem("token", accessToken);
             setUsername('')
             setPassword('')
             navigate('/calculate')
