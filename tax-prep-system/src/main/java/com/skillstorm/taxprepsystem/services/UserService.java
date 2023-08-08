@@ -72,7 +72,7 @@ public class UserService implements UserDetailsService {
         }
 
 
-        return ResponseEntity.ok().body(new UserDto(userData.getSocial(), userData.getUsername()));
+        return ResponseEntity.ok().build();
     }
 
     /**

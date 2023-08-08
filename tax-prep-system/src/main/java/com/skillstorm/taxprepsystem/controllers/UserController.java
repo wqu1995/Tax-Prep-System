@@ -71,20 +71,26 @@ public class UserController {
      */
     @PostMapping("/newUser")
     public ResponseEntity<?> addNewUser(@RequestBody User userData){
-        return userService.addNewUser(userData);
+        String pass = userData.getPassword();
+        ResponseEntity<?> response = userService.addNewUser(userData);
+        if(response.getStatusCode()!=HttpStatus.BAD_REQUEST){
+            System.out.println("in here");
+            String token = getToken(userData.getEmail(), pass);
+            return ResponseEntity.ok().body(new AuthResponse(token, userData.getSocial()));
+        }else{
+            return response;
+        }
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
         long ssn = getSocial(loginRequest.getUsername());
         if(ssn != -1){
-            String token = jwtGenerator.generateToken(authentication);
+            String token = getToken(loginRequest.getUsername(), loginRequest.getPassword());
             return ResponseEntity.ok().body(new AuthResponse(token, ssn));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+
     }
 
     /**
@@ -118,5 +124,11 @@ public class UserController {
         return userService.getSocial(username);
     }
 
+    private String getToken(String username, String password){
+        System.out.println(username+" "+ password);
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return jwtGenerator.generateToken(authentication);
+    }
 
 }
