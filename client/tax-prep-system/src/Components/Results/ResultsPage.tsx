@@ -1,6 +1,6 @@
 import { Grid, GridContainer, SummaryBox, SummaryBoxHeading } from "@trussworks/react-uswds";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import api from '../../api/axiosConfig';
@@ -22,85 +22,91 @@ export default function ResultsPage() {
     const { t } = useTranslation();
     const userSSN = 333444555; //   TESTING PURPOSES ONLY RESET TO: useSelector((state: any) => state.auth.ssn);
     const jwtToken = localStorage.getItem("token");
-    let filingStatus = "";
-    let w2s: W2[] = [];
-    let ten99s: Ten99[] = [];
-    let totalWages: number = 0;
-    let totalWithheld: number = 0;
+    const [filingStatus, setFilingStatus] = useState("");
+    const [w2s, setW2s] = useState([]);
+    const [ten99s, setTen99s] = useState([]);
+    const [taxOwed, setTaxOwed] = useState(0);
+    const [taxOwedValue, setTaxOwedValue] = useState("");
 
     useEffect(() => {
         api.get(`/w2s/${userSSN}`, {
             headers: {
                 "ngrok-skip-browser-warning": "true",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                "Content-Type": "application/json",
                 "Authorization": `Bearer ${jwtToken}`
             }
         })
             .then(response => {
-                w2s = response.data;
+                setW2s(response.data);
             })
             .catch(error => console.error(error));
         api.get(`/ten99s/${userSSN}`, {
             headers: {
                 "ngrok-skip-browser-warning": "true",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                "Content-Type": "application/json",
                 "Authorization": `Bearer ${jwtToken}`
             }
         })
             .then(response => {
-                ten99s = response.data;
+                setTen99s(response.data);
             })
             .catch(error => console.error(error));
         api.get(`/users/user/${userSSN}`, {
             headers: {
                 "ngrok-skip-browser-warning": "true",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                "Content-Type": "application/json",
                 "Authorization": `Bearer ${jwtToken}`
             }
         })
             .then(response => {
-                filingStatus = response.data.filingStatus;
+                setFilingStatus(response.data.status);
             })
             .catch(error => console.error(error));
     }, []);
 
+    useEffect(() => {
+        setTaxOwed(calculateTaxes(w2s, ten99s, filingStatus));
+        setTaxOwedValue(Math.abs(taxOwed).toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits:2}));
+    }, [w2s, ten99s, filingStatus])
+
     function calculateTaxableIncome(w2Array: W2[], ten99Array: Ten99[], filingStatus: any) {
-        w2Array.forEach((w2) => totalWages = totalWages + w2.wages)
-        ten99Array.forEach((ten99) => totalWages = totalWages + ten99.wages)
-        w2Array.forEach((w2) => totalWithheld = totalWithheld + w2.fedWithheld)
-        ten99Array.forEach((ten99) => totalWithheld = totalWithheld + ten99.fedWithheld)
+        let totalWages: number = 0;
+        let totalWithheld: number = 0;
+        w2Array.forEach((w2) => totalWages = totalWages + w2.wages);
+        ten99Array.forEach((ten99) => totalWages = totalWages + ten99.wages);
+        w2Array.forEach((w2) => totalWithheld = totalWithheld + w2.fedWithheld);
+        ten99Array.forEach((ten99) => totalWithheld = totalWithheld + ten99.fedWithheld);
  
         let deduction = 0;
         switch (filingStatus) {
-            case "s":
+            case "S":
                 deduction = 12950;
                 break;
-            case "sms":
+            case "MS":
                 deduction = 12950;
                 break;
-            case "mj":
+            case "MJ":
                 deduction = 25900;
                 break;
-            case "h":
+            case "H":
                 deduction = 19400;
                 break;
             default:
                 console.log("invalid filing status");
         }
-
-        return totalWages - deduction;
+        return totalWages - totalWithheld - deduction;
 
 
     }
 
     function calculateTaxes(w2Array: W2[], ten99Array: Ten99[], filingStatus: any) {
         const taxableIncome = calculateTaxableIncome(w2Array, ten99Array, filingStatus);
+        if (taxableIncome < 0) {
+            return taxableIncome;
+        }
 
         switch (filingStatus) {
-            case "s":
+            case "S":
                 if (taxableIncome <= 10275) {
                     return taxableIncome * .1;
                 } else if (taxableIncome <= 41775) {
@@ -117,7 +123,7 @@ export default function ResultsPage() {
                     return ((taxableIncome - 539900) * .37) + 162718
                 }
                 break;
-            case "mj":
+            case "MJ":
                 if (taxableIncome <= 20550) {
                     return taxableIncome * .1;
                 } else if (taxableIncome <= 83550) {
@@ -134,7 +140,7 @@ export default function ResultsPage() {
                     return ((taxableIncome - 647850) * .37) + 174253.5
                 }
                 break;
-            case "ms":
+            case "MS":
                 if (taxableIncome <= 10275) {
                     return taxableIncome * .1;
                 } else if (taxableIncome <= 41775) {
@@ -151,7 +157,7 @@ export default function ResultsPage() {
                     return ((taxableIncome - 323925) * .37) + 87126.75
                 }
                 break;
-            case "h":
+            case "H":
                 if (taxableIncome <= 14650) {
                     return taxableIncome * .1;
                 } else if (taxableIncome <= 55900) {
@@ -172,8 +178,7 @@ export default function ResultsPage() {
         return 0;
     }
 
-    const taxOwed = calculateTaxes(w2s, ten99s, filingStatus)
-    const taxOwedValue = Math.abs(taxOwed).toLocaleString();
+
 
     if (taxOwed > 0) {
         return (

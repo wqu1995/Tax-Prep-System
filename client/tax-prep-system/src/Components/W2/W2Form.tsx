@@ -66,7 +66,7 @@ export default function W2Form({index}: W2FormProps) {
 
     return (
         <>
-            <Form onSubmit={handleSubmit}>
+            <Form  onSubmit={handleSubmit} className='bg-white padding-y-3 padding-x-5 border border-base-lighter'>
                 <Label htmlFor="empTin">Employer identification number (Box b)</Label>
                 {empTinStatus === "error" && <ErrorMessage>Please enter a valid identification number. Do not include hyphens or dashes.</ErrorMessage>}
                 <TextInput id="empTin" name="empTin" type="text" value={formData.empTin} onChange={handleEmpTinInput} validationStatus={empTinStatus}/>

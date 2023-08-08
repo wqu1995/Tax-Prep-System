@@ -26,6 +26,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
         http
+                .csrf().disable()
                 .cors()
                 .and()
                 .exceptionHandling()
@@ -37,14 +38,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests.mvcMatchers(HttpMethod.POST,"/users/newUser").permitAll()
                                 .mvcMatchers(HttpMethod.POST,"/users/login").permitAll()//allowing all access to /users/hello without authentication
-                                .mvcMatchers(HttpMethod.GET, "/w2s/**").authenticated()
-                                .mvcMatchers(HttpMethod.GET, "/ten99s/**").authenticated()
-                                .mvcMatchers(HttpMethod.GET, "/users/**").authenticated()
                                 .anyRequest().authenticated()
         ).httpBasic();
 
-        http.csrf((csrf)->
-                csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/users/newUser", "/users/login"));
+        //http.csrf((csrf)->
+        //        csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/users/newUser", "/users/login"));
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
 

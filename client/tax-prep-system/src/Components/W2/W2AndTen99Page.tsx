@@ -7,10 +7,11 @@ import W2Form from "./W2Form";
 import { addNewW2Form } from "../../Slices/W2Slice";
 import Ten99Form from "../Ten99/Ten99Form";
 import api from '../../api/axiosConfig';
+import axios from "axios";
 
 var w2InitialArray: AccordionItemProps[] = [{
   title: 'W2 #1',
-  content: <W2Form index={0}/>,
+  content: <div><W2Form index={0}/></div>,
   expanded: false,
   id: 'w2-1',
   headingLevel: 'h4',
@@ -39,7 +40,7 @@ export default function W2AndTen99Page() {
       setw2Array([...w2Array, {
         title: `W2 #${w2Array.length + 1}`,
         content: <W2Form index={w2FormArray.forms.length}/>,
-        expanded: true,
+        expanded: false,
         id: `w2-${w2Array.length + 1}`,
         headingLevel: 'h4',
     }])
@@ -50,7 +51,7 @@ export default function W2AndTen99Page() {
       setTen99Array([...ten99Array, {
         title: `1099 #${ten99Array.length + 1}`,
         content: <Ten99Form index={ten99FormArray.forms.length}/>,
-        expanded: true,
+        expanded: false,
         id: `ten99-${ten99Array.length + 1}`,
         headingLevel: 'h4',
     }])
@@ -58,7 +59,7 @@ export default function W2AndTen99Page() {
 
     function submitAllW2AndTen99() {
       w2FormArray.forms.forEach((w2: any) => {
-        api.post('/w2s/w2', {
+        axios.post('http://localhost:8282/w2s/w2', {
           "w2Id": {
             "social": userSSN,
             "empTin": w2.empTin
@@ -67,13 +68,12 @@ export default function W2AndTen99Page() {
           "fedWithheld": w2.fedWithheld
         }, {
           headers: {
+              "Content-Type": "application/json",
               "ngrok-skip-browser-warning": "true",
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
               "Authorization": `Bearer ${jwtToken}`
           }
         }).then(response => {
-          console.log("success! nice") //  TODO : CREATE success MSG
+
         }).catch(error => {
           console.error("Error:", error);
         })
@@ -89,13 +89,12 @@ export default function W2AndTen99Page() {
           "fedWithheld": ten99.fedWithheld
         }, {
           headers: {
+              "Content-Type": "application/json",
               "ngrok-skip-browser-warning": "true",
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
               "Authorization": `Bearer ${jwtToken}`
           }
         }).then(response => {
-          console.log("success! nice") //  TODO : CREATE success MSG
+
         }).catch(error => {
           console.error("Error:", error);
         })
@@ -105,14 +104,15 @@ export default function W2AndTen99Page() {
     if (w2OrTen99 === "w2") {
       return (
         <>
-          <GridContainer>
+        <div className='bg-base-lightest'>
+          <GridContainer className="usa-section">
             <Grid row>
               <Title>Please Fill in all of your tax information, including all W2's and 1099's.</Title>
             </Grid>
             <Grid row>
               <h3>Do you have any W2's to add? If not, skip to the next section. </h3>
             </Grid>
-            <Accordion items={w2Array} multiselectable={true}/>
+            <Accordion items={w2Array} multiselectable={true} />
             <Grid row>
               <Grid col = {5} offset = {8}>
                 <div>Do you have more than one W2 to add?</div>
@@ -131,6 +131,7 @@ export default function W2AndTen99Page() {
               </Grid>
             </Grid>
           </GridContainer>
+          </div>
         </>
       )
     }
