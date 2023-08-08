@@ -1,6 +1,7 @@
 package com.skillstorm.taxprepsystem.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,8 @@ public class Ten99Service {
     
     public Ten99 saveNewTen99(Ten99 ten99) {
 
-        User user = userRepository.findBySocial(ten99.getTen99Id().getSocial());         // Check if the associated user exists
-        if (user == null) {                                                        // If user doesn't exist, return null
+        Optional<User> user = userRepository.findBySocial(ten99.getTen99Id().getSocial());         // Check if the associated user exists
+        if (user.isPresent()) {                                                        // If user doesn't exist, return null
             return null;
         }
 

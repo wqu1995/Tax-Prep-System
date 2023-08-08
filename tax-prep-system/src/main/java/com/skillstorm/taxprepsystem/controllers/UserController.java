@@ -1,10 +1,18 @@
 package com.skillstorm.taxprepsystem.controllers;
 
 import com.skillstorm.taxprepsystem.models.User;
+import com.skillstorm.taxprepsystem.models.UserDto;
+import com.skillstorm.taxprepsystem.payload.AuthResponse;
+import com.skillstorm.taxprepsystem.payload.LoginRequest;
+import com.skillstorm.taxprepsystem.security.JWTGenerator;
 import com.skillstorm.taxprepsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +24,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JWTGenerator jwtGenerator;
+
 
     /**
      * Handler for GET request ("/users").
@@ -40,8 +54,8 @@ public class UserController {
      * @return the response entity
      */
     @GetMapping("/user/{social}")
-    public ResponseEntity<User> findUserBySocial(@PathVariable long social){
-        User result = userService.findUserBySocial(social);
+    public ResponseEntity<UserDto> findUserBySocial(@PathVariable long social){
+        UserDto result = userService.findUserBySocial(social);
 
         if(result != null){
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -56,13 +70,21 @@ public class UserController {
      * @return the response entity
      */
     @PostMapping("/newUser")
-    public ResponseEntity<User> addNewUser(@RequestBody User userData){
-        User result = userService.addNewUser(userData);
+    public ResponseEntity<?> addNewUser(@RequestBody User userData){
+        return userService.addNewUser(userData);
+    }
 
-        if(result != null){
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest){
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        long ssn = getSocial(loginRequest.getUsername());
+        if(ssn != -1){
+            String token = jwtGenerator.generateToken(authentication);
+            return ResponseEntity.ok().body(new AuthResponse(token, ssn));
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
     /**
@@ -72,12 +94,8 @@ public class UserController {
      * @return the response entity
      */
     @PutMapping("/updateUser")
-    public ResponseEntity<User> updateUser(@RequestBody User userData){
-        User result = userService.updateUser(userData);
-        if(result != null){
-            return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> updateUser(@RequestBody User userData){
+        return userService.updateUser(userData);
     }
 
     /**
@@ -95,4 +113,10 @@ public class UserController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+    private long getSocial(String username){
+        return userService.getSocial(username);
+    }
+
+
 }
