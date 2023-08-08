@@ -32,6 +32,7 @@ export default function W2AndTen99Page() {
     const [w2OrTen99, setw2OrTen99] = useState("w2");
     const w2FormArray = useSelector((state:any) => state.w2s);
     const userSSN = 333444555;
+    const jwtToken = localStorage.getItem("token");
 
     function incrementw2Array() {
       dispatch(addNewW2Form());

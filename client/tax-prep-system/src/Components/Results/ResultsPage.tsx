@@ -21,7 +21,7 @@ interface Ten99 {
 export default function ResultsPage() {
     const { t } = useTranslation();
     const userSSN = 333444555; //   TESTING PURPOSES ONLY RESET TO: useSelector((state: any) => state.auth.ssn);
-    const jwtToken = localStorage.getItem("token")
+    const jwtToken = localStorage.getItem("token");
     let filingStatus = "";
     let w2s: W2[] = [];
     let ten99s: Ten99[] = [];
