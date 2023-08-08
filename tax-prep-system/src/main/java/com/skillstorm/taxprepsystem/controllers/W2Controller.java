@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skillstorm.taxprepsystem.models.W2;
 import com.skillstorm.taxprepsystem.services.W2Service;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:5173/", allowCredentials = "true")
 @RestController
 @RequestMapping("/w2s")
 public class W2Controller {

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skillstorm.taxprepsystem.models.Ten99;
 import com.skillstorm.taxprepsystem.services.Ten99Service;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:5173/", allowCredentials = "true")
 @RestController
 @RequestMapping("/ten99s")
 public class Ten99Controller {
