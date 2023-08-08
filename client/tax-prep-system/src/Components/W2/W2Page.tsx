@@ -5,7 +5,7 @@ import { addNewTen99 } from "../../Slices/Ten99Slice";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 import W2Form from "./W2Form";
 
-import { selectCurrentSSN, selectCurrentToken } from '../../Slices/AuthSlicer';
+import { selectCurrentSSN } from '../../Slices/AuthSlicer';
 
 var w2InitialArray: AccordionItemProps[] = [{
   title: 'W2 #1',
