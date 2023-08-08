@@ -6,9 +6,9 @@ import com.skillstorm.taxprepsystem.payload.AuthResponse;
 import com.skillstorm.taxprepsystem.payload.LoginRequest;
 import com.skillstorm.taxprepsystem.security.JWTGenerator;
 import com.skillstorm.taxprepsystem.services.UserService;
+import jdk.nashorn.internal.parser.Token;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class UserController {
 
     @Autowired
@@ -29,6 +29,7 @@ public class UserController {
 
     @Autowired
     private JWTGenerator jwtGenerator;
+
 
 
     /**
@@ -76,7 +77,7 @@ public class UserController {
         if(response.getStatusCode()!=HttpStatus.BAD_REQUEST){
             System.out.println("in here");
             String token = getToken(userData.getEmail(), pass);
-            return ResponseEntity.ok().body(new AuthResponse(token, userData.getSocial()));
+            return ResponseEntity.ok().body(new AuthResponse(token, userData.getSocial(), userData.getFirstName(), userData.getLastName()));
         }else{
             return response;
         }
@@ -84,12 +85,14 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest){
-        long ssn = getSocial(loginRequest.getUsername());
-        if(ssn != -1){
+        User user = getUser(loginRequest.getUsername());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        if(user != null){
             String token = getToken(loginRequest.getUsername(), loginRequest.getPassword());
-            return ResponseEntity.ok().body(new AuthResponse(token, ssn));
+            addAccessTokenCookie(responseHeaders, token);
+            return ResponseEntity.ok().headers(responseHeaders).body(new AuthResponse(token, user.getSocial(), user.getFirstName(), user.getLastName()));
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(responseHeaders).body(null);
 
     }
 
@@ -120,8 +123,8 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    private long getSocial(String username){
-        return userService.getSocial(username);
+    private User getUser(String username){
+        return userService.getUser(username);
     }
 
     private String getToken(String username, String password){
@@ -131,4 +134,10 @@ public class UserController {
         return jwtGenerator.generateToken(authentication);
     }
 
+    private void addAccessTokenCookie(HttpHeaders httpHeaders, String token){
+        httpHeaders.add(HttpHeaders.SET_COOKIE, createAccessCookie(token).toString());
+    }
+    private HttpCookie createAccessCookie(String token){
+        return ResponseCookie.from("test-cookie", token).httpOnly(true).path("/").build();
+    }
 }

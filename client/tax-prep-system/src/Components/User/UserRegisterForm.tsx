@@ -3,7 +3,7 @@ import React, {useState, useEffect, useReducer} from 'react'
 import api from '../../api/axiosConfig'
 
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '../../Slices/AuthSlicer';
+import { setCredentials, setName } from '../../Slices/AuthSlicer';
 import { UserActionType, UserInfoType } from '../../types/CustomTypes';
 
 function UserRegisterForm() {
@@ -18,7 +18,7 @@ function UserRegisterForm() {
     const [errMsg, setErrMsg] = useState('');
     const [registerError, setRegisterError] = useState('');
 
-    const InitUserInfo = {
+    const initUserInfo = {
         firstName : '',
         lastName : '',
         phone : '',
@@ -47,16 +47,28 @@ function UserRegisterForm() {
                 return {...state, zip : action.value};
             case 'setStatus':
                 return {...state, status : action.value};
+            case 'reset':
+                return initUserInfo
             default:
                 return state;
         }
     }
 
-    const [userInfo, userInfoDispatch] = useReducer(userInfoReducer, InitUserInfo)
+    const [userInfo, userInfoDispatch] = useReducer(userInfoReducer, initUserInfo)
 
     const [registerationSuccess, setRegisterationSuccess] = useState(false);
 
     const dispatch = useDispatch();
+
+    const cleanUp = () =>{
+        setEmail('')
+        setPassword('')
+        setPasswordConfirm('')
+        setSsn('')
+        setErrMsg('')
+        setRegisterError('')
+        userInfoDispatch({type: 'reset', value: ''});
+    }
     
 
     const handleRegisterSubmit =  (e: React.FormEvent<HTMLFormElement>) =>{
@@ -88,9 +100,26 @@ function UserRegisterForm() {
         const headers = {
             Authorization: `Bearer ${localStorage.getItem('token')}`
         };
-        console.log(updatePayload)
-        console.log(localStorage.getItem('token'))
+
+        // const w2 = {
+        //     "w2Id": {
+        //         "social": 444555654,
+        //         "empTin": 111298333
+        //     },
+        //     "wages": 57.0,
+        //     "fedWithheld": 0.0
+        // }
+
+        // api.post("/w2s/w2", w2, {headers}).then((response) =>{
+        //     console.log(response.data)
+        // }).catch((error)=>{
+        //     console.log(error)
+        // })
+
+
         api.put("/users/updateUser", updatePayload, {headers}).then((response) =>{
+            const {firstName, lastName} = response.data
+            dispatch(setName({firstName, lastName}))
             console.log(response.data)
         }).catch((error)=>{
             console.log(error)
@@ -209,29 +238,36 @@ function UserRegisterForm() {
                                                 indicates a required field.
                                             </p>
 
-                                            <Label htmlFor="firstName">First Name {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
-                                            <TextInput
-                                                id="firstName"
-                                                name="firstName"
-                                                type="text"
-                                                value = {userInfo.firstName}
-                                                onChange={(e) => userInfoDispatch({type: 'setFirst', value: e.target.value})}
-                                                autoCapitalize="off"
-                                                autoCorrect="off"
-                                                required={true}
-                                            />
+                                            <div style={{ display: 'flex', gap: '16px' }}>
+                                                <div>
+                                                    <Label htmlFor="firstName">First Name {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                    <TextInput
+                                                        id="firstName"
+                                                        name="firstName"
+                                                        type="text"
+                                                        value = {userInfo.firstName}
+                                                        onChange={(e) => userInfoDispatch({type: 'setFirst', value: e.target.value})}
+                                                        autoCapitalize="off"
+                                                        autoCorrect="off"
+                                                        required={true}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <Label htmlFor="lastName">Last Name {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                    <TextInput
+                                                        id="lastName"
+                                                        name="lastName"
+                                                        type="text"
+                                                        value = {userInfo.lastName}
+                                                        onChange={(e) => userInfoDispatch({type: 'setLast', value: e.target.value})}
+                                                        autoCapitalize="off"
+                                                        autoCorrect="off"
+                                                        required={true}
+                                                    />
+                                                </div>
+                                            </div>
 
-                                            <Label htmlFor="lastName">Last Name {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
-                                            <TextInput
-                                                id="lastName"
-                                                name="lastName"
-                                                type="text"
-                                                value = {userInfo.lastName}
-                                                onChange={(e) => userInfoDispatch({type: 'setLast', value: e.target.value})}
-                                                autoCapitalize="off"
-                                                autoCorrect="off"
-                                                required={true}
-                                            />
+
 
                                             <Label htmlFor="streetAddr">Street Address {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
                                             <TextInput
@@ -244,74 +280,83 @@ function UserRegisterForm() {
                                                 autoCorrect="off"
                                                 required={true}
                                             />
+                                            <div style={{ display: 'flex', gap: '16px' }}>
+                                                <div>
+                                                    <Label htmlFor="city">City {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                    <TextInput
+                                                        id="city"
+                                                        name="city"
+                                                        type="text"
+                                                        value = {userInfo.city}
+                                                        onChange={(e) => userInfoDispatch({type: 'setCity', value: e.target.value})}
+                                                        autoCapitalize="off"
+                                                        autoCorrect="off"
+                                                        required={true}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <Label htmlFor="state">State {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                    <TextInput
+                                                        id="state"
+                                                        name="state"
+                                                        type="text"
+                                                        value = {userInfo.state}
+                                                        onChange={(e) => userInfoDispatch({type: 'setState', value: e.target.value})}
+                                                        autoCapitalize="off"
+                                                        autoCorrect="off"
+                                                        required={true}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <Label htmlFor="zip">Zip Code {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                    <TextInput
+                                                        id="zip"
+                                                        name="zip"
+                                                        type="text"
+                                                        value = {userInfo.zip}
+                                                        onChange={(e) => userInfoDispatch({type: 'setZip', value: e.target.value})}
+                                                        autoCapitalize="off"
+                                                        autoCorrect="off"
+                                                        required={true}
+                                                    />
+                                                </div>
+                                            </div>
 
-                                            <Label htmlFor="city">City {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
-                                            <TextInput
-                                                id="city"
-                                                name="city"
-                                                type="text"
-                                                value = {userInfo.city}
-                                                onChange={(e) => userInfoDispatch({type: 'setCity', value: e.target.value})}
-                                                autoCapitalize="off"
-                                                autoCorrect="off"
-                                                required={true}
-                                            />
-
-                                            <Label htmlFor="state">State {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
-                                            <TextInput
-                                                id="state"
-                                                name="state"
-                                                type="text"
-                                                value = {userInfo.state}
-                                                onChange={(e) => userInfoDispatch({type: 'setState', value: e.target.value})}
-                                                autoCapitalize="off"
-                                                autoCorrect="off"
-                                                required={true}
-                                            />
-
-                                            <Label htmlFor="zip">Zip Code {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
-                                            <TextInput
-                                                id="zip"
-                                                name="zip"
-                                                type="text"
-                                                value = {userInfo.zip}
-                                                onChange={(e) => userInfoDispatch({type: 'setZip', value: e.target.value})}
-                                                autoCapitalize="off"
-                                                autoCorrect="off"
-                                                required={true}
-                                            />
-
-                                            <Label htmlFor="phone">Phone Number {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
-                                            <TextInput
-                                                id="phone"
-                                                name="phone"
-                                                type="text"
-                                                value = {userInfo.phone}
-                                                onChange={(e) => userInfoDispatch({type: 'setPhone', value: e.target.value})}
-                                                autoCapitalize="off"
-                                                autoCorrect="off"
-                                                required={true}
-                                            />
-
-                                            <Label htmlFor="status">Tax filling Status {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
-                                            <Select id="status" name = "status"
-                                            onChange={(e) => userInfoDispatch({type: 'setStatus', value: e.target.value})}>
-                                                <React.Fragment key=".0">
-                                                    <option>
-                                                    - Select -{' '}
-                                                    </option>
-                                                    <option value="S">
-                                                    Single
-                                                    </option>
-                                                    <option value="MJ">
-                                                    Married Joint
-                                                    </option>
-                                                    <option value="MS">
-                                                    Married Separate
-                                                    </option>
-                                                </React.Fragment>
-                                            </Select>
-
+                                            <div style={{ display: 'flex', gap: '16px' }}>
+                                                <div>
+                                                    <Label htmlFor="phone">Phone Number {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                    <TextInput
+                                                        id="phone"
+                                                        name="phone"
+                                                        type="text"
+                                                        value = {userInfo.phone}
+                                                        onChange={(e) => userInfoDispatch({type: 'setPhone', value: e.target.value})}
+                                                        autoCapitalize="off"
+                                                        autoCorrect="off"
+                                                        required={true}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <Label htmlFor="status">Tax filling Status {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                    <Select id="status" name = "status"
+                                                    onChange={(e) => userInfoDispatch({type: 'setStatus', value: e.target.value})}>
+                                                        <React.Fragment key=".0">
+                                                            <option>
+                                                            - Select -{' '}
+                                                            </option>
+                                                            <option value="S">
+                                                            Single
+                                                            </option>
+                                                            <option value="MJ">
+                                                            Married Joint
+                                                            </option>
+                                                            <option value="MS">
+                                                            Married Separate
+                                                            </option>
+                                                        </React.Fragment>
+                                                    </Select>
+                                                </div>
+                                            </div>
                                             <Button type='submit'>Submit!</Button>
                                         </Fieldset>
                                     </Form>

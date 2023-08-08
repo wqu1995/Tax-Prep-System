@@ -4,7 +4,9 @@ import { AuthState } from "../types/CustomTypes";
 
 
 const initState: AuthState = {
-    ssn : null
+    ssn : null,
+    firstName: null,
+    lastName: null
 }
 
 const authSlicer = createSlice({
@@ -15,12 +17,19 @@ const authSlicer = createSlice({
             const {ssn} = action.payload
             state.ssn = ssn
         },
+        setName : (state, action) =>{
+            const {firstName, lastName} = action.payload
+            state.firstName = firstName
+            state.lastName = lastName
+        },
         logOut: (state, action) =>{
             state.ssn = null
         }
     }
 })
 
-export const {setCredentials, logOut} = authSlicer.actions
+export const {setCredentials, setName, logOut} = authSlicer.actions
 export default authSlicer.reducer
 export const selectCurrentSSN = (state : {auth: AuthState}) => state.auth.ssn
+export const selectCurrentFirstName = (state : {auth: AuthState}) => state.auth.firstName
+export const selectCurrentLastName = (state : {auth: AuthState}) => state.auth.lastName

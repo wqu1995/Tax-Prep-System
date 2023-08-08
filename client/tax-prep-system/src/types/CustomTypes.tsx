@@ -17,4 +17,6 @@ export interface UserActionType {
 
 export interface AuthState {
     ssn: string | null;
+    firstName: string | null;
+    lastName: string | null;
   }
