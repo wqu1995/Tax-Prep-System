@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AuthState } from "../types/CustomTypes";
 
-interface AuthState {
-    ssn: string | null;
-  }
+
 
 const initState: AuthState = {
     ssn : null

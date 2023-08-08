@@ -26,6 +26,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
         http
+                .csrf().disable()
                 .cors()
                 .and()
                 .exceptionHandling()
@@ -40,8 +41,8 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
         ).httpBasic();
 
-        http.csrf((csrf)->
-                csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/users/newUser", "/users/login"));
+        //http.csrf((csrf)->
+        //        csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/users/newUser", "/users/login"));
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
 
