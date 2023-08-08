@@ -2,6 +2,9 @@ import { Button, ErrorMessage, Fieldset, Form, Grid, GridContainer, Label, TextI
 import React, {useState, useEffect} from 'react'
 import api from '../../api/axiosConfig'
 
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../../Slices/AuthSlicer';
+
 function UserRegisterForm() {
 
     const [showPassword, setShowPassword] = useState(false)
@@ -13,6 +16,8 @@ function UserRegisterForm() {
     const [ssn, setSsn] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [registerError, setRegisterError] = useState('');
+
+    const dispatch = useDispatch();
     
 
     const handleRegisterSubmit =  (e: React.FormEvent<HTMLFormElement>) =>{
@@ -25,7 +30,9 @@ function UserRegisterForm() {
         }
 
         api.post("/users/newUser", registerPayload).then((resposne)=>{
-            console.log(resposne.data);
+            const {accessToken, ssn} = resposne.data
+            dispatch(setCredentials({ssn}));
+            localStorage.setItem("token", accessToken);
         }).catch((error) =>{
             setRegisterError(error.response.data);
         })

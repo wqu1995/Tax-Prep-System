@@ -1,12 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface AuthState {
-    token: string | null;
     ssn: string | null;
   }
 
 const initState: AuthState = {
-    token : null,
     ssn : null
 }
 
