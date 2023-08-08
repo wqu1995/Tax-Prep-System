@@ -20,11 +20,12 @@ function App() {
                 <div className='container'>
                     <TaxHeader/>
                     <Routes>
-                        <Route path='/' element={<UserLogInForm/>}></Route>
+                        <Route path='/' element={<UserRegisterForm/>}></Route>
                         <Route path='/home' element={<Home/>}></Route>
                         <Route path='/calculate' element={<W2Page/>}></Route>
                         <Route path='/results' element={<Results/>}></Route>
                         <Route path='/userInfo' element={<UserInfo/>}></Route>
+                        <Route path='/login' element={<UserLogInForm/>}></Route>
                     </Routes>
                     <TaxFooter/>
                 </div>
