@@ -1,4 +1,4 @@
-import { Accordion, Button, Grid, GridContainer} from "@trussworks/react-uswds";
+import { Accordion, Button, Grid, GridContainer, Header, Title} from "@trussworks/react-uswds";
 import {useDispatch, useSelector} from "react-redux";
 import { useState } from "react";
 import { addNewTen99Form } from "../../Slices/Ten99Slice";
@@ -6,6 +6,7 @@ import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accor
 import W2Form from "./W2Form";
 import { addNewW2Form } from "../../Slices/W2Slice";
 import Ten99Form from "../Ten99/Ten99Form";
+import api from '../../api/axiosConfig';
 
 var w2InitialArray: AccordionItemProps[] = [{
   title: 'W2 #1',
@@ -30,6 +31,7 @@ export default function W2AndTen99Page() {
     const dispatch = useDispatch();
     const [w2OrTen99, setw2OrTen99] = useState("w2");
     const w2FormArray = useSelector((state:any) => state.w2s);
+    const userSSN = 333444555;
 
     function incrementw2Array() {
       dispatch(addNewW2Form());
@@ -52,11 +54,63 @@ export default function W2AndTen99Page() {
         headingLevel: 'h4',
     }])
     }
-    console.log(ten99Array)
+
+    function submitAllW2AndTen99() {
+      w2FormArray.forms.forEach((w2: any) => {
+        api.post('/w2s/w2', {
+          "w2Id": {
+            "social": userSSN,
+            "empTin": w2.empTin
+          },
+          "wages": w2.wages,
+          "fedWithheld": w2.fedWithheld
+        }, {
+          headers: {
+              "ngrok-skip-browser-warning": "true",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+              "Authorization": `Bearer ${jwtToken}`
+          }
+        }).then(response => {
+          console.log("success! nice") //  TODO : CREATE success MSG
+        }).catch(error => {
+          console.error("Error:", error);
+        })
+        });
+
+      ten99FormArray.forms.forEach((ten99: any) => {
+        api.post('/ten99s/ten99', {
+          "ten99Id": {
+            "social": userSSN,
+            "payerTin": ten99.payerTin
+          },
+          "wages": ten99.wages,
+          "fedWithheld": ten99.fedWithheld
+        }, {
+          headers: {
+              "ngrok-skip-browser-warning": "true",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+              "Authorization": `Bearer ${jwtToken}`
+          }
+        }).then(response => {
+          console.log("success! nice") //  TODO : CREATE success MSG
+        }).catch(error => {
+          console.error("Error:", error);
+        })
+        });
+    }
+
     if (w2OrTen99 === "w2") {
       return (
         <>
           <GridContainer>
+            <Grid row>
+              <Title>Please Fill in all of your tax information, including all W2's and 1099's.</Title>
+            </Grid>
+            <Grid row>
+              <h3>Do you have any W2's to add? If not, skip to the next section. </h3>
+            </Grid>
             <Accordion items={w2Array} multiselectable={true}/>
             <Grid row>
               <Grid col = {5} offset = {8}>
@@ -82,6 +136,12 @@ export default function W2AndTen99Page() {
     return (
         <>
           <GridContainer>
+            <Grid row>
+              <Title>Please Fill in all of your tax information, including all W2's and 1099's.</Title>
+            </Grid>
+            <Grid row>
+              <h3>Do you have any 1099's to add? If not, skip to the next section. </h3>
+            </Grid>  
             <Accordion items={ten99Array} multiselectable={true}/>
             <Grid row>
               <Grid col = {5} offset = {8}>
@@ -97,7 +157,7 @@ export default function W2AndTen99Page() {
               </Grid>
               <Grid col = {9}></Grid>
               <Grid tablet={{ col: true }}>
-                <Button type="button" /*onClick={/* set logic to go to results page}*/>Next Step</Button>
+                <Button type="button" onClick={(e) => {submitAllW2AndTen99(); }}/*onClick={/* set logic to go to results page}*/>Next Step</Button>
               </Grid>
             </Grid>
           </GridContainer>

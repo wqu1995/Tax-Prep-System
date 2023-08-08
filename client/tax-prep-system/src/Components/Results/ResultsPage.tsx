@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import api from '../../api/axiosConfig';
 
 interface W2 {
     empTin: number,
@@ -19,25 +20,47 @@ interface Ten99 {
 
 export default function ResultsPage() {
     const { t } = useTranslation();
-    // ALSO need a variable for user's ssn, not sure if that will be through redux Store or how
-    let filingStatus = ""
+    const userSSN = 333444555; //   TESTING PURPOSES ONLY RESET TO: useSelector((state: any) => state.auth.ssn);
+    const jwtToken = localStorage.getItem("token")
+    let filingStatus = "";
     let w2s: W2[] = [];
     let ten99s: Ten99[] = [];
     let totalWages: number = 0;
     let totalWithheld: number = 0;
 
     useEffect(() => {
-        axios.get(`place holder for url`)
+        api.get(`/w2s/${userSSN}`, {
+            headers: {
+                "ngrok-skip-browser-warning": "true",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                "Authorization": `Bearer ${jwtToken}`
+            }
+        })
             .then(response => {
                 w2s = response.data;
             })
             .catch(error => console.error(error));
-        axios.get(`place holder for url`)
+        api.get(`/ten99s/${userSSN}`, {
+            headers: {
+                "ngrok-skip-browser-warning": "true",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                "Authorization": `Bearer ${jwtToken}`
+            }
+        })
             .then(response => {
                 ten99s = response.data;
             })
             .catch(error => console.error(error));
-        axios.get(`place holder for url`)
+        api.get(`/users/user/${userSSN}`, {
+            headers: {
+                "ngrok-skip-browser-warning": "true",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                "Authorization": `Bearer ${jwtToken}`
+            }
+        })
             .then(response => {
                 filingStatus = response.data.filingStatus;
             })

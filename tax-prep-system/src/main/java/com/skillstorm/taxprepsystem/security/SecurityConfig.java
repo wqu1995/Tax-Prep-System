@@ -37,6 +37,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests.mvcMatchers(HttpMethod.POST,"/users/newUser").permitAll()
                                 .mvcMatchers(HttpMethod.POST,"/users/login").permitAll()//allowing all access to /users/hello without authentication
+                                .mvcMatchers(HttpMethod.GET, "/w2s/**").authenticated()
+                                .mvcMatchers(HttpMethod.GET, "/ten99s/**").authenticated()
+                                .mvcMatchers(HttpMethod.GET, "/users/**").authenticated()
                                 .anyRequest().authenticated()
         ).httpBasic();
 
