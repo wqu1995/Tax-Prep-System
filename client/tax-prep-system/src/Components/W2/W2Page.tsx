@@ -5,7 +5,7 @@ import { addNewTen99 } from "../../Slices/Ten99Slice";
 import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 import W2Form from "./W2Form";
 
-import { selectCurrentSSN } from '../../Slices/AuthSlicer';
+import { selectCurrentFirstName, selectCurrentLastName, selectCurrentSSN } from '../../Slices/AuthSlicer';
 
 var w2InitialArray: AccordionItemProps[] = [{
   title: 'W2 #1',
@@ -24,6 +24,8 @@ export default function W2Page() {
     //const accessToken = useSelector(selectCurrentToken);
     const accessToken = localStorage.getItem('token');
     const ssn = useSelector(selectCurrentSSN);
+    const firstName = useSelector(selectCurrentFirstName);
+    const lastName = useSelector(selectCurrentLastName);
 
   // IDEA:
   // Create a usestate for Accordian items; everytime button is clicked, add a new item to the array (the item being the initialState currently in the store)
@@ -44,6 +46,7 @@ export default function W2Page() {
         <>
           <p>Access Token: {accessToken}</p>
           <p>ssn: {ssn}</p>
+          <p>name: {firstName}{lastName}</p>
           <GridContainer>
             <Accordion items={w2Array} multiselectable={true}/>
             <Grid row>

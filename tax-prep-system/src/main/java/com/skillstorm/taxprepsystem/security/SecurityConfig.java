@@ -17,7 +17,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
-public class SecurityConfig {
+public class SecurityConfig{
 
     @Autowired
     private JwtAuthEntryPoint jwtAuthEntryPoint;

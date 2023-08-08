@@ -119,11 +119,7 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public long getSocial(String username) {
-        User user = userRepository.findByEmail(username).orElse(null);
-        if(user!= null){
-            return user.getSocial();
-        }
-        return -1;
+    public User getUser (String username) {
+        return userRepository.findByEmail(username).orElse(null);
     }
 }

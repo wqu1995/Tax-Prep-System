@@ -2,7 +2,7 @@ import { Button, Fieldset, Form, Grid, GridContainer, Label, TextInput } from '@
 import React, {useState, useEffect} from 'react'
 import api from '../../api/axiosConfig'
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '../../Slices/AuthSlicer';
+import { setCredentials, setName } from '../../Slices/AuthSlicer';
 import { useNavigate } from 'react-router-dom';
 
 function UserLogInForm() {
@@ -22,12 +22,14 @@ function UserLogInForm() {
         const loginPayload = {username, password}
 
         api.post("/users/login", loginPayload).then((resposne)=>{
-            const {accessToken, ssn} = resposne.data
+            console.log(resposne.data)
+            const {accessToken, ssn, firstName, lastName} = resposne.data
             dispatch(setCredentials({ssn}));
-            localStorage.setItem("token", accessToken);
+            dispatch(setName({firstName, lastName}));
+            //localStorage.setItem("token", accessToken);
             setUsername('')
             setPassword('')
-            navigate('/calculate')
+            navigate('/home')
         }).catch((error) =>{
             console.log(error);
         })

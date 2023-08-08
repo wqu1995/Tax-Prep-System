@@ -29,7 +29,7 @@ public class W2Service {
     public W2 saveNewW2(W2 w2) {
 
         Optional<User> user = userRepository.findBySocial(w2.getW2Id().getSocial());         // Check if the associated user exists
-        if (user.isPresent()) {                                                        // If user doesn't exist, return null
+        if (user.isPresent()) {
             return null;
         }
 
