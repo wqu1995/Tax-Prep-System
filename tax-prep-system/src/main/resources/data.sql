@@ -1,4 +1,4 @@
-INSERT INTO users (social, first_name, last_name, email, password, phone, street_addr, city, state, zip, status)
+MaINSERT INTO users (social, first_name, last_name, email, password, phone, street_addr, city, state, zip, status)
 VALUES (123456789, 'John', 'Doe', 'john.doe@example.com', 'password123', 1234567890, '123 Main St', 'New York', 'NY', 10001, 'MS');
 
 INSERT INTO users (social, first_name, last_name, email, password, phone, street_addr, city, state, zip, status)
