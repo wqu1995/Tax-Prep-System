@@ -88,6 +88,7 @@ function UserInfo() {
                 <Grid row gap>
                     <main className="usa-layout-docs__main desktop:grid-col-9 usa-prose usa-layout-docs" id="main-content">
                         <h1>Welcome {userInfo.firstName} {userInfo.lastName}</h1>
+                        
                         <h3>Here is your personal information</h3>
                         <div style={{ display: 'flex', gap: '10px' }}>
                             <div>

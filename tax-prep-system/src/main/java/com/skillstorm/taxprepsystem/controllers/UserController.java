@@ -90,15 +90,8 @@ public class UserController {
     public ResponseEntity<AuthResponse> login(@CookieValue(name = "test-cookie", required = false) String accessToken, @RequestBody LoginRequest loginRequest){
         String username;
         HttpHeaders responseHeaders = new HttpHeaders();
-        if(accessToken!= null){
-            username = jwtGenerator.getUsernameFromJWT(accessToken);
-            System.out.println(username);
-            User user = getUser(username);
-            if(user != null){
-                return ResponseEntity.ok().body(new AuthResponse(user.getSocial(), user.getFirstName(), user.getLastName()));
-            }
 
-        }else{
+        if(loginRequest.getUsername()!=null && loginRequest.getPassword()!=null){
             username = loginRequest.getUsername();
             User user = getUser(username);
             if(user != null){
@@ -106,6 +99,14 @@ public class UserController {
                 addAccessTokenCookie(responseHeaders, token);
                 return ResponseEntity.ok().headers(responseHeaders).body(new AuthResponse(user.getSocial(), user.getFirstName(), user.getLastName()));
             }
+        }else{
+            username = jwtGenerator.getUsernameFromJWT(accessToken);
+            System.out.println(username);
+            User user = getUser(username);
+            if(user != null){
+                return ResponseEntity.ok().body(new AuthResponse(user.getSocial(), user.getFirstName(), user.getLastName()));
+            }
+
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);

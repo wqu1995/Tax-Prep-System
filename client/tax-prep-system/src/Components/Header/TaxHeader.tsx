@@ -1,4 +1,4 @@
-import { Header, Title, NavMenuButton, PrimaryNav, Search, NavDropDownButton, Menu} from '@trussworks/react-uswds'
+import { Header, Title, NavMenuButton, PrimaryNav, Search, NavDropDownButton, Menu, Icon} from '@trussworks/react-uswds'
 import React, { useState } from 'react'
 
 function TaxHeader() {
@@ -48,6 +48,7 @@ function TaxHeader() {
         <div className="usa-nav-container">
           <div className="usa-navbar">
             <Title>Tax Preparation System</Title>
+            <Icon.AccountCircle onClick={()=>console.log("hi")}></Icon.AccountCircle>
             <NavMenuButton onClick={onClick} label="Menu" />
           </div>
           <PrimaryNav
