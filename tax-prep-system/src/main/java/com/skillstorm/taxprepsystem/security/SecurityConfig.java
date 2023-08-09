@@ -36,7 +36,7 @@ public class SecurityConfig{
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests((authorizeHttpRequests) ->
-                        authorizeHttpRequests.mvcMatchers(HttpMethod.POST,"/users/newUser").permitAll()
+                        authorizeHttpRequests.mvcMatchers(HttpMethod.POST,"/users/register").permitAll()
                                 .mvcMatchers(HttpMethod.POST,"/users/login").permitAll()//allowing all access to /users/hello without authentication
                                 .anyRequest().authenticated()
         ).httpBasic();

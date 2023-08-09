@@ -22,7 +22,6 @@ export default function W2Page() {
     const [w2OrTen99, setw2OrTen99] = useState("w2");
 
     //const accessToken = useSelector(selectCurrentToken);
-    const accessToken = localStorage.getItem('token');
     const ssn = useSelector(selectCurrentSSN);
     const firstName = useSelector(selectCurrentFirstName);
     const lastName = useSelector(selectCurrentLastName);
@@ -44,7 +43,6 @@ export default function W2Page() {
     if (w2OrTen99 === "w2") {
       return (
         <>
-          <p>Access Token: {accessToken}</p>
           <p>ssn: {ssn}</p>
           <p>name: {firstName}{lastName}</p>
           <GridContainer>

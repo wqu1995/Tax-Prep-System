@@ -17,17 +17,26 @@ function App() {
     return(
         <Provider store={store}>
             <Router>
-                <div className='container'>
+                <div className='app-container'>
                     <TaxHeader/>
-                    <Routes>
-                        <Route path='/' element={<UserLogInForm/>}></Route>
-                        <Route path='/home' element={<Home/>}></Route>
-                        <Route path='/calculate' element={<W2Page/>}></Route>
-                        <Route path='/results' element={<Results/>}></Route>
-                        <Route path='/userInfo' element={<UserInfo/>}></Route>
-                        <Route path='/login' element={<UserLogInForm/>}></Route>
-                        <Route path='/register' element={<UserRegisterForm/>}></Route>
-                    </Routes>
+                    <div className='content'>
+                    <main id="main-content" >
+                        <div className='bg-base-lightest' >
+
+                            <Routes>
+                                <Route path='/' element={<Home/>}></Route>
+                                <Route path='/home' element={<Home/>}></Route>
+                                <Route path='/calculate' element={<W2Page/>}></Route>
+                                <Route path='/results' element={<Results/>}></Route>
+                                <Route path='/userInfo' element={<UserInfo/>}></Route>
+                                <Route path='/login' element={<UserLogInForm/>}></Route>
+                                <Route path='/register' element={<UserRegisterForm/>}></Route>
+                            </Routes>
+
+                        </div>
+                    
+                    </main>
+                    </div>
                     <TaxFooter/>
                 </div>
             </Router>
@@ -35,13 +44,6 @@ function App() {
     )
 
 
-  // return (
-  //   <>
-  //     <Provider store={store}>
-  //       <W2Page />
-  //     </Provider>
-  //   </>
-  // )
 }
 
 export default App

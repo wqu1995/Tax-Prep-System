@@ -5,6 +5,7 @@ import com.skillstorm.taxprepsystem.models.UserDto;
 import com.skillstorm.taxprepsystem.payload.AuthResponse;
 import com.skillstorm.taxprepsystem.payload.LoginRequest;
 import com.skillstorm.taxprepsystem.security.JWTGenerator;
+import com.skillstorm.taxprepsystem.security.SecurityConstants;
 import com.skillstorm.taxprepsystem.services.UserService;
 import jdk.nashorn.internal.parser.Token;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,29 +71,44 @@ public class UserController {
      * @param userData the user data
      * @return the response entity
      */
-    @PostMapping("/newUser")
+    @PostMapping("/register")
     public ResponseEntity<?> addNewUser(@RequestBody User userData){
         String pass = userData.getPassword();
+        HttpHeaders responseHeaders = new HttpHeaders();
         ResponseEntity<?> response = userService.addNewUser(userData);
+
         if(response.getStatusCode()!=HttpStatus.BAD_REQUEST){
-            System.out.println("in here");
             String token = getToken(userData.getEmail(), pass);
-            return ResponseEntity.ok().body(new AuthResponse(token, userData.getSocial(), userData.getFirstName(), userData.getLastName()));
+            addAccessTokenCookie(responseHeaders, token);
+            return ResponseEntity.ok().headers(responseHeaders).body(new AuthResponse(userData.getSocial(), userData.getFirstName(), userData.getLastName()));
         }else{
             return response;
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest){
-        User user = getUser(loginRequest.getUsername());
+    public ResponseEntity<AuthResponse> login(@CookieValue(name = "test-cookie", required = false) String accessToken, @RequestBody LoginRequest loginRequest){
+        String username;
         HttpHeaders responseHeaders = new HttpHeaders();
-        if(user != null){
-            String token = getToken(loginRequest.getUsername(), loginRequest.getPassword());
-            addAccessTokenCookie(responseHeaders, token);
-            return ResponseEntity.ok().headers(responseHeaders).body(new AuthResponse(token, user.getSocial(), user.getFirstName(), user.getLastName()));
+        if(accessToken!= null){
+            username = jwtGenerator.getUsernameFromJWT(accessToken);
+            System.out.println(username);
+            User user = getUser(username);
+            if(user != null){
+                return ResponseEntity.ok().body(new AuthResponse(user.getSocial(), user.getFirstName(), user.getLastName()));
+            }
+
+        }else{
+            username = loginRequest.getUsername();
+            User user = getUser(username);
+            if(user != null){
+                String token = getToken(loginRequest.getUsername(), loginRequest.getPassword());
+                addAccessTokenCookie(responseHeaders, token);
+                return ResponseEntity.ok().headers(responseHeaders).body(new AuthResponse(user.getSocial(), user.getFirstName(), user.getLastName()));
+            }
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(responseHeaders).body(null);
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 
     }
 
@@ -138,6 +154,6 @@ public class UserController {
         httpHeaders.add(HttpHeaders.SET_COOKIE, createAccessCookie(token).toString());
     }
     private HttpCookie createAccessCookie(String token){
-        return ResponseCookie.from("test-cookie", token).httpOnly(true).path("/").build();
+        return ResponseCookie.from("test-cookie", token).httpOnly(true).path("/").maxAge(SecurityConstants.JWT_EXPIRATION).build();
     }
 }

@@ -5,6 +5,7 @@ import api from '../../api/axiosConfig'
 import { useDispatch } from 'react-redux';
 import { setCredentials, setName } from '../../Slices/AuthSlicer';
 import { UserActionType, UserInfoType } from '../../types/CustomTypes';
+import { useNavigate } from 'react-router-dom';
 
 function UserRegisterForm() {
 
@@ -17,6 +18,8 @@ function UserRegisterForm() {
     const [ssn, setSsn] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [registerError, setRegisterError] = useState('');
+
+    const navigate = useNavigate();
 
     const initUserInfo = {
         firstName : '',
@@ -80,10 +83,9 @@ function UserRegisterForm() {
             role : 'ROLE_USER'
         }
 
-        api.post("/users/newUser", registerPayload).then((resposne)=>{
-            const {accessToken, ssn} = resposne.data
+        api.post("/users/register", registerPayload).then((resposne)=>{
+            const {ssn} = resposne.data
             dispatch(setCredentials({ssn}));
-            localStorage.setItem("token", accessToken);
             setRegisterationSuccess(true);
         }).catch((error) =>{
             setRegisterError(error.response.data);
@@ -97,30 +99,13 @@ function UserRegisterForm() {
             social : ssn,
             ...userInfo
         }
-        const headers = {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-        };
 
-        // const w2 = {
-        //     "w2Id": {
-        //         "social": 444555654,
-        //         "empTin": 111298333
-        //     },
-        //     "wages": 57.0,
-        //     "fedWithheld": 0.0
-        // }
-
-        // api.post("/w2s/w2", w2, {headers}).then((response) =>{
-        //     console.log(response.data)
-        // }).catch((error)=>{
-        //     console.log(error)
-        // })
-
-
-        api.put("/users/updateUser", updatePayload, {headers}).then((response) =>{
+        api.put("/users/updateUser", updatePayload).then((response) =>{
             const {firstName, lastName} = response.data
             dispatch(setName({firstName, lastName}))
             console.log(response.data)
+            cleanUp();
+            navigate('/home');
         }).catch((error)=>{
             console.log(error)
         })
@@ -137,11 +122,9 @@ function UserRegisterForm() {
 
     return (
         <div>
-            <main id="main-content" >
-                <div className='bg-base-lightest' >
                     <GridContainer className="usa-section">
                         <Grid row className="margin-x-neg-205 flex-justify-center">
-                            <Grid col={12} tablet={{col:8}} desktop={{col:8}} mobileLg={{col:10}} className="padding-x-205 margin-bottom-4">
+                            <Grid col={12} tablet={{col:8}} desktop={{col:8}} mobileLg={{col:10}} className="padding-x-205">
                                 {!registerationSuccess ? (
                                     <div className='bg-white padding-y-3 padding-x-5 border border-base-lighter'>
                                         <h1 className='margin-bottom-0'>Create account</h1>
@@ -366,8 +349,6 @@ function UserRegisterForm() {
                         </Grid>
                     </GridContainer>
                 </div>
-            </main>
-        </div>
     )
 }
 

@@ -1,28 +1,41 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import { selectCurrentFirstName, selectCurrentLastName } from '../../Slices/AuthSlicer';
+import { selectCurrentFirstName, selectCurrentLastName, selectCurrentSSN, setCredentials, setName } from '../../Slices/AuthSlicer';
 import { Button } from '@trussworks/react-uswds';
+import { useNavigate } from 'react-router-dom';
 
 import api from '../../api/axiosConfig'
 
 
 function Home() {
+    const navigate = useNavigate();
     
-    const firstName = useSelector(selectCurrentFirstName);
-    const lastName = useSelector(selectCurrentLastName);
+    const [isLogin, setIsLogin] = useState(false);
+    const dispatch = useDispatch();
+    const ssn = useSelector(selectCurrentSSN)
+
+    useEffect(()=>{
+        console.log(ssn)
+        if( !ssn){
+            console.log("here")
+            //attempt to login
+            api.post("/users/login", {}).then((resposne)=>{
+                console.log(resposne.data);
+                const {ssn, firstName, lastName} = resposne.data
+                dispatch(setCredentials({ssn}));
+                dispatch(setName({firstName, lastName}));
+            }).catch((error)=>{
+                console.log(error)
+            })
+        }
+    }, [ssn]);
 
     const handleSubmit = (e:any) =>{
-        e.preventDefault();
-
-        api.get("/users").then((resposne)=>{
-            console.log(resposne.data)
-        }).catch((error)=>{
-            console.log(error)
-        })
+        navigate('/userInfo')
     }
     return (
         <div>
-            Welcome {firstName} {lastName}
+            Welcome {useSelector(selectCurrentFirstName)} {useSelector(selectCurrentLastName)}
             <Button type="button" onClick={handleSubmit}>click me </Button>
         
         </div>
