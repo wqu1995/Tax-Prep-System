@@ -41,4 +41,16 @@ public class JWTGenerator {
             throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect");
         }
     }
+
+    public String invalidateToken(String token){
+        Claims claims = Jwts.parser()
+                .setSigningKey(SecurityConstants.JWT_SECRET)
+                .parseClaimsJws(token)
+                .getBody();
+        claims.setExpiration(new Date());
+        return Jwts.builder()
+                .setClaims(claims)
+                .signWith(SignatureAlgorithm.HS512, SecurityConstants.JWT_SECRET)
+                .compact();
+    }
 }

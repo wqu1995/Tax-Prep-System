@@ -79,7 +79,7 @@ public class UserController {
 
         if(response.getStatusCode()!=HttpStatus.BAD_REQUEST){
             String token = getToken(userData.getEmail(), pass);
-            addAccessTokenCookie(responseHeaders, token);
+            addAccessTokenCookie(responseHeaders, token, SecurityConstants.COOKIE_EXPIRATION);
             return ResponseEntity.ok().headers(responseHeaders).body(new AuthResponse(userData.getSocial(), userData.getFirstName(), userData.getLastName()));
         }else{
             return response;
@@ -96,10 +96,10 @@ public class UserController {
             User user = getUser(username);
             if(user != null){
                 String token = getToken(loginRequest.getUsername(), loginRequest.getPassword());
-                addAccessTokenCookie(responseHeaders, token);
+                addAccessTokenCookie(responseHeaders, token, SecurityConstants.COOKIE_EXPIRATION);
                 return ResponseEntity.ok().headers(responseHeaders).body(new AuthResponse(user.getSocial(), user.getFirstName(), user.getLastName()));
             }
-        }else{
+        }else if(accessToken!= null){
             username = jwtGenerator.getUsernameFromJWT(accessToken);
             System.out.println(username);
             User user = getUser(username);
@@ -108,9 +108,15 @@ public class UserController {
             }
 
         }
-
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<AuthResponse> logout(@CookieValue (name = "test-cookie", required = true) String accessToken){
+        HttpHeaders responseHeaders = new HttpHeaders();
 
+        String token = jwtGenerator.invalidateToken(accessToken);
+        addAccessTokenCookie(responseHeaders, token, 0);
+        return ResponseEntity.ok().headers(responseHeaders).body(new AuthResponse());
     }
 
     /**
@@ -151,10 +157,10 @@ public class UserController {
         return jwtGenerator.generateToken(authentication);
     }
 
-    private void addAccessTokenCookie(HttpHeaders httpHeaders, String token){
-        httpHeaders.add(HttpHeaders.SET_COOKIE, createAccessCookie(token).toString());
+    private void addAccessTokenCookie(HttpHeaders httpHeaders, String token, long duration){
+        httpHeaders.add(HttpHeaders.SET_COOKIE, createAccessCookie(token, duration).toString());
     }
-    private HttpCookie createAccessCookie(String token){
-        return ResponseCookie.from("test-cookie", token).httpOnly(true).path("/").maxAge(SecurityConstants.JWT_EXPIRATION).build();
+    private HttpCookie createAccessCookie(String token, long duration){
+        return ResponseCookie.from("test-cookie", token).httpOnly(true).path("/").maxAge(duration).build();
     }
 }

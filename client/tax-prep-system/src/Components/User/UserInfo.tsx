@@ -4,10 +4,15 @@ import { selectCurrentSSN} from '../../Slices/AuthSlicer';
 import api from '../../api/axiosConfig'
 import { Button, ErrorMessage, Form, Grid, GridContainer, Label, Select, TextInput } from '@trussworks/react-uswds';
 import { UserAction, UserActionType, UserDto, UserInfoType } from '../../types/CustomTypes';
+import ErrorPage from '../Home/ErrorPage';
 
 
 function UserInfo() {
     const ssn = useSelector(selectCurrentSSN);
+
+    if(ssn == null){
+        return <ErrorPage errorCode={401}/>
+    }
 
     const initUserInfo: UserDto = {
         social: '',
@@ -59,7 +64,7 @@ function UserInfo() {
         }).catch((error)=>{
             console.log(error)
         })
-    }, [])
+    }, [ssn])
 
     useEffect(()=>{
         userInfoDispatch({type: 'set', value: defaultInfo});

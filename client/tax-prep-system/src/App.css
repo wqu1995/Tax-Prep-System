@@ -14,3 +14,14 @@
     flex-direction: column;
     align-items: flex-end;
 }
+
+.sadwd {
+    content: "";
+    position: absolute;
+    bottom: -2px; /* Adjust the distance of the line from the navbar */
+    left: 0;
+    width: 100%;
+    height: 2px; /* Adjust the height of the line as needed */
+    background-color: #ccc; /* Adjust the color of the line */
+    /* You can also adjust other properties like margin, padding, etc. */
+  }

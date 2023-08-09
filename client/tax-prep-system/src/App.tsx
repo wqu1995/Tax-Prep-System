@@ -13,6 +13,7 @@ import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import { selectCurrentFirstName, selectCurrentLastName, selectCurrentSSN, setCredentials, setName } from './Slices/AuthSlicer.tsx';
 import api from './api/axiosConfig'
+import ErrorPage from './Components/Home/ErrorPage.tsx';
 
 
 
@@ -23,7 +24,7 @@ function App() {
 
     useEffect(()=>{
         console.log(ssn)
-        if( !ssn){
+        if(!ssn){
             console.log("here")
             //attempt to login
             api.post("/users/login", {}).then((resposne)=>{
@@ -35,15 +36,15 @@ function App() {
                 console.log(error)
             })
         }
-    }, [ssn]);
+    },[ssn]);
 
     return(
             <Router>
-                <div className='app-container'>
+                <div className='app-container '>
                     <TaxHeader/>
                     <div className='content'>
                     <main id="main-content" >
-                        <div className='bg-base-lightest' >
+                        <div >
 
                             <Routes>
                                 <Route path='/' element={<Home/>}></Route>
