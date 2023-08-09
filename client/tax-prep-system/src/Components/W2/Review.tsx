@@ -18,6 +18,7 @@ export default function Review() {
     const [ten99Data, setTen99Data] = useState([]);
 
     useEffect(() => {
+        
         api.get(`/w2s/${userSSN}`)
             .then(response => {
                 setW2Data(response.data);

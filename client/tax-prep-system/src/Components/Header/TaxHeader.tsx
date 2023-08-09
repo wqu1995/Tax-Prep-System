@@ -50,7 +50,7 @@ function TaxHeader() {
     <a href="/financialInfo" key="two" className="usa-nav__link">
       <span>review</span>
     </a>,
-    <a href="/userInfo" key="three" className="usa-nav__link">
+    <a href="/review" key="three" className="usa-nav__link">
       <span>Parent link</span>
     </a>,
   ]
@@ -72,7 +72,7 @@ function TaxHeader() {
                     </div>
                 <PrimaryNav
                     aria-label="Primary navigation"
-                    items={primaryNavItems}
+                    items={testItemsMenu}
                     >
                 </PrimaryNav>
                 </div>
