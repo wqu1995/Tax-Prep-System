@@ -29,6 +29,7 @@ function App() {
                                 <Route path='/home' element={<Home/>}></Route>
                                 <Route path='/calculate' element={<W2AndTen99Page/>}></Route>
                                 <Route path='/results' element={<ResultsPage/>}></Route>
+                                <Route path='/review' element={<Review/>}></Route>
                                 <Route path='/userInfo' element={<UserInfo/>}></Route>
                                 <Route path='/login' element={<UserLogInForm/>}></Route>
                                 <Route path='/register' element={<UserRegisterForm/>}></Route>

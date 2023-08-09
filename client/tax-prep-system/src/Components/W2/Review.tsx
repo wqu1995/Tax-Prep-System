@@ -126,7 +126,7 @@ export default function Review() {
                     </tr>
                 </thead>
                 <tbody>
-                    {w2Data.map((w2) => {
+                    {w2Data.map((w2: any) => {
                         return (
                             <tr key={w2.empTin}>
                                 <td>W2</td>
@@ -136,7 +136,7 @@ export default function Review() {
                             </tr>
                         )
                     })}
-                    {ten99Data.map((ten99) => {
+                    {ten99Data.map((ten99: any) => {
                         return (
                             <tr key={ten99.payerTin}>
                                 <td>1099</td>

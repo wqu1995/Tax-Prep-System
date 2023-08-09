@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import 'C:/Tax Prep System/Tax-Prep-System/client/tax-prep-system/src/App.css';
 
 var w2InitialArray: AccordionItemProps[] = [{
-  title: 'W2 #1',
+  title: 'W2 #1',                               //TODO: TRY CSS STYLING
   content:<W2Form index={0}/>,
   expanded: false,
   id: 'w2-1',
@@ -109,7 +109,7 @@ export default function W2AndTen99Page() {
     if (w2OrTen99 === "w2") {
       return (
         <>
-        <div className='bg-base-light'>
+        <div className='bg-base-lightest'>
           <GridContainer className="usa-section">
             <Grid row>
               <Title>Please Fill in all of your tax information, including all W2's and 1099's.</Title>
@@ -144,7 +144,7 @@ export default function W2AndTen99Page() {
     }
     return (
         <>
-        <div className='bg-base-light'>
+        <div className='bg-base-lightest'>
           <GridContainer className="usa-section">
             <Grid row>
               <Title>Please Fill in all of your tax information, including all W2's and 1099's.</Title>
