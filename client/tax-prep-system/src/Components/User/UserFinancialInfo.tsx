@@ -1,27 +1,41 @@
-import { Button, Form, Grid, GridContainer, Label, Table, TextInput, Title } from "@trussworks/react-uswds";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { Button, Form, Grid, GridContainer, Label, Modal, ModalHeading, ModalToggleButton, Table, TextInput, Title } from "@trussworks/react-uswds";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import api from '../../api/axiosConfig';
 import axios from "axios";
 import { selectCurrentSSN} from '../../Slices/AuthSlicer';
 import W2Form from "../W2/W2Form";
+import W2CreateForm from "../W2/W2CreateForm";
+import Ten99CreateForm from "../Ten99/Ten99CreateForm";
+import W2DeleteForm from "../W2/W2DeleteForm";
+import { setStoreW2Data, setStoreTen99Data } from '../../Slices/dataSlice';
+import Ten99DeleteForm from "../Ten99/Ten99DeleteForm";
 
 export default function UserFinancialInfo() {
-    const userSSN = 333444555//useSelector(selectCurrentSSN);
+    const userSSN = useSelector(selectCurrentSSN);
     const [userName, setUserName] = useState("");
     const [w2Data, setW2Data] = useState([]);
     const [ten99Data, setTen99Data] = useState([]);
+    const [editW2, setEditW2] = useState(true);
+    const [edit1099, setEdit1099] = useState(true);
+    const dispatch = useDispatch();
+    const modalRef1 = useRef(null);
+    const modalRef2 = useRef(null);
+    const modalRef3 = useRef(null);
+    const modalRef4 = useRef(null);
 
     useEffect(() => {
         api.get(`/w2s/${userSSN}`)
             .then(response => {
                 setW2Data(response.data);
+                dispatch(setStoreW2Data(response.data));
             })
             .catch(error => console.error(error));
         api.get(`/ten99s/${userSSN}`)
             .then(response => {
                 setTen99Data(response.data);
+                dispatch(setStoreTen99Data(response.data));
             })
             .catch(error => console.error(error));
         api.get(`/users/user/${userSSN}`)
@@ -29,11 +43,69 @@ export default function UserFinancialInfo() {
                 setUserName(`${response.data.firstName} ${response.data.lastName}`);
             })
             .catch(error => console.error(error));
-    }, []);
+    }, [userSSN, w2Data, ten99Data]);
 
-    const handleSubmit = ((e) => {
+    const handleSubmit = ((e: any) => {
 
     })
+
+    const handleW2InputChange = (index: any, field: any, value: any) => {
+        const updatedW2Data = [...w2Data];
+        updatedW2Data[index][field] = value;
+        setW2Data(updatedW2Data);
+    };
+
+    const handleTen99InputChange = (index: any, field: any, value: any) => {
+        const updatedTen99Data = [...ten99Data];
+        updatedTen99Data[index][field] = value;
+        setTen99Data(updatedTen99Data);
+    };
+
+    const toggleW2Edit = () => {
+        setEditW2(!editW2)
+    }
+
+    const toggleW2Save = () => {
+
+        w2Data.forEach((w2: any) => {
+            api.put('/w2s/w2', {
+              "w2Id": {
+                "social": userSSN,
+                "empTin": w2.w2Id.empTin
+              },
+              "wages": w2.wages,
+              "fedWithheld": w2.fedWithheld
+            }).then(response => {
+                console.log(response.data)
+            }).catch(error => {
+              console.error("Error:", error);
+            })
+            });
+        setEditW2(!editW2)
+    }
+
+    const toggle1099Edit = () => {
+        setEdit1099(!edit1099)
+    }
+
+    const toggle1099Save = () => {
+
+        ten99Data.forEach((ten99: any) => {
+            api.put('/ten99s/ten99', {
+              "ten99Id": {
+                "social": userSSN,
+                "payerTin": ten99.ten99Id.payerTin
+              },
+              "wages": ten99.wages,
+              "fedWithheld": ten99.fedWithheld
+            }).then(response => {
+                console.log(response.data)
+            }).catch(error => {
+              console.error("Error:", error);
+            })
+            });
+        setEdit1099(!edit1099)
+    }
 
     return(
         <>
@@ -47,29 +119,90 @@ export default function UserFinancialInfo() {
             </Grid>
             <Grid row>
                 <h2>W2's </h2>
+                <Grid col={1} offset={2} style={{transform: 'translate(4px,15px)'}}>
+                <ModalToggleButton modalRef={modalRef1} className='usa-button--outline' type="button" opener>Create</ModalToggleButton>
+                </Grid>
+                <Grid col={1} style={{transform: 'translate(25px,15px)'}}>
+                    <ModalToggleButton modalRef={modalRef3} className='usa-button--outline' type="button">Delete</ModalToggleButton>
+                </Grid>
+                {editW2 ? 
+                <Grid col style={{transform: 'translate(45px,15px)'}}>
+                    <Button className='usa-button--outline' type="button" onClick={toggleW2Edit}>Edit</Button>
+                </Grid>: 
+                <Grid col style={{transform: 'translate(40px,15px)'}}>
+                    <Button type="button" onClick={toggleW2Save}>Save</Button>
+                </Grid>}
             </Grid>
-            {w2Data.map((w2) => {
+            {w2Data.map((w2: any, index) => {
                 return (
-                    <>
-            <Form  onSubmit={handleSubmit}>
-            <div style={{display: 'flex', gap : '259px', width:'300%', flexWrap: 'wrap'}}>
-                <Label htmlFor="empTin">EIN</Label>
-                <Label htmlFor="wages" style={{transform: 'translate(10px)'}}>Wages</Label>
-                <Label htmlFor="fedWithheld">Federal Tax Withheld</Label>
+            <Form  key={w2.w2Id.empTin} onSubmit={handleSubmit}>
+            <div className="bg-base-light" style={{display: 'flex', gap : '126px', width:'152%', paddingBottom:'5px', height: '35px', alignItems: 'end'}}>
+                <Label htmlFor="empTin"><b>EIN</b></Label>
+                <Label htmlFor="wages" style={{transform: 'translate(10px)'}}><b>Wages</b></Label>
+                <Label htmlFor="fedWithheld"><b>Federal Tax Withheld</b></Label>
             </div>
-            <div style={{display: 'flex', gap : '80px', width: '250%',}}>
-                <TextInput id="empTin" name="empTin" type="text" value={w2Data.empTin} onChange={(e) => e.target.value}/>
-                <TextInput id="wages" name="wages" type="text" value={w2Data.wages} onChange={(e) => e.target.value}/>
-                <TextInput id="fedWithheld" name="fedWithheld" type="text" value={w2Data.fedWithheld} onChange={(e) => e.target.value}/>
+            <div style={{display: 'flex', gap : '0px', width: '152%', paddingBottom: '10px'}}>
+                <TextInput id={`empTin-${index}`} name="empTin" type="text" value={w2.w2Id.empTin} onChange={(e) => handleW2InputChange(index, 'empTin', e.target.value)} disabled/>
+                <TextInput id={`wages-${index}`} name="wages" type="text" value={w2.wages} onChange={(e) => handleW2InputChange(index, 'wages', e.target.value)} disabled={editW2}/>
+                <TextInput id={`fedWithheld-${index}`} name="fedWithheld" type="text" value={w2.fedWithheld} onChange={(e) => handleW2InputChange(index, 'fedWithheld', e.target.value)} disabled={editW2}/>
             </div>
             </Form>
-        </>
+                )
+            })}
+            <Grid row>
+                <h2>1099's </h2>
+                <Grid col={1} offset={2} style={{transform: 'translate(-12px,15px)'}}>
+                    <ModalToggleButton modalRef={modalRef2} className='usa-button--outline' type="button" opener>Create</ModalToggleButton>
+                </Grid>
+                <Grid col={1} style={{transform: 'translate(8px,15px)'}}>
+                    <ModalToggleButton modalRef={modalRef4} className='usa-button--outline' type="button">Delete</ModalToggleButton>
+                </Grid>
+                {edit1099 ? 
+                <Grid col style={{transform: 'translate(28px,15px)'}}>
+                    <Button className='usa-button--outline' type="button" onClick={toggle1099Edit}>Edit</Button>
+                </Grid>: 
+                <Grid col style={{transform: 'translate(23px,15px)'}}>
+                    <Button type="button" onClick={toggle1099Save}>Save</Button>
+                </Grid>}
+            </Grid>
+            {ten99Data.map((ten99: any, index) => {
+                return (
+                    <Form key={ten99.ten99Id.payerTin} onSubmit={handleSubmit}>
+                        <div className="bg-base-light" style={{display: 'flex', gap : '126px', width:'152%', paddingBottom:'5px', height: '35px', alignItems: 'end'}}>
+                            <Label htmlFor="payerTin"><b>PIN</b></Label>
+                            <Label htmlFor="wages" style={{transform: 'translate(10px)'}}><b>Wages</b></Label>
+                            <Label htmlFor="fedWithheld"><b>Federal Tax Withheld</b></Label>
+                        </div>
+                        <div style={{display: 'flex', gap : '0px', width: '152%', paddingBottom: '10px'}}>
+                            <TextInput id={`payerTin-${index}`} name="payerTin" type="text" value={ten99.ten99Id.payerTin} onChange={(e) => handleTen99InputChange(index, 'payerTin', e.target.value)} disabled/>
+                            <TextInput id={`wages-${index}`} name="wages" type="text" value={ten99.wages} onChange={(e) => handleTen99InputChange(index, 'wages', e.target.value)} disabled={edit1099}/>
+                            <TextInput id={`fedWithheld-${index}`} name="fedWithheld" type="text" value={ten99.fedWithheld} onChange={(e) => handleTen99InputChange(index, 'fedWithheld', e.target.value)} disabled={edit1099}/>
+                        </div>
+                    </Form>
                 )
             })}
           </GridContainer>
         </div>
         
-        
+        <Modal id='create-W2-modal' ref={modalRef1}>
+            <ModalHeading>Add a new W2</ModalHeading>
+            <W2CreateForm/>
+        </Modal>
+
+        <Modal id='create-1099-modal' ref={modalRef2}>
+            <ModalHeading>Add a new 1099</ModalHeading>
+            <Ten99CreateForm/>
+        </Modal>
+
+        <Modal id='delete-W2-modal' ref={modalRef3}>
+            <ModalHeading>Which W2 would you like to delete?</ModalHeading>
+            <W2DeleteForm/>
+        </Modal>
+
+        <Modal id='delete-1099-modal' ref={modalRef4}>
+            <ModalHeading>Which 1099 would you like to delete?</ModalHeading>
+            <Ten99DeleteForm/>
+        </Modal> 
         
         </>
     )

@@ -29,7 +29,7 @@ public class Ten99Service {
     public Ten99 saveNewTen99(Ten99 ten99) {
 
         Optional<User> user = userRepository.findBySocial(ten99.getTen99Id().getSocial());         // Check if the associated user exists
-        if (user.isPresent()) {                                                        // If user doesn't exist, return null
+        if (!user.isPresent()) {                                                        // If user doesn't exist, return null
             return null;
         }
 
@@ -37,6 +37,7 @@ public class Ten99Service {
     }
 
     public Ten99 updateTen99(Ten99 ten99) {
+        System.out.println(ten99);
         List<Ten99> allTen99 = ten99Repository.findAll();
         for (Ten99 currentTen99: allTen99) {
             if (currentTen99.getTen99Id().equals(ten99.getTen99Id())) {                // Check if the Ten99 exists before updating to avoid creating a new Ten99

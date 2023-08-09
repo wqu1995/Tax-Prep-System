@@ -35,7 +35,6 @@ export default function W2AndTen99Page() {
     const [w2OrTen99, setw2OrTen99] = useState("w2");
     const w2FormArray = useSelector((state:any) => state.w2s);
     const userSSN = useSelector((state: any) => state.auth.ssn);
-    const jwtToken = localStorage.getItem("token");
     const navigate = useNavigate();
 
     function incrementw2Array() {
@@ -69,12 +68,6 @@ export default function W2AndTen99Page() {
           },
           "wages": w2.wages,
           "fedWithheld": w2.fedWithheld
-        }, {
-          headers: {
-              "Content-Type": "application/json",
-              "ngrok-skip-browser-warning": "true",
-              "Authorization": `Bearer ${jwtToken}`
-          }
         }).then(response => {
 
         }).catch(error => {
@@ -90,12 +83,6 @@ export default function W2AndTen99Page() {
           },
           "wages": ten99.wages,
           "fedWithheld": ten99.fedWithheld
-        }, {
-          headers: {
-              "Content-Type": "application/json",
-              "ngrok-skip-browser-warning": "true",
-              "Authorization": `Bearer ${jwtToken}`
-          }
         }).then(response => {
 
         }).catch(error => {

@@ -28,3 +28,12 @@
 .proceed {
     transform: translate(-9px);
 }
+
+.deleteButton {
+    
+    background-color:rgba(212, 36, 36, 0.911)
+}
+
+.deleteButton:hover {
+    background-color: rgba(236, 71, 71, 0.911)
+}

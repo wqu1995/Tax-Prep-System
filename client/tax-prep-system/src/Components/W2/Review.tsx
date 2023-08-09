@@ -52,7 +52,7 @@ export default function Review() {
                 }
             })
             .catch(error => console.error(error));
-    }, []);
+    }, [userSSN]);
 
     function formatPhoneNumber(number: any) {
 
