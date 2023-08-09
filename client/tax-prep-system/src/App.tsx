@@ -1,7 +1,5 @@
 import { Provider } from 'react-redux';
 import W2Page from './Components/W2/W2Page.tsx'
-import '@trussworks/react-uswds/lib/index.css';
-import store  from './store.tsx';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import TaxHeader from './Components/Header/TaxHeader.tsx';
 import TaxFooter from './Components/Footer/TaxFooter.tsx';
@@ -11,11 +9,35 @@ import UserLogInForm from './Components/User/UserLogInForm.tsx';
 import UserRegisterForm from './Components/User/UserRegisterForm.tsx';
 import UserInfo from './Components/User/UserInfo.tsx';
 
+import React, {useState, useEffect} from 'react'
+import {useDispatch, useSelector} from "react-redux";
+import { selectCurrentFirstName, selectCurrentLastName, selectCurrentSSN, setCredentials, setName } from './Slices/AuthSlicer.tsx';
+import api from './api/axiosConfig'
+
 
 
 function App() {
+
+    const dispatch = useDispatch();
+    const ssn = useSelector(selectCurrentSSN)
+
+    useEffect(()=>{
+        console.log(ssn)
+        if( !ssn){
+            console.log("here")
+            //attempt to login
+            api.post("/users/login", {}).then((resposne)=>{
+                console.log(resposne.data);
+                const {ssn, firstName, lastName} = resposne.data
+                dispatch(setCredentials({ssn}));
+                dispatch(setName({firstName, lastName}));
+            }).catch((error)=>{
+                console.log(error)
+            })
+        }
+    }, [ssn]);
+
     return(
-        <Provider store={store}>
             <Router>
                 <div className='app-container'>
                     <TaxHeader/>
@@ -40,7 +62,6 @@ function App() {
                     <TaxFooter/>
                 </div>
             </Router>
-        </Provider>
     )
 
 
