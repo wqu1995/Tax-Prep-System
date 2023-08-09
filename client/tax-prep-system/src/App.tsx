@@ -11,6 +11,7 @@ import UserInfo from './Components/User/UserInfo.tsx';
 import ResultsPage from './Components/Results/ResultsPage.tsx';
 import W2AndTen99Page from './Components/W2/W2AndTen99Page.tsx';
 import Review from './Components/W2/Review.tsx';
+import UserFinancialInfo from './Components/User/UserFinancialInfo.tsx';
 
 
 
@@ -33,6 +34,7 @@ function App() {
                                 <Route path='/userInfo' element={<UserInfo/>}></Route>
                                 <Route path='/login' element={<UserLogInForm/>}></Route>
                                 <Route path='/register' element={<UserRegisterForm/>}></Route>
+                                <Route path='/financialInfo' element={<UserFinancialInfo/>}></Route>
                             </Routes>
 
                         </div>

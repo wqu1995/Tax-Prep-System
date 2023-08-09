@@ -4,10 +4,12 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import api from '../../api/axiosConfig';
 import axios from "axios";
+import { selectCurrentSSN} from '../../Slices/AuthSlicer';
 
 export default function Review() {
     const navigate = useNavigate();
-    const userSSN = 333444555; //useSelector((state: any) => state.auth.ssn);
+    const userSSN = useSelector(selectCurrentSSN);
+    console.log(userSSN)
     const [userName, setUserName] = useState("");
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
@@ -83,7 +85,7 @@ export default function Review() {
 
     return(
         <>
-        <div className='bg-base-light'>
+        <div className='bg-base-lightest'>
           <GridContainer className="usa-section">
             <Grid row>
                 <Title>Review</Title>
@@ -94,7 +96,7 @@ export default function Review() {
             <Grid row>
                 <h3>Personal Information </h3>
             </Grid>
-            <Table bordered={true}>
+            <Table bordered={false}>
                 <tbody>
                     <tr>
                         <td scope="col"><b>Name: </b>{userName}</td>
@@ -128,9 +130,9 @@ export default function Review() {
                 <tbody>
                     {w2Data.map((w2: any) => {
                         return (
-                            <tr key={w2.empTin}>
+                            <tr key={w2.w2Id.empTin}>
                                 <td>W2</td>
-                                <td>{w2.empTin}</td>
+                                <td>{w2.w2Id.empTin}</td>
                                 <td>{w2.wages}</td>
                                 <td>{w2.fedWithheld}</td>
                             </tr>
@@ -138,9 +140,9 @@ export default function Review() {
                     })}
                     {ten99Data.map((ten99: any) => {
                         return (
-                            <tr key={ten99.payerTin}>
+                            <tr key={ten99.ten99Id.payerTin}>
                                 <td>1099</td>
-                                <td>{ten99.payerTin}</td>
+                                <td>{ten99.ten99Id.payerTin}</td>
                                 <td>{ten99.wages}</td>
                                 <td>{ten99.fedWithheld}</td>
                             </tr>
@@ -150,7 +152,7 @@ export default function Review() {
             </Table>
             <Grid row>
               <Grid className="proceed" col = {5} offset = {8}>
-                <h4>If everything is correct, please proceed.</h4>
+                <h4>If everything looks correct, please proceed.</h4>
               </Grid>
             </Grid>
             <Grid row>

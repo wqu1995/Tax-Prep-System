@@ -10,7 +10,7 @@ function TaxHeader() {
     <a href="#linkOne" key="one">
       Current link
     </a>,
-    <a href="#linkTwo" key="two">
+    <a href="/review" key="two">
       Simple link Two
     </a>,
   ]
@@ -35,10 +35,10 @@ function TaxHeader() {
         id="testDropDownOne"
       />
     </>,
-    <a href="#two" key="two" className="usa-nav__link">
-      <span>Parent link</span>
+    <a href="/financialInfo" key="two" className="usa-nav__link">
+      <span>review</span>
     </a>,
-    <a href="#three" key="three" className="usa-nav__link">
+    <a href="/userInfo" key="three" className="usa-nav__link">
       <span>Parent link</span>
     </a>,
   ]
