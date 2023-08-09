@@ -1,4 +1,4 @@
-import { Form, Label, TextInput} from "@trussworks/react-uswds";
+import { ErrorMessage, Form, Label, TextInput} from "@trussworks/react-uswds";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTen99Form } from "../../Slices/Ten99Slice";
 import { useState } from "react";
@@ -69,10 +69,13 @@ export default function Ten99Form({index}: Ten99Props) {
         <>
             <Form onSubmit={handleSubmit}>
                 <Label htmlFor="payerTin">Payer's TIN</Label>
+                {payerTinStatus === "error" && <ErrorMessage>Please enter a valid identification number. Do not include hyphens or dashes.</ErrorMessage>}
                 <TextInput id="payerTin" name="payerTin" type="text" value={formData.payerTin} onChange={handlePayerTinInput} validationStatus={payerTinStatus}/>
                 <Label htmlFor="wages">Nonemployee compensation (Box 1)</Label>
+                {wageStatus === "error" && <ErrorMessage>Please enter a valid number.</ErrorMessage>}
                 <TextInput id="wages" name="wages" type="text" value={formData.wages} onChange={handleWageInput} validationStatus={wageStatus}/>
                 <Label htmlFor="fedWithheld">Federal income tax withheld (Box 4)</Label>
+                {fedWithheldStatus === "error" && <ErrorMessage>Please enter a valid number.</ErrorMessage>}
                 <TextInput id="fedWithheld" name="fedWithheld" type="text" value={formData.fedWithheld} onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus}/>
             </Form>
         </>

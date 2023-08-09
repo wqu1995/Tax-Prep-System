@@ -2,16 +2,18 @@ import { Accordion, Button, Grid, GridContainer, Header, Title} from "@trusswork
 import {useDispatch, useSelector} from "react-redux";
 import { useState } from "react";
 import { addNewTen99Form } from "../../Slices/Ten99Slice";
-import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
+import { AccordionItem, AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 import W2Form from "./W2Form";
 import { addNewW2Form } from "../../Slices/W2Slice";
 import Ten99Form from "../Ten99/Ten99Form";
 import api from '../../api/axiosConfig';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import 'C:/Tax Prep System/Tax-Prep-System/client/tax-prep-system/src/App.css';
 
 var w2InitialArray: AccordionItemProps[] = [{
   title: 'W2 #1',
-  content: <div><W2Form index={0}/></div>,
+  content:<W2Form index={0}/>,
   expanded: false,
   id: 'w2-1',
   headingLevel: 'h4',
@@ -32,8 +34,9 @@ export default function W2AndTen99Page() {
     const dispatch = useDispatch();
     const [w2OrTen99, setw2OrTen99] = useState("w2");
     const w2FormArray = useSelector((state:any) => state.w2s);
-    const userSSN = 333444555;
+    const userSSN = useSelector((state: any) => state.auth.ssn);
     const jwtToken = localStorage.getItem("token");
+    const navigate = useNavigate();
 
     function incrementw2Array() {
       dispatch(addNewW2Form());
@@ -59,7 +62,7 @@ export default function W2AndTen99Page() {
 
     function submitAllW2AndTen99() {
       w2FormArray.forms.forEach((w2: any) => {
-        axios.post('http://localhost:8282/w2s/w2', {
+        api.post('/w2s/w2', {
           "w2Id": {
             "social": userSSN,
             "empTin": w2.empTin
@@ -99,12 +102,14 @@ export default function W2AndTen99Page() {
           console.error("Error:", error);
         })
         });
+
+        navigate('/results');
     }
 
     if (w2OrTen99 === "w2") {
       return (
         <>
-        <div className='bg-base-lightest'>
+        <div className='bg-base-light'>
           <GridContainer className="usa-section">
             <Grid row>
               <Title>Please Fill in all of your tax information, including all W2's and 1099's.</Title>
@@ -112,18 +117,20 @@ export default function W2AndTen99Page() {
             <Grid row>
               <h3>Do you have any W2's to add? If not, skip to the next section. </h3>
             </Grid>
-            <Accordion items={w2Array} multiselectable={true} />
             <Grid row>
-              <Grid col = {5} offset = {8}>
-                <div>Do you have more than one W2 to add?</div>
+              <Accordion items={w2Array} multiselectable={true} />
+            </Grid>
+            <Grid row>
+              <Grid col = {5} offset = {10}>
+                <h4>Do you have more than one W2 to add?</h4>
               </Grid>
               <Grid col = {2} offset = {10}>
-                <Button id="newW2" type="button" onClick={() => {incrementw2Array()}}>Add A New W2</Button>
+                <Button className="AddW2" id="newW2" type="button" onClick={() => {incrementw2Array()}}>Add A New W2</Button>
               </Grid>
             </Grid>
             <Grid row>
               <Grid tablet={{ col: true }}>
-                <Button type="button" /*onClick={/* set logic to return to user info page}*/>Back</Button>   
+                <Button type="button" onClick={() => navigate('/review')}>Back</Button>   
               </Grid>
               <Grid col = {9}></Grid>
               <Grid tablet={{ col: true }}>
@@ -137,7 +144,8 @@ export default function W2AndTen99Page() {
     }
     return (
         <>
-          <GridContainer>
+        <div className='bg-base-light'>
+          <GridContainer className="usa-section">
             <Grid row>
               <Title>Please Fill in all of your tax information, including all W2's and 1099's.</Title>
             </Grid>
@@ -146,10 +154,10 @@ export default function W2AndTen99Page() {
             </Grid>  
             <Accordion items={ten99Array} multiselectable={true}/>
             <Grid row>
-              <Grid col = {5} offset = {8}>
-                <div>Do you have more than one 1099 to add?</div>
+              <Grid col = {5} offset = {10}>
+                <h4>Do you have more than one 1099 to add?</h4>
               </Grid>
-              <Grid col = {2} offset = {10}>
+              <Grid className="Add1099" col = {3} offset = {9}>
                 <Button id="newTen99" type="button" onClick={() => {incrementTen99Array()}}>Add A New 1099</Button>
               </Grid>
             </Grid>
@@ -163,6 +171,7 @@ export default function W2AndTen99Page() {
               </Grid>
             </Grid>
           </GridContainer>
+        </div>
         </>
     )
 }

@@ -20,7 +20,8 @@ interface Ten99 {
 
 export default function ResultsPage() {
     const { t } = useTranslation();
-    const userSSN = 333444555; //   TESTING PURPOSES ONLY RESET TO: useSelector((state: any) => state.auth.ssn);
+    const userSSN = useSelector((state: any) => state.auth.ssn);
+    console.log(userSSN)
     const jwtToken = localStorage.getItem("token");
     const [filingStatus, setFilingStatus] = useState("");
     const [w2s, setW2s] = useState([]);
@@ -194,15 +195,15 @@ export default function ResultsPage() {
         )
     } else {
         return (
-            <>
+            <div className='bg-white padding-y-10 padding-x-10'>
                 <GridContainer>
-                    <Grid row offset={3}>
-                        <SummaryBox>
+                    <Grid className='bg-white padding-y-10 padding-x-10' row offset={3}>
+                        <SummaryBox className='bg-green border-base-lightest'>
                             <SummaryBoxHeading headingLevel="h3">You have a tax refund of ${taxOwedValue}!</SummaryBoxHeading>
                         </SummaryBox>
                     </Grid>
                 </GridContainer>
-            </>
+            </div>
         )
     }
 

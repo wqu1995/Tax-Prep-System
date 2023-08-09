@@ -14,7 +14,6 @@ import com.skillstorm.taxprepsystem.services.W2Service;
 @CrossOrigin(origins = "http://localhost:5173/", allowCredentials = "true")
 @RestController
 @RequestMapping("/w2s")
-@CrossOrigin
 public class W2Controller {
 
     @Autowired

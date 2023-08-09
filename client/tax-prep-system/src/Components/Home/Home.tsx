@@ -4,6 +4,7 @@ import { selectCurrentFirstName, selectCurrentLastName } from '../../Slices/Auth
 import { Button } from '@trussworks/react-uswds';
 
 import api from '../../api/axiosConfig'
+import { Link } from 'react-router-dom';
 
 
 function Home() {
@@ -24,6 +25,7 @@ function Home() {
         <div>
             Welcome {firstName} {lastName}
             <Button type="button" onClick={handleSubmit}>click me </Button>
+            <Link to="/calculate">calculate</Link>
         
         </div>
     )

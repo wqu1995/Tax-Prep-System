@@ -10,6 +10,7 @@ import UserRegisterForm from './Components/User/UserRegisterForm.tsx';
 import UserInfo from './Components/User/UserInfo.tsx';
 import ResultsPage from './Components/Results/ResultsPage.tsx';
 import W2AndTen99Page from './Components/W2/W2AndTen99Page.tsx';
+import Review from './Components/W2/Review.tsx';
 
 
 
@@ -27,6 +28,7 @@ function App() {
                         <Route path='/userInfo' element={<UserInfo/>}></Route>
                         <Route path='/login' element={<UserLogInForm/>}></Route>
                         <Route path='/register' element={<UserRegisterForm/>}></Route>
+                        <Route path='/review' element={<Review/>}></Route>
                     </Routes>
                     <TaxFooter/>
                 </div>
