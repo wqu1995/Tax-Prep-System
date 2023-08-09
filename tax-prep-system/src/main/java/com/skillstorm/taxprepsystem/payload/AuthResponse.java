@@ -1,17 +1,14 @@
 package com.skillstorm.taxprepsystem.payload;
 
 public class AuthResponse {
-    private String accessToken;
     private long ssn;
     private String firstName;
     private String lastName;
-    private String tokenType = "Bearer ";
 
     public AuthResponse() {
     }
 
-    public AuthResponse(String accessToken, long ssn, String firstName, String lastName) {
-        this.accessToken = accessToken;
+    public AuthResponse(long ssn, String firstName, String lastName) {
         this.ssn = ssn;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,19 +38,4 @@ public class AuthResponse {
         this.ssn = ssn;
     }
 
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public String getTokenType() {
-        return tokenType;
-    }
-
-    public void setTokenType(String tokenType) {
-        this.tokenType = tokenType;
-    }
 }

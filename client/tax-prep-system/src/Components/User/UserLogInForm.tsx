@@ -15,7 +15,7 @@ function UserLogInForm() {
     
     useEffect(() =>{
         setErrMsg('');
-    }), [username, password]
+    },[username, password])
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
@@ -23,13 +23,13 @@ function UserLogInForm() {
 
         api.post("/users/login", loginPayload).then((resposne)=>{
             console.log(resposne.data)
-            const {accessToken, ssn, firstName, lastName} = resposne.data
+            const {ssn, firstName, lastName} = resposne.data
             dispatch(setCredentials({ssn}));
             dispatch(setName({firstName, lastName}));
             //localStorage.setItem("token", accessToken);
             setUsername('')
             setPassword('')
-            navigate('/home')
+            navigate('/userInfo')
         }).catch((error) =>{
             console.log(error);
         })
@@ -37,9 +37,6 @@ function UserLogInForm() {
 
     return (
         <div>
-            <main id="main-content">
-                <main id="main-content">
-                    <div className='bg-base-lightest'>
                         <GridContainer className="usa-section">
                             <Grid row={true} className="flex-justify-center">
                                 <Grid col={12} tablet={{col:8}} desktop={{col:6}}>
@@ -80,9 +77,6 @@ function UserLogInForm() {
                             </Grid>
                         </GridContainer>
                     </div>
-                </main>
-            </main>
-        </div>
     )
 }
 

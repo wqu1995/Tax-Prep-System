@@ -18,18 +18,26 @@ function App() {
     return(
         <Provider store={store}>
             <Router>
-                <div className='container'>
+                <div className='app-container'>
                     <TaxHeader/>
-                    <Routes>
-                        <Route path='/' element={<UserLogInForm/>}></Route>
-                        <Route path='/home' element={<Home/>}></Route>
-                        <Route path='/calculate' element={<W2AndTen99Page/>}></Route>
-                        <Route path='/results' element={<ResultsPage/>}></Route>
-                        <Route path='/userInfo' element={<UserInfo/>}></Route>
-                        <Route path='/login' element={<UserLogInForm/>}></Route>
-                        <Route path='/register' element={<UserRegisterForm/>}></Route>
-                        <Route path='/review' element={<Review/>}></Route>
-                    </Routes>
+                    <div className='content'>
+                    <main id="main-content" >
+                        <div className='bg-base-lightest' >
+
+                            <Routes>
+                                <Route path='/' element={<Home/>}></Route>
+                                <Route path='/home' element={<Home/>}></Route>
+                                <Route path='/calculate' element={<W2AndTen99Page/>}></Route>
+                                <Route path='/results' element={<ResultsPage/>}></Route>
+                                <Route path='/userInfo' element={<UserInfo/>}></Route>
+                                <Route path='/login' element={<UserLogInForm/>}></Route>
+                                <Route path='/register' element={<UserRegisterForm/>}></Route>
+                            </Routes>
+
+                        </div>
+                    
+                    </main>
+                    </div>
                     <TaxFooter/>
                 </div>
             </Router>
