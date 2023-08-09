@@ -1,7 +1,19 @@
-import { Header, Title, NavMenuButton, PrimaryNav, Search, NavDropDownButton, Menu, Icon} from '@trussworks/react-uswds'
+import { Header, Title, NavMenuButton, PrimaryNav, Search, NavDropDownButton, Menu, Icon, GridContainer, Grid} from '@trussworks/react-uswds'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function TaxHeader() {
+
+    const navigate = useNavigate();
+    const [navDropdownOpen, setNavDropdownOpen] = useState([false, false])
+    const handleToggleNavDropdown = (index: number): void => {
+        setNavDropdownOpen((prevNavDropdownOpen) => {
+          const newOpenState = Array(prevNavDropdownOpen.length).fill(false)
+          
+          newOpenState[index] = !prevNavDropdownOpen[index]
+          return newOpenState
+        })
+      }
 
     const [expanded, setExpanded] = useState(false)
   const onClick = (): void => setExpanded((prvExpanded) => !prvExpanded)
@@ -44,21 +56,29 @@ function TaxHeader() {
   ]
 
     return(
-        <Header basic={true}>
-        <div className="usa-nav-container">
-          <div className="usa-navbar">
-            <Title>Tax Preparation System</Title>
-            <Icon.AccountCircle onClick={()=>console.log("hi")}></Icon.AccountCircle>
-            <NavMenuButton onClick={onClick} label="Menu" />
-          </div>
-          <PrimaryNav
-            items={testItemsMenu}
-            mobileExpanded={expanded}
-            onToggleMobileNav={onClick}>
-            <Search size="small" onSubmit={onClick} />
-          </PrimaryNav>
+        <div>
+            <Header basic>
+                <div className="usa-nav-container">
+                    <div className="usa-navbar">
+                        <Title id="basic-logo">
+                        <a href="/" title="Home" aria-label="Home">
+                            Tax Preparation Systems
+                        </a>
+                        </Title>
+                        <NavMenuButton
+                        label="Menu"
+                        className="usa-menu-btn"
+                        />
+                    </div>
+                <PrimaryNav
+                    aria-label="Primary navigation"
+                    items={primaryNavItems}
+                    >
+                </PrimaryNav>
+                </div>
+            </Header>
+        
         </div>
-      </Header>
     )
 }
 

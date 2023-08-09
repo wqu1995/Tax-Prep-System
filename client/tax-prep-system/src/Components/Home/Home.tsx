@@ -11,25 +11,25 @@ import { Link } from 'react-router-dom';
 function Home() {
     const navigate = useNavigate();
     
-    const [isLogin, setIsLogin] = useState(false);
-    const dispatch = useDispatch();
-    const ssn = useSelector(selectCurrentSSN)
+//    const [isLogin, setIsLogin] = useState(false);
+//    const dispatch = useDispatch();
+//    const ssn = useSelector(selectCurrentSSN)
 
-    useEffect(()=>{
-        console.log(ssn)
-        if( !ssn){
-            console.log("here")
-            //attempt to login
-            api.post("/users/login", {}).then((resposne)=>{
-                console.log(resposne.data);
-                const {ssn, firstName, lastName} = resposne.data
-                dispatch(setCredentials({ssn}));
-                dispatch(setName({firstName, lastName}));
-            }).catch((error)=>{
-                console.log(error)
-            })
-        }
-    }, [ssn]);
+    // useEffect(()=>{
+    //     console.log(ssn)
+    //     if( !ssn){
+    //         console.log("here")
+    //         //attempt to login
+    //         api.post("/users/login", {}).then((resposne)=>{
+    //             console.log(resposne.data);
+    //             const {ssn, firstName, lastName} = resposne.data
+    //             dispatch(setCredentials({ssn}));
+    //             dispatch(setName({firstName, lastName}));
+    //         }).catch((error)=>{
+    //             console.log(error)
+    //         })
+    //     }
+    // }, [ssn]);
 
     const handleSubmit = (e:any) =>{
         navigate('/userInfo')
