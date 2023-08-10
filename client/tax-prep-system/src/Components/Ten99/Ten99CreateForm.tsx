@@ -1,4 +1,4 @@
-import { Button, ErrorMessage, Form, Label, TextInput } from "@trussworks/react-uswds";
+import { Button, ErrorMessage, Form, Label, TextInput, ValidationStatus } from "@trussworks/react-uswds";
 import api from '../../api/axiosConfig';
 import axios from "axios";
 import { useDispatch, useSelector, useStore } from "react-redux";
@@ -35,7 +35,7 @@ export default function Ten99CreateForm() {
                 "fedWithheld": fedWithheld
             }).then(response => {
                 e.target.reset();
-                const updatedTen99Data = ten99Data.push(response.data);
+                const updatedTen99Data = [...ten99Data, response.data];
                 dispatch(setStoreTen99Data(updatedTen99Data));
             }).catch(error => {
                 console.error("Error:", error);
@@ -90,13 +90,13 @@ export default function Ten99CreateForm() {
             <Form  onSubmit={handleSubmit}>
                 <Label htmlFor="payerTin">{t('ptin')}</Label>
                 {payerTinStatus === "error" && <ErrorMessage>{t('ptinerror')} </ErrorMessage>}
-                <TextInput id="payerTin" name="payerTin" type="text"  onChange={handlePayerTinInput} validationStatus={payerTinStatus}/>
+                <TextInput id="payerTin" name="payerTin" type="text"  onChange={handlePayerTinInput} validationStatus={payerTinStatus as ValidationStatus}/>
                 <Label htmlFor="wages">{t('comp')}</Label>
                 {wageStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
-                <TextInput id="wages" name="wages" type="text" onChange={handleWageInput} validationStatus={wageStatus}/>
+                <TextInput id="wages" name="wages" type="text" onChange={handleWageInput} validationStatus={wageStatus as ValidationStatus}/>
                 <Label htmlFor="fedWithheld">{t('ptax')}</Label>
                 {fedWithheldStatus === "error" && <ErrorMessage>{t('ptaxerror')}</ErrorMessage>}
-                <TextInput id="fedWithheld" name="fedWithheld" type="text" onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus}/>
+                <TextInput id="fedWithheld" name="fedWithheld" type="text" onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus as ValidationStatus}/>
                 <div style={{margin: '20px'}}>
                 {submissionError && <ErrorMessage>{t('failadd')}</ErrorMessage>}
                 </div>

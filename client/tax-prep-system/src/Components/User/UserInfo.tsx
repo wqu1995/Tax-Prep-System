@@ -8,11 +8,7 @@ import ErrorPage from '../Home/ErrorPage';
 
 
 function UserInfo() {
-    const ssn = useSelector(selectCurrentSSN);
-
-    if(ssn == null){
-        return <ErrorPage errorCode={401}/>
-    }
+    const userSSN = useSelector(selectCurrentSSN);
 
     const initUserInfo: UserDto = {
         social: '',
@@ -56,15 +52,16 @@ function UserInfo() {
     const [updateSuccess, setUpdateSuccess] = useState('');
 
     useEffect(() =>{
-
-        api.get(`/users/user/${ssn}`).then((Response) =>{
-            setDefaultInfo(Response.data)
-            userInfoDispatch({type: 'set', value: Response.data})
-            console.log(userInfo)
-        }).catch((error)=>{
-            console.log(error)
-        })
-    }, [ssn])
+        if(userSSN!==null){
+            api.get(`/users/user/${userSSN}`).then((Response) =>{
+                setDefaultInfo(Response.data)
+                userInfoDispatch({type: 'set', value: Response.data})
+                console.log(userInfo)
+            }).catch((error)=>{
+                console.log(error)
+            })
+        }
+    }, [userSSN])
 
     useEffect(()=>{
         userInfoDispatch({type: 'set', value: defaultInfo});
@@ -88,146 +85,153 @@ function UserInfo() {
     }
 
     return (
-        <div className='usa-section'>
-            <GridContainer>
-                <Grid row gap>
-                    <main className="usa-layout-docs__main desktop:grid-col-9 usa-prose usa-layout-docs" id="main-content">
-                        <h1>Welcome {userInfo.firstName} {userInfo.lastName}</h1>
-                        
-                        <h3>Here is your personal information</h3>
-                        <div style={{ display: 'flex', gap: '10px' }}>
-                            <div>
-                                <Button className='usa-button--outline' type='button' onClick={()=>setEnableEdit(!enableEdit)}>{enableEdit? "Cancel" : "Edit"}</Button>
-                            </div>
-                            <div>
-                                {updateSuccess && <ErrorMessage>{updateSuccess}</ErrorMessage>}
-                            </div>
-                        </div>
-                        <Form onSubmit={handleUserInfoSubmit}>
-                            <div style={{display: 'flex', gap : '16px'}}>
+        <div>
+            {userSSN ? (
+                <div className='usa-section'>
+                <GridContainer>
+                    <Grid row gap>
+                        <main className="usa-layout-docs__main desktop:grid-col-9 usa-prose usa-layout-docs" id="main-content">
+                            <h1>Welcome {userInfo.firstName} {userInfo.lastName}</h1>
+                            
+                            <h3>Here is your personal information</h3>
+                            <div style={{ display: 'flex', gap: '10px' }}>
                                 <div>
-                                    <Label htmlFor='firstName'>First Name</Label>
-                                    <TextInput
-                                        id="firstName"
-                                        name="firstName"
-                                        type="text"
-                                        value={userInfo.firstName}
-                                        autoCapitalize='off'
-                                        autoCorrect='off'
-                                        disabled={true}
-                                    />
+                                    <Button className='usa-button--outline' type='button' onClick={()=>setEnableEdit(!enableEdit)}>{enableEdit? "Cancel" : "Edit"}</Button>
                                 </div>
                                 <div>
-                                    <Label htmlFor='lastName'>Last Name</Label>
-                                    <TextInput
-                                        id="lastName"
-                                        name="lastName"
-                                        type="text"
-                                        value={userInfo.lastName}
-                                        autoCapitalize='off'
-                                        autoCorrect='off'
-                                        disabled={true}
-                                    />
+                                    {updateSuccess && <ErrorMessage>{updateSuccess}</ErrorMessage>}
                                 </div>
                             </div>
-                            <div>
-                                    <Label htmlFor='streetAddr'>Street Address</Label>
-                                    <TextInput
-                                        id="streetAddr"
-                                        name="streetAddr"
-                                        type="text"
-                                        value={userInfo.streetAddr}
-                                        onChange={(e) => userInfoDispatch({type: 'setAddr', value: e.target.value})}
-                                        autoCapitalize='off'
-                                        autoCorrect='off'
-                                        disabled={!enableEdit}
-                                    />
-                            </div>
-                            <div style={{display: 'flex', gap : '16px'}}>
-                                <div>
-                                    <Label htmlFor='city'>City</Label>
-                                    <TextInput
-                                        id="city"
-                                        name="city"
-                                        type="text"
-                                        value={userInfo.city}
-                                        onChange={(e) => userInfoDispatch({type: 'setCity', value: e.target.value})}
-                                        autoCapitalize='off'
-                                        autoCorrect='off'
-                                        disabled={!enableEdit}
-                                    />
+                            <Form onSubmit={handleUserInfoSubmit}>
+                                <div style={{display: 'flex', gap : '16px'}}>
+                                    <div>
+                                        <Label htmlFor='firstName'>First Name</Label>
+                                        <TextInput
+                                            id="firstName"
+                                            name="firstName"
+                                            type="text"
+                                            value={userInfo.firstName}
+                                            autoCapitalize='off'
+                                            autoCorrect='off'
+                                            disabled={true}
+                                        />
+                                    </div>
+                                    <div>
+                                        <Label htmlFor='lastName'>Last Name</Label>
+                                        <TextInput
+                                            id="lastName"
+                                            name="lastName"
+                                            type="text"
+                                            value={userInfo.lastName}
+                                            autoCapitalize='off'
+                                            autoCorrect='off'
+                                            disabled={true}
+                                        />
+                                    </div>
                                 </div>
                                 <div>
-                                    <Label htmlFor='state'>State</Label>
-                                    <TextInput
-                                        id="state"
-                                        name="state"
-                                        type="text"
-                                        value={userInfo.state}
-                                        onChange={(e) => userInfoDispatch({type: 'setState', value: e.target.value})}
-                                        autoCapitalize='off'
-                                        autoCorrect='off'
-                                        disabled={!enableEdit}
-                                    />
+                                        <Label htmlFor='streetAddr'>Street Address</Label>
+                                        <TextInput
+                                            id="streetAddr"
+                                            name="streetAddr"
+                                            type="text"
+                                            value={userInfo.streetAddr}
+                                            onChange={(e) => userInfoDispatch({type: 'setAddr', value: e.target.value})}
+                                            autoCapitalize='off'
+                                            autoCorrect='off'
+                                            disabled={!enableEdit}
+                                        />
                                 </div>
-                                <div>
-                                    <Label htmlFor='zip'>Zip</Label>
-                                    <TextInput
-                                        id="zip"
-                                        name="zip"
-                                        type="text"
-                                        value={userInfo.zip}
-                                        onChange={(e) => userInfoDispatch({type: 'setZip', value: e.target.value})}
-                                        autoCapitalize='off'
-                                        autoCorrect='off'
-                                        disabled={!enableEdit}
-                                    />
+                                <div style={{display: 'flex', gap : '16px'}}>
+                                    <div>
+                                        <Label htmlFor='city'>City</Label>
+                                        <TextInput
+                                            id="city"
+                                            name="city"
+                                            type="text"
+                                            value={userInfo.city}
+                                            onChange={(e) => userInfoDispatch({type: 'setCity', value: e.target.value})}
+                                            autoCapitalize='off'
+                                            autoCorrect='off'
+                                            disabled={!enableEdit}
+                                        />
+                                    </div>
+                                    <div>
+                                        <Label htmlFor='state'>State</Label>
+                                        <TextInput
+                                            id="state"
+                                            name="state"
+                                            type="text"
+                                            value={userInfo.state}
+                                            onChange={(e) => userInfoDispatch({type: 'setState', value: e.target.value})}
+                                            autoCapitalize='off'
+                                            autoCorrect='off'
+                                            disabled={!enableEdit}
+                                        />
+                                    </div>
+                                    <div>
+                                        <Label htmlFor='zip'>Zip</Label>
+                                        <TextInput
+                                            id="zip"
+                                            name="zip"
+                                            type="text"
+                                            value={userInfo.zip}
+                                            onChange={(e) => userInfoDispatch({type: 'setZip', value: e.target.value})}
+                                            autoCapitalize='off'
+                                            autoCorrect='off'
+                                            disabled={!enableEdit}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div>
-                                <Label htmlFor='phone'>Phone Number</Label>
-                                <TextInput
-                                    id="phone"
-                                    name="phone"
-                                    type="text"
-                                    value={userInfo.phone}
-                                    onChange={(e) => userInfoDispatch({type: 'setPhone', value: e.target.value})}
-                                    autoCapitalize='off'
-                                    autoCorrect='off'
+                                <div>
+                                    <Label htmlFor='phone'>Phone Number</Label>
+                                    <TextInput
+                                        id="phone"
+                                        name="phone"
+                                        type="text"
+                                        value={userInfo.phone}
+                                        onChange={(e) => userInfoDispatch({type: 'setPhone', value: e.target.value})}
+                                        autoCapitalize='off'
+                                        autoCorrect='off'
+                                        disabled={!enableEdit}
+                                    />
+                                </div>
+                                <div>
+                                    <Label htmlFor='status'>Tax filling Status</Label>
+                                    <Select id="status" name="status" value={userInfo.status}
+                                    onChange={(e) => userInfoDispatch({type: 'setStatus', value: e.target.value})}
                                     disabled={!enableEdit}
-                                />
-                            </div>
-                            <div>
-                                <Label htmlFor='status'>Tax filling Status</Label>
-                                <Select id="status" name="status" value={userInfo.status}
-                                onChange={(e) => userInfoDispatch({type: 'setStatus', value: e.target.value})}
-                                disabled={!enableEdit}
-                                >
-                                    <React.Fragment key=".0">
-                                        <option>
-                                        - Select -{' '}
-                                        </option>
-                                        <option value="S">
-                                        Single
-                                        </option>
-                                        <option value="MJ">
-                                        Married Joint
-                                        </option>
-                                        <option value="MS">
-                                        Married Separate
-                                        </option>
-                                    </React.Fragment>
-                                </Select>
-                            </div>
-                            <div style={{ display: 'flex'}}>
-                                {enableEdit && <Button type='submit' >Submit</Button>}
-                            </div>
-                        </Form>
-                    </main>
-                </Grid>
-            </GridContainer>
+                                    >
+                                        <React.Fragment key=".0">
+                                            <option>
+                                            - Select -{' '}
+                                            </option>
+                                            <option value="S">
+                                            Single
+                                            </option>
+                                            <option value="MJ">
+                                            Married Joint
+                                            </option>
+                                            <option value="MS">
+                                            Married Separate
+                                            </option>
+                                        </React.Fragment>
+                                    </Select>
+                                </div>
+                                <div style={{ display: 'flex'}}>
+                                    {enableEdit && <Button type='submit' >Submit</Button>}
+                                </div>
+                            </Form>
+                        </main>
+                    </Grid>
+                </GridContainer>
+            </div>
+            ) : (
+                <ErrorPage errorCode={401}/>
+            )}
         </div>
+
     )
 }
 
