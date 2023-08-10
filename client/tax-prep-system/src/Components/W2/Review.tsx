@@ -124,7 +124,7 @@ export default function Review() {
             <Table bordered={false}>
                 <thead>
                     <tr>
-                        <th scope="col">{t('financialLabel')}</th>
+                        <th scope="col">{t('documentType')}</th>
                         <th scope="col">{t('ein/tin')}</th>
                         <th scope="col">{t('wages/comp')}</th>
                         <th scope="col">{t('fedwith')}</th>
@@ -160,7 +160,7 @@ export default function Review() {
             </Grid>
             <Grid row>
               <Grid tablet={{ col: true }}>
-                <Button type="button" onClick={(e) =>{ navigate('/calculate')}} >{t('backBtn')}</Button>   
+                <Button type="button" onClick={(e) =>{ navigate('/financialInfo')}} >{t('backBtn')}</Button>   
               </Grid>
               <Grid col = {9}></Grid>
               <Grid tablet={{ col: true }}>

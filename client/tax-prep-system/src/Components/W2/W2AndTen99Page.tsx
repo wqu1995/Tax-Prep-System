@@ -1,6 +1,6 @@
 import { Accordion, Button, Grid, GridContainer, Header, Title} from "@trussworks/react-uswds";
 import {useDispatch, useSelector} from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addNewTen99Form } from "../../Slices/Ten99Slice";
 import { AccordionItem, AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 import W2Form from "./W2Form";
@@ -62,7 +62,8 @@ export default function W2AndTen99Page() {
     }
 
     function submitAllW2AndTen99() {
-      if (w2FormArray[0].empTin > 0) {
+      console.log(w2FormArray)
+      if (w2FormArray.forms[0].empTin > 0) {
         w2FormArray.forms.forEach((w2: any) => {
           api.post('/w2s/w2', {
             "w2Id": {
@@ -79,7 +80,7 @@ export default function W2AndTen99Page() {
           });
       }
 
-      if (ten99FormArray[0].payerTin > 0) {
+      if (ten99FormArray.forms[0].payerTin > 0) {
         ten99FormArray.forms.forEach((ten99: any) => {
           api.post('/ten99s/ten99', {
             "ten99Id": {
