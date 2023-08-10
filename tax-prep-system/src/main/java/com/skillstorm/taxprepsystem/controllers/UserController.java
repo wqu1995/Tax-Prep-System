@@ -17,10 +17,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+@CrossOrigin(origins = "http://3.239.159.169/", allowCredentials = "true")
 public class UserController {
 
     @Autowired
@@ -76,6 +77,12 @@ public class UserController {
         String pass = userData.getPassword();
         HttpHeaders responseHeaders = new HttpHeaders();
         ResponseEntity<?> response = userService.addNewUser(userData);
+
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         if(response.getStatusCode()!=HttpStatus.BAD_REQUEST){
             String token = getToken(userData.getEmail(), pass);
@@ -151,7 +158,6 @@ public class UserController {
     }
 
     private String getToken(String username, String password){
-        System.out.println(username+" "+ password);
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtGenerator.generateToken(authentication);

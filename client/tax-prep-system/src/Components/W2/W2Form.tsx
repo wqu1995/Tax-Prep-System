@@ -1,4 +1,4 @@
-import { ErrorMessage, Form, Label, TextInput} from "@trussworks/react-uswds";
+import { ErrorMessage, Form, Label, TextInput, ValidationStatus} from "@trussworks/react-uswds";
 import { useDispatch, useSelector } from "react-redux";
 import { updateW2Form } from "../../Slices/W2Slice";
 import { useState } from "react";
@@ -71,13 +71,13 @@ export default function W2Form({index}: W2FormProps) {
             <Form  onSubmit={handleSubmit}>
                 <Label htmlFor="empTin">{t('ein')}</Label>
                 {empTinStatus === "error" && <ErrorMessage>{t('ptinerror')}</ErrorMessage>}
-                <TextInput id="empTin" name="empTin" type="text" value={formData.empTin} onChange={handleEmpTinInput} validationStatus={empTinStatus}/>
+                <TextInput id="empTin" name="empTin" type="text" value={formData.empTin} onChange={handleEmpTinInput} validationStatus={empTinStatus as ValidationStatus}/>
                 <Label htmlFor="wages">{t('wages')}</Label>
                 {wageStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
-                <TextInput id="wages" name="wages" type="text" value={formData.wages} onChange={handleWageInput} validationStatus={wageStatus}/>
+                <TextInput id="wages" name="wages" type="text" value={formData.wages} onChange={handleWageInput} validationStatus={wageStatus as ValidationStatus}/>
                 <Label htmlFor="fedWithheld">{t('ftax')}</Label>
                 {fedWithheldStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
-                <TextInput id="fedWithheld" name="fedWithheld" type="text" value={formData.fedWithheld} onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus}/>
+                <TextInput id="fedWithheld" name="fedWithheld" type="text" value={formData.fedWithheld} onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus as ValidationStatus}/>
             </Form>
         </>
     )

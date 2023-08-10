@@ -4,7 +4,7 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://@documentdb-wqu.cluster-c4eqo06kg56i.us-east-1.docdb.amazonaws.com:27017/?authSource=admin&authMechanism=SCRAM-SHA-1&tls=true&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
+      uri: mongodb://project2group2:skillstorm@documentdb-wqu.cluster-c4eqo06kg56i.us-east-1.docdb.amazonaws.com:27017/?authSource=admin&authMechanism=SCRAM-SHA-1&tls=true&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
       database: tax
 javax:
   net:

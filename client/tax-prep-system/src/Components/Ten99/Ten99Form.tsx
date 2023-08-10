@@ -1,4 +1,4 @@
-import { ErrorMessage, Form, Label, TextInput} from "@trussworks/react-uswds";
+import { ErrorMessage, Form, Label, TextInput, ValidationStatus} from "@trussworks/react-uswds";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTen99Form } from "../../Slices/Ten99Slice";
 import { useState } from "react";
@@ -72,13 +72,13 @@ export default function Ten99Form({index}: Ten99Props) {
             <Form onSubmit={handleSubmit}>
                 <Label htmlFor="payerTin">{t('ptin')}</Label>
                 {payerTinStatus === "error" && <ErrorMessage>{t('ptinerror')}</ErrorMessage>}
-                <TextInput id="payerTin" name="payerTin" type="text" value={formData.payerTin} onChange={handlePayerTinInput} validationStatus={payerTinStatus}/>
+                <TextInput id="payerTin" name="payerTin" type="text" value={formData.payerTin} onChange={handlePayerTinInput} validationStatus={payerTinStatus as ValidationStatus}/>
                 <Label htmlFor="wages">{t('comp')}</Label>
                 {wageStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
-                <TextInput id="wages" name="wages" type="text" value={formData.wages} onChange={handleWageInput} validationStatus={wageStatus}/>
+                <TextInput id="wages" name="wages" type="text" value={formData.wages} onChange={handleWageInput} validationStatus={wageStatus as ValidationStatus}/>
                 <Label htmlFor="fedWithheld">{t('ptax')}</Label>
                 {fedWithheldStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
-                <TextInput id="fedWithheld" name="fedWithheld" type="text" value={formData.fedWithheld} onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus}/>
+                <TextInput id="fedWithheld" name="fedWithheld" type="text" value={formData.fedWithheld} onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus as ValidationStatus}/>
             </Form>
         </>
     )
