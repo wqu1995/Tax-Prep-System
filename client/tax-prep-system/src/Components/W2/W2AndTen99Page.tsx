@@ -59,35 +59,39 @@ export default function W2AndTen99Page() {
     }
 
     function submitAllW2AndTen99() {
-      w2FormArray.forms.forEach((w2: any) => {
-        api.post('/w2s/w2', {
-          "w2Id": {
-            "social": userSSN,
-            "empTin": w2.empTin
-          },
-          "wages": w2.wages,
-          "fedWithheld": w2.fedWithheld
-        }).then(response => {
+      if (w2FormArray[0].empTin > 0) {
+        w2FormArray.forms.forEach((w2: any) => {
+          api.post('/w2s/w2', {
+            "w2Id": {
+              "social": userSSN,
+              "empTin": w2.empTin
+            },
+            "wages": w2.wages,
+            "fedWithheld": w2.fedWithheld
+          }).then(response => {
+  
+          }).catch(error => {
+            console.error("Error:", error);
+          })
+          });
+      }
 
-        }).catch(error => {
-          console.error("Error:", error);
-        })
-        });
-
-      ten99FormArray.forms.forEach((ten99: any) => {
-        api.post('/ten99s/ten99', {
-          "ten99Id": {
-            "social": userSSN,
-            "payerTin": ten99.payerTin
-          },
-          "wages": ten99.wages,
-          "fedWithheld": ten99.fedWithheld
-        }).then(response => {
-
-        }).catch(error => {
-          console.error("Error:", error);
-        })
-        });
+      if (ten99FormArray[0].payerTin > 0) {
+        ten99FormArray.forms.forEach((ten99: any) => {
+          api.post('/ten99s/ten99', {
+            "ten99Id": {
+              "social": userSSN,
+              "payerTin": ten99.payerTin
+            },
+            "wages": ten99.wages,
+            "fedWithheld": ten99.fedWithheld
+          }).then(response => {
+  
+          }).catch(error => {
+            console.error("Error:", error);
+          })
+          });
+      }
 
         navigate('/review');
     }
