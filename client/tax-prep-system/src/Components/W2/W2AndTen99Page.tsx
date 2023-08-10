@@ -9,7 +9,6 @@ import Ten99Form from "../Ten99/Ten99Form";
 import api from '../../api/axiosConfig';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import 'C:/Tax Prep System/Tax-Prep-System/client/tax-prep-system/src/App.css';
 
 var w2InitialArray: AccordionItemProps[] = [{
   title: 'W2 #1',                               //TODO: TRY CSS STYLING
@@ -90,7 +89,7 @@ export default function W2AndTen99Page() {
         })
         });
 
-        navigate('/results');
+        navigate('/review');
     }
 
     if (w2OrTen99 === "w2") {
@@ -154,7 +153,7 @@ export default function W2AndTen99Page() {
               </Grid>
               <Grid col = {9}></Grid>
               <Grid tablet={{ col: true }}>
-                <Button type="button" onClick={(e) => {submitAllW2AndTen99(); }}/*onClick={/* set logic to go to results page}*/>Next Step</Button>
+                <Button type="button" onClick={(e) => {submitAllW2AndTen99(); }}>Next Step</Button>
               </Grid>
             </Grid>
           </GridContainer>

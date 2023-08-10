@@ -21,8 +21,6 @@ interface Ten99 {
 export default function ResultsPage() {
     const { t } = useTranslation();
     const userSSN = useSelector((state: any) => state.auth.ssn);
-    console.log(userSSN)
-    const jwtToken = localStorage.getItem("token");
     const [filingStatus, setFilingStatus] = useState("");
     const [w2s, setW2s] = useState([]);
     const [ten99s, setTen99s] = useState([]);
@@ -30,40 +28,22 @@ export default function ResultsPage() {
     const [taxOwedValue, setTaxOwedValue] = useState("");
 
     useEffect(() => {
-        api.get(`/w2s/${userSSN}`, {
-            headers: {
-                "ngrok-skip-browser-warning": "true",
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${jwtToken}`
-            }
-        })
+        api.get(`/w2s/${userSSN}`)
             .then(response => {
                 setW2s(response.data);
             })
             .catch(error => console.error(error));
-        api.get(`/ten99s/${userSSN}`, {
-            headers: {
-                "ngrok-skip-browser-warning": "true",
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${jwtToken}`
-            }
-        })
+        api.get(`/ten99s/${userSSN}`)
             .then(response => {
                 setTen99s(response.data);
             })
             .catch(error => console.error(error));
-        api.get(`/users/user/${userSSN}`, {
-            headers: {
-                "ngrok-skip-browser-warning": "true",
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${jwtToken}`
-            }
-        })
+        api.get(`/users/user/${userSSN}`)
             .then(response => {
                 setFilingStatus(response.data.status);
             })
             .catch(error => console.error(error));
-    }, []);
+    }, [userSSN, filingStatus]);
 
     useEffect(() => {
         setTaxOwed(calculateTaxes(w2s, ten99s, filingStatus));
@@ -181,17 +161,17 @@ export default function ResultsPage() {
 
 
 
-    if (taxOwed > 0) {
+    if (taxOwed >= 0) {
         return (
-            <>
+            <div className='bg-white padding-y-10 padding-x-10'>
                 <GridContainer>
-                    <Grid row offset={3}>
+                    <Grid className='bg-white padding-y-10 padding-x-10' row offset={3}>
                         <SummaryBox>
                             <SummaryBoxHeading headingLevel="h3">{t('owe')} ${taxOwedValue} {t('taxes')}</SummaryBoxHeading>
                         </SummaryBox>
                     </Grid>
                 </GridContainer>
-            </>
+            </div>
         )
     } else {
         return (
