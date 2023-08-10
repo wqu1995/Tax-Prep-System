@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+
 interface DataState {
   w2Data: any[];
   ten99Data: any[];

@@ -18,8 +18,8 @@ export default function UserFinancialInfo() {
     const { t } = useTranslation();
     const userSSN = useSelector(selectCurrentSSN);
     const [userName, setUserName] = useState("");
-    const [w2Data, setW2Data] = useState([]);
-    const [ten99Data, setTen99Data] = useState([]);
+    const w2Data = useSelector((state: any) => state.data.w2Data);
+    const ten99Data = useSelector((state: any) => state.data.ten99Data);
     const [editW2, setEditW2] = useState(true);
     const [edit1099, setEdit1099] = useState(true);
     const dispatch = useDispatch();
@@ -31,13 +31,11 @@ export default function UserFinancialInfo() {
     useEffect(() => {
         api.get(`/w2s/${userSSN}`)
             .then(response => {
-                setW2Data(response.data);
                 dispatch(setStoreW2Data(response.data));
             })
             .catch(error => console.error(error));
         api.get(`/ten99s/${userSSN}`)
             .then(response => {
-                setTen99Data(response.data);
                 dispatch(setStoreTen99Data(response.data));
             })
             .catch(error => console.error(error));
@@ -54,14 +52,20 @@ export default function UserFinancialInfo() {
 
     const handleW2InputChange = (index: any, field: any, value: any) => {
         const updatedW2Data: any = [...w2Data];
-        updatedW2Data[index][field] = value;
-        setW2Data(updatedW2Data);
+            updatedW2Data[index] = {
+            ...updatedW2Data[index], 
+            [field]: value,
+        };
+        dispatch(setStoreW2Data(updatedW2Data));
     };
 
     const handleTen99InputChange = (index: any, field: any, value: any) => {
         const updatedTen99Data: any = [...ten99Data];
-        updatedTen99Data[index][field] = value;
-        setTen99Data(updatedTen99Data);
+            updatedTen99Data[index] = {
+            ...updatedTen99Data[index], 
+            [field]: value,
+        };
+        dispatch(setStoreTen99Data(updatedTen99Data));
     };
 
     const toggleW2Edit = () => {
@@ -112,7 +116,7 @@ export default function UserFinancialInfo() {
 
     return(
         <>
-        <div className='bg-base-lightest'>
+        <div className='bg-white'>
           <GridContainer className="usa-section">
             <Grid row>
                 <h1>{t('Welcome')} {userName}</h1>
@@ -136,7 +140,7 @@ export default function UserFinancialInfo() {
                     <Button type="button" onClick={toggleW2Save}>{t('Save')}</Button>
                 </Grid>}
             </Grid>
-            {w2Data.map((w2: any, index) => {
+            {w2Data.map((w2: any, index: any) => {
                 return (
             <Form  key={w2.w2Id.empTin} onSubmit={handleSubmit}>
             <div className="bg-base-light" style={{display: 'flex', gap : '126px', width:'152%', paddingBottom:'5px', height: '35px', alignItems: 'end'}}>
@@ -168,7 +172,7 @@ export default function UserFinancialInfo() {
                     <Button type="button" onClick={toggle1099Save}>{t('Save')}</Button>
                 </Grid>}
             </Grid>
-            {ten99Data.map((ten99: any, index) => {
+            {ten99Data.map((ten99: any, index: any) => {
                 return (
                     <Form key={ten99.ten99Id.payerTin} onSubmit={handleSubmit}>
                         <div className="bg-base-light" style={{display: 'flex', gap : '126px', width:'152%', paddingBottom:'5px', height: '35px', alignItems: 'end'}}>
