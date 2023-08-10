@@ -10,6 +10,7 @@ import { setStoreW2Data, setStoreTen99Data } from '../../Slices/dataSlice';
 import Ten99DeleteForm from "../Ten99/Ten99DeleteForm";
 import { useTranslation } from "react-i18next";
 import ErrorPage from "../Home/ErrorPage";
+import { useNavigate, useNavigation } from "react-router-dom";
 
 
 export default function UserFinancialInfo() {
@@ -25,6 +26,7 @@ export default function UserFinancialInfo() {
     const modalRef2 = useRef(null);
     const modalRef3 = useRef(null);
     const modalRef4 = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(userSSN!==null){
@@ -190,6 +192,9 @@ export default function UserFinancialInfo() {
                                 </Form>
                             )
                         })}
+                        <Grid col offset={4} style={{transform: 'translate(29px)'}}>
+                                <Button type="button" onClick={() => navigate('/results')}>{t('results')}</Button>
+                        </Grid>
                     </GridContainer>
                     </div>
                     

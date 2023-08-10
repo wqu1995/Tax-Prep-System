@@ -111,5 +111,6 @@
     "nextBtn" : "Next Step",
     "add1099" : "Do you have any 1099's to add? If not, skip to the next section. ",
     "addMore1099" : "Do you have more than one 1099 to add?",
-    "addNew1099" : "Add A New 1099"
+    "addNew1099" : "Add A New 1099",
+    "results": "Go to Results"
   }
