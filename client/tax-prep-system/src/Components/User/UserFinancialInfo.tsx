@@ -46,7 +46,7 @@ export default function UserFinancialInfo() {
                 setUserName(`${response.data.firstName} ${response.data.lastName}`);
             })
             .catch(error => console.error(error));
-    }, [userSSN, w2Data, ten99Data]);
+    }, [userSSN]);
 
     const handleSubmit = ((e: any) => {
 

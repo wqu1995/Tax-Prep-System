@@ -173,7 +173,7 @@ export default function ResultsPage() {
                 </GridContainer>
             </div>
         )
-    } else {
+    } else if(taxOwed < 0) {
         return (
             <div className='bg-white padding-y-10 padding-x-10'>
                 <GridContainer>
