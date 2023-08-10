@@ -14,12 +14,22 @@ export default function Ten99DeleteForm() {
     const userSSN = useSelector((state: any) => state.auth.ssn);
     const dispatch = useDispatch();
 
+    interface Ten99 {
+        ten99Id : {
+            payerTin : number,
+            social : number
+        },
+        fedWithheld : number,
+        wages : number
+    }
+
     const handleSubmit = (e: any) => {
         e.preventDefault();
         api.delete(`/ten99s/ten99/deleteFor${userSSN}/${deleteTarget}`)
             .then(response => {
                 e.target.reset();
-                const updatedTen99Data = ten99Data.filter((ten99: any) => ten99.ten99Id.empTin !== deleteTarget);
+                const updatedTen99Data = ten99Data.filter((ten99: Ten99) => ten99.ten99Id.payerTin !== Number(deleteTarget));
+                console.log(updatedTen99Data)
                 dispatch(setStoreTen99Data(updatedTen99Data));
             }).catch(error => {
                 console.error("Error:", error);

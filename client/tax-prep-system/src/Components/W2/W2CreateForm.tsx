@@ -35,7 +35,9 @@ export default function W2CreateForm() {
                 "fedWithheld": fedWithheld
             }).then(response => {
                 e.target.reset();
-                const updatedW2Data = w2Data.push(response.data);
+                console.log("in here")
+                const updatedW2Data = [...w2Data, response.data];
+                //const updatedW2Data = w2Data.push(response.data);
                 dispatch(setStoreW2Data(updatedW2Data));
             }).catch(error => {
                 console.error("Error:", error);

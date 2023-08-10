@@ -35,7 +35,7 @@ export default function Ten99CreateForm() {
                 "fedWithheld": fedWithheld
             }).then(response => {
                 e.target.reset();
-                const updatedTen99Data = ten99Data.push(response.data);
+                const updatedTen99Data = [...ten99Data, response.data];
                 dispatch(setStoreTen99Data(updatedTen99Data));
             }).catch(error => {
                 console.error("Error:", error);

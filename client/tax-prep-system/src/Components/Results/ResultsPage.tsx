@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import api from '../../api/axiosConfig';
+import ErrorPage from "../Home/ErrorPage";
 
 interface W2 {
     empTin: number,
@@ -28,21 +29,23 @@ export default function ResultsPage() {
     const [taxOwedValue, setTaxOwedValue] = useState("");
 
     useEffect(() => {
-        api.get(`/w2s/${userSSN}`)
-            .then(response => {
-                setW2s(response.data);
-            })
-            .catch(error => console.error(error));
-        api.get(`/ten99s/${userSSN}`)
-            .then(response => {
-                setTen99s(response.data);
-            })
-            .catch(error => console.error(error));
-        api.get(`/users/user/${userSSN}`)
-            .then(response => {
-                setFilingStatus(response.data.status);
-            })
-            .catch(error => console.error(error));
+        if(userSSN!==null){
+            api.get(`/w2s/${userSSN}`)
+                .then(response => {
+                    setW2s(response.data);
+                })
+                .catch(error => console.error(error));
+            api.get(`/ten99s/${userSSN}`)
+                .then(response => {
+                    setTen99s(response.data);
+                })
+                .catch(error => console.error(error));
+            api.get(`/users/user/${userSSN}`)
+                .then(response => {
+                    setFilingStatus(response.data.status);
+                })
+                .catch(error => console.error(error));
+        }
     }, [userSSN, filingStatus]);
 
     useEffect(() => {
@@ -159,33 +162,39 @@ export default function ResultsPage() {
         return 0;
     }
 
-
-
-    if (taxOwed >= 0) {
-        return (
-            <div className='bg-white padding-y-10 padding-x-10'>
+    return(
+        <div>
+            {userSSN ? (
+            taxOwed >= 0 ? (
+                <div className='bg-white padding-y-10 padding-x-10'>
                 <GridContainer>
                     <Grid className='bg-white padding-y-10 padding-x-10' row offset={3}>
-                        <SummaryBox>
-                            <SummaryBoxHeading headingLevel="h3">{t('owe')} ${taxOwedValue} {t('taxes')}</SummaryBoxHeading>
-                        </SummaryBox>
+                    <SummaryBox>
+                        <SummaryBoxHeading headingLevel="h3">
+                        {t('owe')} ${taxOwedValue} {t('taxes')}
+                        </SummaryBoxHeading>
+                    </SummaryBox>
                     </Grid>
                 </GridContainer>
-            </div>
-        )
-    } else if(taxOwed < 0) {
-        return (
-            <div className='bg-white padding-y-10 padding-x-10'>
+                </div>
+            ) : (
+                <div className='bg-white padding-y-10 padding-x-10'>
                 <GridContainer>
                     <Grid className='bg-white padding-y-10 padding-x-10' row offset={3}>
-                        <SummaryBox className='bg-green border-base-lightest'>
-                            <SummaryBoxHeading headingLevel="h3">{t('dontowe')}${taxOwedValue}{t('notax')}</SummaryBoxHeading>
-                        </SummaryBox>
+                    <SummaryBox className='bg-green border-base-lightest'>
+                        <SummaryBoxHeading headingLevel="h3">
+                        {t('dontowe')} ${taxOwedValue} {t('notax')}
+                        </SummaryBoxHeading>
+                    </SummaryBox>
                     </Grid>
                 </GridContainer>
-            </div>
-        )
-    }
+                </div>
+            )
+            ) : (
+            <ErrorPage errorCode={401} />
+            )}
+      </div>
+    )
 
 
 }
