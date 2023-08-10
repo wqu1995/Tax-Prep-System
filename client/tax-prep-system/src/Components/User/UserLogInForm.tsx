@@ -4,8 +4,10 @@ import api from '../../api/axiosConfig'
 import { useDispatch } from 'react-redux';
 import { setCredentials, setName } from '../../Slices/AuthSlicer';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function UserLogInForm() {
+    const {t} = useTranslation();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
@@ -42,10 +44,10 @@ function UserLogInForm() {
                                 <Grid col={12} tablet={{col:8}} desktop={{col:6}}>
                                     <div className='bg-white padding-y-3 padding-x-5 border border-base-lighter'>
                                         <p>{errMsg}</p>
-                                        <h1 className='margin-bottom-0'>Sign in</h1>
+                                        <h1 className='margin-bottom-0'>{t('signin')}</h1>
                                         <Form onSubmit={handleSubmit}>
-                                            <Fieldset legend="To use the tool" legendStyle="default">
-                                                <Label htmlFor="username">Email address</Label>
+                                            <Fieldset legend={t('signinTooltip')} legendStyle="default">
+                                                <Label htmlFor="username">{t('emailLabel')}</Label>
                                                 <TextInput
                                                     id="username"
                                                     name="username"
@@ -57,7 +59,7 @@ function UserLogInForm() {
                                                     required={true}
                                                     />
 
-                                                <Label htmlFor="password">Password</Label>
+                                                <Label htmlFor="password">{t('passwordLabel')}</Label>
                                                 <TextInput
                                                     id="password"
                                                     name="password"
@@ -69,14 +71,14 @@ function UserLogInForm() {
                                                     required={true}
                                                     />
                                                 
-                                                <Button type="submit">Sign in</Button>
+                                                <Button type="submit">{t('signin')}</Button>
                                                 
                                             </Fieldset>
                                         </Form>
                                     </div>
                                     <p className="text-center">
-                                        {"Don't have an account? "}
-                                        <Link href="#" onClick={()=>navigate('/register')}>Create your account now</Link>
+                                        {t('noAcc')}
+                                        <Link href="#" onClick={()=>navigate('/register')}>{t('createAcc')}</Link>
                                         .
                                     </p>
                                 </Grid>

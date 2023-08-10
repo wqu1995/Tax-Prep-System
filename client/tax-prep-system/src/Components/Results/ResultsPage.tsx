@@ -53,13 +53,10 @@ export default function ResultsPage() {
         setTaxOwedValue(Math.abs(taxOwed).toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits:2}));
     }, [w2s, ten99s, filingStatus])
 
-    function calculateTaxableIncome(w2Array: W2[], ten99Array: Ten99[], filingStatus: any) {
+    function calculateTaxableIncome(w2Array: W2[], ten99Array: Ten99[], filingStatus: string) {
         let totalWages: number = 0;
-        let totalWithheld: number = 0;
         w2Array.forEach((w2) => totalWages = totalWages + w2.wages);
         ten99Array.forEach((ten99) => totalWages = totalWages + ten99.wages);
-        w2Array.forEach((w2) => totalWithheld = totalWithheld + w2.fedWithheld);
-        ten99Array.forEach((ten99) => totalWithheld = totalWithheld + ten99.fedWithheld);
  
         let deduction = 0;
         switch (filingStatus) {
@@ -78,84 +75,94 @@ export default function ResultsPage() {
             default:
                 console.log("invalid filing status");
         }
-        return totalWages - totalWithheld - deduction;
+        const wagesAfterDeduction = totalWages - deduction;
+
+        if (wagesAfterDeduction <= 0) {
+            return 0;
+        }
+
+        return  wagesAfterDeduction;
 
 
     }
 
-    function calculateTaxes(w2Array: W2[], ten99Array: Ten99[], filingStatus: any) {
+    function calculateTaxes(w2Array: W2[], ten99Array: Ten99[], filingStatus: string) {
         const taxableIncome = calculateTaxableIncome(w2Array, ten99Array, filingStatus);
-        if (taxableIncome < 0) {
-            return taxableIncome;
+        let totalWithheld: number = 0;
+        w2Array.forEach((w2) => totalWithheld = totalWithheld + w2.fedWithheld);
+        ten99Array.forEach((ten99) => totalWithheld = totalWithheld + ten99.fedWithheld);
+
+        if (taxableIncome <= 0) {
+            return taxableIncome - totalWithheld;
         }
 
         switch (filingStatus) {
             case "S":
                 if (taxableIncome <= 10275) {
-                    return taxableIncome * .1;
+                    return taxableIncome * .1  - totalWithheld;
                 } else if (taxableIncome <= 41775) {
-                    return ((taxableIncome - 10275) * .12) + 1027.5
+                    return ((taxableIncome - 10275) * .12) + 1027.5 - totalWithheld;
                 } else if (taxableIncome <= 89075) {
-                    return ((taxableIncome - 41775) * .22) + 4807.5
+                    return ((taxableIncome - 41775) * .22) + 4807.5 - totalWithheld;
                 } else if (taxableIncome <= 170050) {
-                    return ((taxableIncome - 89075) * .24) + 15213.5
+                    return ((taxableIncome - 89075) * .24) + 15213.5 - totalWithheld;
                 } else if (taxableIncome <= 215950) {
-                    return ((taxableIncome - 170050) * .32) + 34647.5
+                    return ((taxableIncome - 170050) * .32) + 34647.5 - totalWithheld;
                 } else if (taxableIncome <= 539900) {
-                    return ((taxableIncome - 215950) * .35) + 49335.5
+                    return ((taxableIncome - 215950) * .35) + 49335.5 - totalWithheld;
                 } else if (taxableIncome <= Infinity) {
-                    return ((taxableIncome - 539900) * .37) + 162718
+                    return ((taxableIncome - 539900) * .37) + 162718 - totalWithheld;
                 }
                 break;
             case "MJ":
                 if (taxableIncome <= 20550) {
-                    return taxableIncome * .1;
+                    return taxableIncome * .1 - totalWithheld;
                 } else if (taxableIncome <= 83550) {
-                    return ((taxableIncome - 20550) * .12) + 2055
+                    return ((taxableIncome - 20550) * .12) + 2055 - totalWithheld;
                 } else if (taxableIncome <= 178150) {
-                    return ((taxableIncome - 83550) * .22) + 9615
+                    return ((taxableIncome - 83550) * .22) + 9615 - totalWithheld;
                 } else if (taxableIncome <= 340100) {
-                    return ((taxableIncome - 178150) * .24) + 30427
+                    return ((taxableIncome - 178150) * .24) + 30427 - totalWithheld;
                 } else if (taxableIncome <= 431900) {
-                    return ((taxableIncome - 340100) * .32) + 69295
+                    return ((taxableIncome - 340100) * .32) + 69295 - totalWithheld;
                 } else if (taxableIncome <= 647850) {
-                    return ((taxableIncome - 431900) * .35) + 98671
+                    return ((taxableIncome - 431900) * .35) + 98671 - totalWithheld;
                 } else if (taxableIncome <= Infinity) {
-                    return ((taxableIncome - 647850) * .37) + 174253.5
+                    return ((taxableIncome - 647850) * .37) + 174253.5 - totalWithheld;
                 }
                 break;
             case "MS":
                 if (taxableIncome <= 10275) {
-                    return taxableIncome * .1;
+                    return taxableIncome * .1 - totalWithheld;
                 } else if (taxableIncome <= 41775) {
-                    return ((taxableIncome - 10275) * .12) + 1027.5
+                    return ((taxableIncome - 10275) * .12) + 1027.5 - totalWithheld;
                 } else if (taxableIncome <= 89075) {
-                    return ((taxableIncome - 41775) * .22) + 4807.5
+                    return ((taxableIncome - 41775) * .22) + 4807.5 - totalWithheld;
                 } else if (taxableIncome <= 170050) {
-                    return ((taxableIncome - 89075) * .24) + 15213.5
+                    return ((taxableIncome - 89075) * .24) + 15213.5 - totalWithheld;
                 } else if (taxableIncome <= 215950) {
-                    return ((taxableIncome - 170050) * .32) + 34647.5
+                    return ((taxableIncome - 170050) * .32) + 34647.5 - totalWithheld;
                 } else if (taxableIncome <= 323925) {
-                    return ((taxableIncome - 215950) * .35) + 49335.5
+                    return ((taxableIncome - 215950) * .35) + 49335.5 - totalWithheld;
                 } else if (taxableIncome <= Infinity) {
-                    return ((taxableIncome - 323925) * .37) + 87126.75
+                    return ((taxableIncome - 323925) * .37) + 87126.75 - totalWithheld;
                 }
                 break;
             case "H":
                 if (taxableIncome <= 14650) {
-                    return taxableIncome * .1;
+                    return taxableIncome * .1 - totalWithheld;
                 } else if (taxableIncome <= 55900) {
-                    return ((taxableIncome - 14650) * .12) + 1465
+                    return ((taxableIncome - 14650) * .12) + 1465 - totalWithheld;
                 } else if (taxableIncome <= 89050) {
-                    return ((taxableIncome - 55900) * .22) + 6415
+                    return ((taxableIncome - 55900) * .22) + 6415 - totalWithheld;
                 } else if (taxableIncome <= 170050) {
-                    return ((taxableIncome - 89050) * .24) + 13708
+                    return ((taxableIncome - 89050) * .24) + 13708 - totalWithheld;
                 } else if (taxableIncome <= 215950) {
-                    return ((taxableIncome - 170050) * .32) + 33148
+                    return ((taxableIncome - 170050) * .32) + 33148 - totalWithheld;
                 } else if (taxableIncome <= 539900) {
-                    return ((taxableIncome - 215950) * .35) + 47836
+                    return ((taxableIncome - 215950) * .35) + 47836 - totalWithheld;
                 } else if (taxableIncome <= Infinity) {
-                    return ((taxableIncome - 539900) * .37) + 161218.5
+                    return ((taxableIncome - 539900) * .37) + 161218.5 - totalWithheld;
                 }
                 break;
         }

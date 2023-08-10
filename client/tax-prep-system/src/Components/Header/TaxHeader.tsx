@@ -1,8 +1,8 @@
-import { Header, Title, NavMenuButton, PrimaryNav, Search, NavDropDownButton, Menu, Icon, GridContainer, Grid} from '@trussworks/react-uswds'
+import { Header, Title, NavMenuButton, PrimaryNav, NavDropDownButton, Menu} from '@trussworks/react-uswds'
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
-import { selectCurrentFirstName, selectCurrentLastName, selectCurrentSSN, setCredentials, setName } from '../../Slices/AuthSlicer';
+import { selectCurrentFirstName, selectCurrentLastName, setCredentials, setName } from '../../Slices/AuthSlicer';
 
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n';
@@ -24,11 +24,6 @@ function TaxHeader() {
     const changeLanguage = (lng: string | undefined) =>{
         i18n.changeLanguage(lng);
         handleToggleNavDropdown(1);
-    }
-
-    const handleNav = (dest:string) =>{
-        handleToggleNavDropdown(0);
-        navigate(dest);
     }
 
     const handleLogout = () =>{
@@ -57,8 +52,6 @@ function TaxHeader() {
         })
       }
 
-    const [expanded, setExpanded] = useState(false)
-  const onClick = (): void => setExpanded((prvExpanded) => !prvExpanded)
 
     const primaryNavItems = [
         (currentFirstName && currentLastName) && (
@@ -73,10 +66,10 @@ function TaxHeader() {
                 <Menu
                     id="extended-nav-section-one"
                     items = {[
-                        <Link to="/userInfo" onClick={()=>handleToggleNavDropdown(0)}>About Me</Link>,
-                        <Link to="/financialInfo" onClick={()=>handleToggleNavDropdown(0)}>My Tax Documents</Link>,
-                        <Link to="/results" onClick={()=>handleToggleNavDropdown(0)}>Result</Link>,
-                        <Link to="#" onClick={()=> handleLogout()}>Log out</Link>
+                        <Link to="/userInfo" onClick={()=>handleToggleNavDropdown(0)}>{t('aboutMe')}</Link>,
+                        <Link to="/financialInfo" onClick={()=>handleToggleNavDropdown(0)}>{t('myTaxDoc')}</Link>,
+                        <Link to="/results" onClick={()=>handleToggleNavDropdown(0)}>{t('result')}</Link>,
+                        <Link to="#" onClick={()=> handleLogout()}>{t('logout')}</Link>
                     ]}
                     isOpen={navDropdownOpen[0]}
                 />
@@ -93,10 +86,10 @@ function TaxHeader() {
                 id="extended-nav-section-one"
                 items = {[
                     <Link to="#" onClick={() => changeLanguage('en')}>
-                        English
+                        {t('english')}
                     </Link>,
                     <Link to="#" onClick={() => changeLanguage('cn')}>
-                        Chinese
+                        {t('chinese')}
                     </Link>
                 ]}
                 isOpen={navDropdownOpen[1]}
