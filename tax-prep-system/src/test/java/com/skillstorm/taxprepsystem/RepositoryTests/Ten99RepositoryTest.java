@@ -35,38 +35,31 @@ public class Ten99RepositoryTest {
 
     @Test
     public void testFindByTen99IdSocial() {
-        // Create a sample Ten99 object and save it to the repository
         Ten99Id sampleId = new Ten99Id(987654321, 123456789);
         Ten99 sampleTen99 = new Ten99(sampleId, 10000, 1000);
         ten99Repository.save(sampleTen99);
 
-        // Call the repository method
-        List<Ten99> foundTen99List = ten99Repository.findByTen99IdSocial(123456789L);
+        List<Ten99> foundTen99List = ten99Repository.findByTen99IdSocial(987654321);
 
-        // Assert that the result contains the sample Ten99 object
         assertEquals(1, foundTen99List.size());
         assertEquals(sampleId, foundTen99List.get(0).getTen99Id());
     }
 
     @Test
     public void testDeleteBySocial() {
-        // Create a sample Ten99 object and save it to the repository
-        Ten99Id sampleId = new Ten99Id("sampleId", 987654321L);
-        Ten99 sampleTen99 = new Ten99(sampleId, /* other fields */);
+        Ten99Id sampleId = new Ten99Id(987654321, 123456789);
+        Ten99 sampleTen99 = new Ten99(sampleId, 10000, 1000);
         ten99Repository.save(sampleTen99);
 
-        // Call the repository delete method
-        ten99Repository.deleteBySocial(987654321L);
+        ten99Repository.deleteBySocial(987654321);
 
-        // Assert that the object has been deleted
-        assertTrue(ten99Repository.findByTen99IdSocial(987654321L).isEmpty());
+        assertTrue(ten99Repository.findByTen99IdSocial(987654321).isEmpty());
     }
 
     @Test
     public void testDeleteAllByTen99Id() {
-        // Create a sample Ten99 object and save it to the repository
-        Ten99Id sampleId = new Ten99Id("sampleId", 111111111L);
-        Ten99 sampleTen99 = new Ten99(sampleId, /* other fields */);
+        Ten99Id sampleId = new Ten99Id(987654321, 123456789);
+        Ten99 sampleTen99 = new Ten99(sampleId, 10000, 1000);
         ten99Repository.save(sampleTen99);
 
         // Call the repository delete method
