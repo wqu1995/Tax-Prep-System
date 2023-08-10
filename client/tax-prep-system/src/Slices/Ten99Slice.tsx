@@ -1,31 +1,41 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Ten99Form from "../Components/Ten99/Ten99Form";
-import { AccordionItemProps } from "@trussworks/react-uswds/lib/components/Accordion/Accordion";
 
-var ten99Array: AccordionItemProps[] = [{
-    title: '1099 #1',
-    content: <Ten99Form />,
-    expanded: true,
-    id: '1099-1',
-    headingLevel: 'h4',
-}]
+interface Ten99FormData {
+    payerTin: string;
+    wages: string;
+    fedWithheld: string;
+}
+
+interface Ten99FormState {
+    forms: Ten99FormData[];
+}
+
+const initialState: Ten99FormState = {
+    forms: [{
+        payerTin: "",
+        wages: "",
+        fedWithheld: "",
+    }]
+};
 
 const ten99sSlice = createSlice({
     name: "ten99s",
-    initialState: {value: ten99Array},
+    initialState,
     reducers: {
-        addNewTen99: (state) => {
-            state.value.push({
-                title: `1099 #${state.value.length + 1}`,
-                content: <Ten99Form />,
-                expanded: true,
-                id: `ten99-${state.value.length + 1}`,
-                headingLevel: 'h4',
+        updateTen99Form: (state, action) => {
+            const {index, data} = action.payload;
+            state.forms[index] = data;
+        },
+        addNewTen99Form: (state) => {
+            state.forms.push({
+                payerTin: "",
+                wages: "",
+                fedWithheld: "",
             });
         }
     }
 })
 
-export const {addNewTen99} = ten99sSlice.actions;
+export const {updateTen99Form, addNewTen99Form} = ten99sSlice.actions;
 
 export default ten99sSlice.reducer;

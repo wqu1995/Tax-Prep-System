@@ -27,3 +27,26 @@
   }
 
   .custome-usa-hero{font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;font-size:1.06rem;line-height:1.5;background-image:url(./assets/Tax_Return6.png);background-position:center;background-size:cover;color:#fff}
+
+
+
+.Add1099 {
+    transform: translate(75px, -17px);
+}
+
+.AddW2 {
+    transform: translate(7px, -17px);
+}
+
+.proceed {
+    transform: translate(-9px);
+}
+
+.deleteButton {
+    
+    background-color:rgba(212, 36, 36, 0.911)
+}
+
+.deleteButton:hover {
+    background-color: rgba(236, 71, 71, 0.911)
+}
