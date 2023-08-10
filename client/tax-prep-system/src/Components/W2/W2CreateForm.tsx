@@ -1,14 +1,16 @@
 import { Button, ErrorMessage, Form, Label, TextInput, ValidationStatus } from "@trussworks/react-uswds";
 import api from '../../api/axiosConfig';
 import axios from "axios";
-import { useSelector, useStore } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { setStoreW2Data } from '../../Slices/dataSlice';
 
 
 export default function W2CreateForm() {
     const { t } = useTranslation();
     const userSSN = useSelector((state: any) => state.auth.ssn);
+    const w2Data = useSelector((state: any) => state.data.w2Data);
     const [empTinStatus, setEmpTinStatus] = useState("error");
     const [wageStatus, setWageStatus] = useState("error");
     const [fedWithheldStatus, setFedWithheldStatus] = useState("error");
@@ -16,6 +18,7 @@ export default function W2CreateForm() {
     const [wage, setWage] = useState("");
     const [fedWithheld, setFedWithheld] = useState("");
     const [submissionError, setSubmissionError] = useState(false);
+    const dispatch = useDispatch();
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
@@ -32,6 +35,8 @@ export default function W2CreateForm() {
                 "fedWithheld": fedWithheld
             }).then(response => {
                 e.target.reset();
+                const updatedW2Data = w2Data.push(response.data);
+                dispatch(setStoreW2Data(updatedW2Data));
             }).catch(error => {
                 console.error("Error:", error);
             })
