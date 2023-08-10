@@ -26,7 +26,7 @@ import com.skillstorm.taxprepsystem.models.Ten99;
 import com.skillstorm.taxprepsystem.models.Ten99Id;
 import com.skillstorm.taxprepsystem.repositories.Ten99Repository;
 
-@DataMongoTest(properties = {"spring.mongodb.embedded.version=4.7.0"})
+@DataMongoTest
 @ExtendWith(SpringExtension.class)
 public class Ten99RepositoryTest {
 
