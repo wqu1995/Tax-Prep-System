@@ -2,7 +2,7 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import w2sReducer from './Slices/W2Slice';
 import ten99sReducer from './Slices/Ten99Slice';
-import dataReducer from './Slices/DataSlice';
+import dataReducer from './Slices/dataSlice';
 import authReducer from './Slices/AuthSlicer';
 
 const rootReducer = combineReducers({

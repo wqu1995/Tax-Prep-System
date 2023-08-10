@@ -74,6 +74,7 @@ function TaxHeader() {
                     id="extended-nav-section-one"
                     items = {[
                         <Link to="/userInfo">About Me</Link>,
+                        <Link to="/financialInfo">My Tax Documents</Link>,
                         <Link to="/results">Result</Link>,
                         <Link to="#" onClick={()=> handleLogout()}>Log out</Link>
                     ]}
