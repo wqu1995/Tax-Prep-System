@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from 'react'
-import {useDispatch, useSelector} from "react-redux";
-import { selectCurrentFirstName, selectCurrentLastName, selectCurrentSSN, setCredentials, setName } from '../../Slices/AuthSlicer';
-import { Button, Grid, GridContainer } from '@trussworks/react-uswds';
-import { useNavigate, Link } from 'react-router-dom';
+import {useSelector} from "react-redux";
+import { selectCurrentFirstName, selectCurrentLastName} from '../../Slices/AuthSlicer';
+import { Grid, GridContainer } from '@trussworks/react-uswds';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import api from '../../api/axiosConfig'
 
 
 function Home() {
-    const navigate = useNavigate();
-
+    const {t} = useTranslation();
     const currentFirstName = useSelector(selectCurrentFirstName);
     const currentLastName = useSelector(selectCurrentLastName);
 
@@ -23,42 +22,39 @@ function Home() {
         }
     },[currentFirstName, currentLastName])
 
-    const handleSubmit = (e:any) =>{
-        navigate('/userInfo')
-    }
     return (
         <main id="main-content">
         <section className="custome-usa-hero" aria-label="Introduction">
           <GridContainer>
             <div className="usa-hero__callout">
               <h1 className="usa-hero__heading">
-                <span className="usa-hero__heading--alt">Tax Preparation System</span>
-                Tax Confidence, Calculated
+                <span className="usa-hero__heading--alt">{t('title')}</span>
+                {t('slogan1')}
               </h1>
               {isLogin ? (
                 <div>
                     <p>
-                    Welcome back {currentFirstName} {currentLastName}! How can we help you today?
+                    {t('welcomeBack')} {currentFirstName} {currentLastName}! {t('greeting1')}
                     </p>
                     <Link className="usa-button" to="/userInfo">
-                        Personal
+                    {t('personal')}
                         </Link>
                     <Link className="usa-button" to="/results">
-                        Financial
+                    {t('Financial')}
                     </Link>
                 </div>
                     
                 ) : (
                     <div>
                     <p>
-                        Use this tool to get yourself prepared for the incoming tax season.<br />
-                        Sign in or register to start!
+                    {t('slogan2')}<br />{t('signinMsg')}
+                        
                     </p>
                     <Link className="usa-button" to="/login">
-                        Sign in
+                    {t('signin')}
                         </Link>
                     <Link className="usa-button" to="/register">
-                        Sign up
+                    {t('signup')}
                     </Link>
                     </div>
                 )}
@@ -71,22 +67,15 @@ function Home() {
           <Grid row gap>
             <Grid tablet={{ col: 4 }}>
               <h2 className="font-heading-xl margin-top-0 tablet:margin-bottom-0">
-               One Calculation at a Time: Your Path to Accurate Tax Insights!
+              {t('slogan3')}
               </h2>
             </Grid>
             <Grid tablet={{ col: 8 }} className="usa-prose">
               <p>
-              Simplify tax season like never before with our intuitive web-based application. 
-              Say goodbye to the headache of manual calculations and complex forms. 
-              Our platform lets you effortlessly enter your W-2 and 1099 details, 
-              while our advanced algorithms handle the number crunching, instantly 
-              computing your projected tax return.
+              {t('systemIntro1')}
               </p>
               <p>
-              But we're more than just calculations. With Tax Preparation System your financial peace of mind is our priority. 
-              Your data is securely stored in our database, 
-              giving you the freedom to access and modify your information whenever you need. 
-              Our user-friendly interface ensures that you stay in control, every step of the way.
+              {t('systemIntro2')}
               </p>
             </Grid>
           </Grid>

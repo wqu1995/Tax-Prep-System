@@ -5,9 +5,10 @@ import api from '../../api/axiosConfig'
 import { Button, ErrorMessage, Form, Grid, GridContainer, Label, Select, TextInput } from '@trussworks/react-uswds';
 import { UserAction, UserActionType, UserDto, UserInfoType } from '../../types/CustomTypes';
 import ErrorPage from '../Home/ErrorPage';
-
+import { useTranslation } from 'react-i18next';
 
 function UserInfo() {
+    const {t} = useTranslation();
     const userSSN = useSelector(selectCurrentSSN);
 
     const initUserInfo: UserDto = {
@@ -78,7 +79,7 @@ function UserInfo() {
             setDefaultInfo(response.data)
             setEnableEdit(false)
             userInfoDispatch({type: 'set', value: response.data})
-            setUpdateSuccess("Update information Successfully!")
+            setUpdateSuccess(t('updateSuccessUserInfo'))
         }).catch((error)=>{
             console.log(error)
         })
@@ -91,12 +92,12 @@ function UserInfo() {
                 <GridContainer>
                     <Grid row gap>
                         <main className="usa-layout-docs__main desktop:grid-col-9 usa-prose usa-layout-docs" id="main-content">
-                            <h1>Welcome {userInfo.firstName} {userInfo.lastName}</h1>
+                            <h1>{t('Welcome')} {userInfo.firstName} {userInfo.lastName}</h1>
                             
-                            <h3>Here is your personal information</h3>
+                            <h3>{t('personalInfo')}</h3>
                             <div style={{ display: 'flex', gap: '10px' }}>
                                 <div>
-                                    <Button className='usa-button--outline' type='button' onClick={()=>setEnableEdit(!enableEdit)}>{enableEdit? "Cancel" : "Edit"}</Button>
+                                    <Button className='usa-button--outline' type='button' onClick={()=>setEnableEdit(!enableEdit)}>{enableEdit? t('cancel') : t('Edit')}</Button>
                                 </div>
                                 <div>
                                     {updateSuccess && <ErrorMessage>{updateSuccess}</ErrorMessage>}
@@ -105,7 +106,7 @@ function UserInfo() {
                             <Form onSubmit={handleUserInfoSubmit}>
                                 <div style={{display: 'flex', gap : '16px'}}>
                                     <div>
-                                        <Label htmlFor='firstName'>First Name</Label>
+                                        <Label htmlFor='firstName'>{t('firstNameLabel')}</Label>
                                         <TextInput
                                             id="firstName"
                                             name="firstName"
@@ -117,7 +118,7 @@ function UserInfo() {
                                         />
                                     </div>
                                     <div>
-                                        <Label htmlFor='lastName'>Last Name</Label>
+                                        <Label htmlFor='lastName'>{t('lastNameLabel')}</Label>
                                         <TextInput
                                             id="lastName"
                                             name="lastName"
@@ -130,7 +131,7 @@ function UserInfo() {
                                     </div>
                                 </div>
                                 <div>
-                                        <Label htmlFor='streetAddr'>Street Address</Label>
+                                        <Label htmlFor='streetAddr'>{t('streetLabel')}</Label>
                                         <TextInput
                                             id="streetAddr"
                                             name="streetAddr"
@@ -144,7 +145,7 @@ function UserInfo() {
                                 </div>
                                 <div style={{display: 'flex', gap : '16px'}}>
                                     <div>
-                                        <Label htmlFor='city'>City</Label>
+                                        <Label htmlFor='city'>{t('cityLabel')}</Label>
                                         <TextInput
                                             id="city"
                                             name="city"
@@ -157,7 +158,7 @@ function UserInfo() {
                                         />
                                     </div>
                                     <div>
-                                        <Label htmlFor='state'>State</Label>
+                                        <Label htmlFor='state'>{t('stateLabel')}</Label>
                                         <TextInput
                                             id="state"
                                             name="state"
@@ -170,7 +171,7 @@ function UserInfo() {
                                         />
                                     </div>
                                     <div>
-                                        <Label htmlFor='zip'>Zip</Label>
+                                        <Label htmlFor='zip'>{t('zipLabel')}</Label>
                                         <TextInput
                                             id="zip"
                                             name="zip"
@@ -185,7 +186,7 @@ function UserInfo() {
                                 </div>
 
                                 <div>
-                                    <Label htmlFor='phone'>Phone Number</Label>
+                                    <Label htmlFor='phone'>{t('phoneLabel')}</Label>
                                     <TextInput
                                         id="phone"
                                         name="phone"
@@ -198,29 +199,29 @@ function UserInfo() {
                                     />
                                 </div>
                                 <div>
-                                    <Label htmlFor='status'>Tax filling Status</Label>
+                                    <Label htmlFor='status'>{t('fillingStatusLabel')}</Label>
                                     <Select id="status" name="status" value={userInfo.status}
                                     onChange={(e) => userInfoDispatch({type: 'setStatus', value: e.target.value})}
                                     disabled={!enableEdit}
                                     >
                                         <React.Fragment key=".0">
                                             <option>
-                                            - Select -{' '}
+                                            - {t('status1')} -{' '}
                                             </option>
                                             <option value="S">
-                                            Single
+                                            {t('status2')}
                                             </option>
                                             <option value="MJ">
-                                            Married Joint
+                                            {t('status3')}
                                             </option>
                                             <option value="MS">
-                                            Married Separate
+                                            {t('status4')}
                                             </option>
                                         </React.Fragment>
                                     </Select>
                                 </div>
                                 <div style={{ display: 'flex'}}>
-                                    {enableEdit && <Button type='submit' >Submit</Button>}
+                                    {enableEdit && <Button type='submit' >{t('submitBtn')}</Button>}
                                 </div>
                             </Form>
                         </main>

@@ -2,7 +2,6 @@ import { Button, Form, Label, Select } from "@trussworks/react-uswds";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import api from '../../api/axiosConfig';
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { setStoreTen99Data } from '../../Slices/dataSlice';
 

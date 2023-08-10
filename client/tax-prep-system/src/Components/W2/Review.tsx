@@ -38,19 +38,19 @@ export default function Review() {
                 setPhone(response.data.phone);
                 switch(response.data.status) {
                     case "S":
-                        setFilingStatus("Single");
+                        setFilingStatus(t('status2'));
                         break;
                     case "MS":
-                        setFilingStatus("Married Filing Separately");
+                        setFilingStatus(t('status4'));
                         break;
                     case "MJ":
-                        setFilingStatus("Married Filing Jointly");
+                        setFilingStatus(t('status3'));
                         break;
                     case "H":
-                        setFilingStatus("Head of Household");
+                        setFilingStatus(t('status5'));
                         break;
                     default:
-                        console.log("invalid filing status");
+                        console.log(t('status6'));
                 }
             })
             .catch(error => console.error(error));
@@ -97,37 +97,37 @@ export default function Review() {
                 <h3>{('please')} </h3>
             </Grid>
             <Grid row>
-                <h3>Personal Information </h3>
+                <h3>{t('personalInfoLabel')} </h3>
             </Grid>
             <Table bordered={false}>
                 <tbody>
                     <tr>
-                        <td scope="col"><b>Name: </b>{userName}</td>
+                        <td scope="col"><b>{t('nameLabel')}: </b>{userName}</td>
                     </tr>
                     <tr>
-                        <td scope="col"><b>Address: </b>{address}</td>
+                        <td scope="col"><b>{t('fullAddLabel')}: </b>{address}</td>
                     </tr>
                     <tr>
-                        <td scope="col"><b>Phone Number: </b>{formatPhoneNumber(phone)}</td>
+                        <td scope="col"><b>{t('phoneLabel')}: </b>{formatPhoneNumber(phone)}</td>
                     </tr>
                     <tr>
-                        <td scope="col"><b>Social Security Number: </b>{formatSSN(userSSN)}</td>
+                        <td scope="col"><b>{t('ssnLabel')}: </b>{formatSSN(userSSN)}</td>
                     </tr>
                     <tr>
-                        <td scope="col"><b>Filing Status: </b>{filingStatus}</td>
+                        <td scope="col"><b>{t('fillingStatusLabel')}: </b>{filingStatus}</td>
                     </tr>
                 </tbody>
             </Table>
             <Grid row>
-                <h3>Financial Information </h3>
+                <h3>{t('financialLabel')}</h3>
             </Grid>  
             <Table bordered={false}>
                 <thead>
                     <tr>
-                        <th scope="col">Document Type</th>
-                        <th scope="col">EIN/Payer TIN</th>
-                        <th scope="col">Wages/Compensation</th>
-                        <th scope="col">Federal Tax Withheld</th>
+                        <th scope="col">{t('financialLabel')}</th>
+                        <th scope="col">{t('ein/tin')}</th>
+                        <th scope="col">{t('wages/comp')}</th>
+                        <th scope="col">{t('fedwith')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -155,16 +155,16 @@ export default function Review() {
             </Table>
             <Grid row>
               <Grid className="proceed" col = {5} offset = {8}>
-                <h4>If everything looks correct, please proceed.</h4>
+                <h4>{t('correctMsg')}</h4>
               </Grid>
             </Grid>
             <Grid row>
               <Grid tablet={{ col: true }}>
-                <Button type="button" onClick={(e) =>{ navigate('/calculate')}} >Back</Button>   
+                <Button type="button" onClick={(e) =>{ navigate('/calculate')}} >{t('backBtn')}</Button>   
               </Grid>
               <Grid col = {9}></Grid>
               <Grid tablet={{ col: true }}>
-                <Button type="button" onClick={(e) => {navigate('/results'); }}>Results</Button>
+                <Button type="button" onClick={(e) => {navigate('/results'); }}>{t('result')}</Button>
               </Grid>
             </Grid>
           </GridContainer>

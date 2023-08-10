@@ -1,11 +1,8 @@
 import { Button, Form, Grid, GridContainer, Label, Modal, ModalHeading, ModalToggleButton, Table, TextInput, Title } from "@trussworks/react-uswds";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import api from '../../api/axiosConfig';
-import axios from "axios";
 import { selectCurrentSSN} from '../../Slices/AuthSlicer';
-import W2Form from "../W2/W2Form";
 import W2CreateForm from "../W2/W2CreateForm";
 import Ten99CreateForm from "../Ten99/Ten99CreateForm";
 import W2DeleteForm from "../W2/W2DeleteForm";

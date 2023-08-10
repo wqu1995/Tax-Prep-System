@@ -9,6 +9,7 @@ import Ten99Form from "../Ten99/Ten99Form";
 import api from '../../api/axiosConfig';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 var w2InitialArray: AccordionItemProps[] = [{
   title: 'W2 #1',                               //TODO: TRY CSS STYLING
@@ -27,6 +28,8 @@ var ten99InitialArray: AccordionItemProps[] = [{
 }]
 
 export default function W2AndTen99Page() {
+    const {t} = useTranslation();
+
     const [w2Array, setw2Array] = useState(w2InitialArray);
     const [ten99Array, setTen99Array] = useState(ten99InitialArray);
     const ten99FormArray = useSelector((state: any) => state.ten99s);
@@ -98,29 +101,29 @@ export default function W2AndTen99Page() {
         <div className='bg-base-lightest'>
           <GridContainer className="usa-section">
             <Grid row>
-              <Title>Please Fill in all of your tax information, including all W2's and 1099's.</Title>
+              <Title>{t('w2Title')}</Title>
             </Grid>
             <Grid row>
-              <h3>Do you have any W2's to add? If not, skip to the next section. </h3>
+              <h3>{t('addW2')}</h3>
             </Grid>
             <Grid row>
               <Accordion items={w2Array} multiselectable={true} />
             </Grid>
             <Grid row>
               <Grid col = {5} offset = {10}>
-                <h4>Do you have more than one W2 to add?</h4>
+                <h4>{t('addMoreW2')}</h4>
               </Grid>
               <Grid col = {2} offset = {10}>
-                <Button className="AddW2" id="newW2" type="button" onClick={() => {incrementw2Array()}}>Add A New W2</Button>
+                <Button className="AddW2" id="newW2" type="button" onClick={() => {incrementw2Array()}}>{t('addNewW2')}</Button>
               </Grid>
             </Grid>
             <Grid row>
               <Grid tablet={{ col: true }}>
-                <Button type="button" onClick={() => navigate('/review')}>Back</Button>   
+                <Button type="button" onClick={() => navigate('/review')}>{t('backBtn')}</Button>   
               </Grid>
               <Grid col = {9}></Grid>
               <Grid tablet={{ col: true }}>
-                <Button type="button" onClick={(e) =>{e.preventDefault(); setw2OrTen99("ten99")}}>Next Step</Button>
+                <Button type="button" onClick={(e) =>{e.preventDefault(); setw2OrTen99("ten99")}}>{t('nextBtn')}</Button>
               </Grid>
             </Grid>
           </GridContainer>
@@ -133,27 +136,27 @@ export default function W2AndTen99Page() {
         <div className='bg-base-lightest'>
           <GridContainer className="usa-section">
             <Grid row>
-              <Title>Please Fill in all of your tax information, including all W2's and 1099's.</Title>
+              <Title>{t('w2Title')}</Title>
             </Grid>
             <Grid row>
-              <h3>Do you have any 1099's to add? If not, skip to the next section. </h3>
+              <h3>{t('add1099')}</h3>
             </Grid>  
             <Accordion items={ten99Array} multiselectable={true}/>
             <Grid row>
               <Grid col = {5} offset = {10}>
-                <h4>Do you have more than one 1099 to add?</h4>
+                <h4>{t('addMore1099')}</h4>
               </Grid>
               <Grid className="Add1099" col = {3} offset = {9}>
-                <Button id="newTen99" type="button" onClick={() => {incrementTen99Array()}}>Add A New 1099</Button>
+                <Button id="newTen99" type="button" onClick={() => {incrementTen99Array()}}>{t('addNew1099')}</Button>
               </Grid>
             </Grid>
             <Grid row>
               <Grid tablet={{ col: true }}>
-                <Button type="button" onClick={(e) =>{ e.preventDefault(); setw2OrTen99("w2")}} >Back</Button>   
+                <Button type="button" onClick={(e) =>{ e.preventDefault(); setw2OrTen99("w2")}} >{t('backBtn')}</Button>   
               </Grid>
               <Grid col = {9}></Grid>
               <Grid tablet={{ col: true }}>
-                <Button type="button" onClick={(e) => {submitAllW2AndTen99(); }}>Next Step</Button>
+                <Button type="button" onClick={(e) => {submitAllW2AndTen99(); }}>{t('nextBtn')}</Button>
               </Grid>
             </Grid>
           </GridContainer>
