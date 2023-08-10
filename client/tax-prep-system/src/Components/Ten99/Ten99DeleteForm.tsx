@@ -1,9 +1,10 @@
 import { Button, Form, Label, Select } from "@trussworks/react-uswds";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import api from '../../api/axiosConfig';
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import { setStoreTen99Data } from '../../Slices/dataSlice';
 
 
 export default function Ten99DeleteForm() {
@@ -11,12 +12,15 @@ export default function Ten99DeleteForm() {
     const [deleteTarget, setDeleteTarget] = useState("");
     const ten99Data = useSelector((state: any) => state.data.ten99Data)
     const userSSN = useSelector((state: any) => state.auth.ssn);
+    const dispatch = useDispatch();
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
         api.delete(`/ten99s/ten99/deleteFor${userSSN}/${deleteTarget}`)
             .then(response => {
-                e.target.reset()
+                e.target.reset();
+                const updatedTen99Data = ten99Data.filter((ten99: any) => ten99.ten99Id.empTin !== deleteTarget);
+                dispatch(setStoreTen99Data(updatedTen99Data));
             }).catch(error => {
                 console.error("Error:", error);
             })
