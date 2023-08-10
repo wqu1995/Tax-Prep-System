@@ -40,7 +40,7 @@ function Home() {
                     {t('personal')}
                         </Link>
                     <Link className="usa-button" to="/results">
-                    {t('Financial')}
+                    {t('financial')}
                     </Link>
                 </div>
                     
