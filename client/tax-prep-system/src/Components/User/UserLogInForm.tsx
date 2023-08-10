@@ -1,4 +1,4 @@
-import { Button, Fieldset, Form, Grid, GridContainer, Label, TextInput } from '@trussworks/react-uswds'
+import { Button, Fieldset, Form, Grid, GridContainer, Label, Link, TextInput } from '@trussworks/react-uswds'
 import React, {useState, useEffect} from 'react'
 import api from '../../api/axiosConfig'
 import { useDispatch } from 'react-redux';
@@ -29,7 +29,7 @@ function UserLogInForm() {
             //localStorage.setItem("token", accessToken);
             setUsername('')
             setPassword('')
-            navigate('/userInfo')
+            navigate('/')
         }).catch((error) =>{
             console.log(error);
         })
@@ -70,9 +70,15 @@ function UserLogInForm() {
                                                     />
                                                 
                                                 <Button type="submit">Sign in</Button>
+                                                
                                             </Fieldset>
                                         </Form>
                                     </div>
+                                    <p className="text-center">
+                                        {"Don't have an account? "}
+                                        <Link href="#" onClick={()=>navigate('/register')}>Create your account now</Link>
+                                        .
+                                    </p>
                                 </Grid>
                             </Grid>
                         </GridContainer>

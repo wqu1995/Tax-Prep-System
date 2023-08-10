@@ -1,6 +1,6 @@
 import { Header, Title, NavMenuButton, PrimaryNav, Search, NavDropDownButton, Menu, Icon, GridContainer, Grid} from '@trussworks/react-uswds'
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import { selectCurrentFirstName, selectCurrentLastName, selectCurrentSSN, setCredentials, setName } from '../../Slices/AuthSlicer';
 
@@ -73,9 +73,9 @@ function TaxHeader() {
                 <Menu
                     id="extended-nav-section-one"
                     items = {[
-                        <a href="#" onClick={()=> handleNav('/userInfo')}>About Me</a>,
-                        <a href="#" onClick={()=> handleNav('/results')}>Results</a>,
-                        <a href="#" onClick={()=> handleLogout()}>Log out</a>
+                        <Link to="/userInfo">About Me</Link>,
+                        <Link to="/results">Result</Link>,
+                        <Link to="#" onClick={()=> handleLogout()}>Log out</Link>
                     ]}
                     isOpen={navDropdownOpen[0]}
                 />
@@ -91,8 +91,12 @@ function TaxHeader() {
             <Menu
                 id="extended-nav-section-one"
                 items = {[
-                    <a href="#" onClick={()=> changeLanguage('en')}>English</a>,
-                    <a href="#" onClick={()=> changeLanguage('cn')}>Chinese</a>
+                    <Link to="#" onClick={() => changeLanguage('en')}>
+                        English
+                    </Link>,
+                    <Link to="#" onClick={() => changeLanguage('cn')}>
+                        Chinese
+                    </Link>
                 ]}
                 isOpen={navDropdownOpen[1]}
             />
@@ -106,9 +110,9 @@ function TaxHeader() {
                 <div className="usa-nav-container">
                     <div className="usa-navbar">
                         <Title id="basic-logo">
-                        <a href="/" title="Home" aria-label="Home">
+                        <Link to="/" title="Home" aria-label="Home">
                             {t('title')}
-                        </a>
+                        </Link>
                         </Title>
                         <NavMenuButton
                         label="Menu"

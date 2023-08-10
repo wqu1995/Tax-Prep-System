@@ -105,7 +105,7 @@ function UserRegisterForm() {
             dispatch(setName({firstName, lastName}))
             console.log(response.data)
             cleanUp();
-            navigate('/home');
+            navigate('/calculate');
         }).catch((error)=>{
             console.log(error)
         })
