@@ -2,12 +2,14 @@ import { ErrorMessage, Form, Label, TextInput} from "@trussworks/react-uswds";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTen99Form } from "../../Slices/Ten99Slice";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Ten99Props {
     index: number
 }
 
 export default function Ten99Form({index}: Ten99Props) {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const formData = useSelector((state: any) => state.ten99s.forms[index]);
     const [payerTinStatus, setPayerTinStatus] = useState("error");
@@ -68,14 +70,14 @@ export default function Ten99Form({index}: Ten99Props) {
     return (
         <>
             <Form onSubmit={handleSubmit}>
-                <Label htmlFor="payerTin">Payer's TIN</Label>
-                {payerTinStatus === "error" && <ErrorMessage>Please enter a valid identification number. Do not include hyphens or dashes.</ErrorMessage>}
+                <Label htmlFor="payerTin">{t('ptin')}</Label>
+                {payerTinStatus === "error" && <ErrorMessage>{t('ptinerror')}</ErrorMessage>}
                 <TextInput id="payerTin" name="payerTin" type="text" value={formData.payerTin} onChange={handlePayerTinInput} validationStatus={payerTinStatus}/>
-                <Label htmlFor="wages">Nonemployee compensation (Box 1)</Label>
-                {wageStatus === "error" && <ErrorMessage>Please enter a valid number.</ErrorMessage>}
+                <Label htmlFor="wages">{t('comp')}</Label>
+                {wageStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
                 <TextInput id="wages" name="wages" type="text" value={formData.wages} onChange={handleWageInput} validationStatus={wageStatus}/>
-                <Label htmlFor="fedWithheld">Federal income tax withheld (Box 4)</Label>
-                {fedWithheldStatus === "error" && <ErrorMessage>Please enter a valid number.</ErrorMessage>}
+                <Label htmlFor="fedWithheld">{t('ptax')}</Label>
+                {fedWithheldStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
                 <TextInput id="fedWithheld" name="fedWithheld" type="text" value={formData.fedWithheld} onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus}/>
             </Form>
         </>

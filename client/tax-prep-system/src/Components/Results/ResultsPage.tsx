@@ -187,7 +187,7 @@ export default function ResultsPage() {
                 <GridContainer>
                     <Grid row offset={3}>
                         <SummaryBox>
-                            <SummaryBoxHeading headingLevel="h3">You owe ${taxOwedValue} in federal taxes.</SummaryBoxHeading>
+                            <SummaryBoxHeading headingLevel="h3">{t('owe')} ${taxOwedValue} {t('taxes')}</SummaryBoxHeading>
                         </SummaryBox>
                     </Grid>
                 </GridContainer>
@@ -199,7 +199,7 @@ export default function ResultsPage() {
                 <GridContainer>
                     <Grid className='bg-white padding-y-10 padding-x-10' row offset={3}>
                         <SummaryBox className='bg-green border-base-lightest'>
-                            <SummaryBoxHeading headingLevel="h3">You have a tax refund of ${taxOwedValue}!</SummaryBoxHeading>
+                            <SummaryBoxHeading headingLevel="h3">{t('dontowe')}${taxOwedValue}{t('notax')}</SummaryBoxHeading>
                         </SummaryBox>
                     </Grid>
                 </GridContainer>

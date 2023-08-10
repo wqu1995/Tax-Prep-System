@@ -5,8 +5,10 @@ import { useNavigate } from "react-router-dom";
 import api from '../../api/axiosConfig';
 import axios from "axios";
 import { selectCurrentSSN} from '../../Slices/AuthSlicer';
+import { useTranslation } from "react-i18next";
 
 export default function Review() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const userSSN = useSelector(selectCurrentSSN);
     console.log(userSSN)
@@ -89,10 +91,10 @@ export default function Review() {
         <div className='bg-base-lightest'>
           <GridContainer className="usa-section">
             <Grid row>
-                <Title>Review</Title>
+                <Title>{t('Review')}</Title>
             </Grid>
             <Grid row>
-                <h3>Please ensure all of your personal and financial information is correct. </h3>
+                <h3>{('please')} </h3>
             </Grid>
             <Grid row>
                 <h3>Personal Information </h3>

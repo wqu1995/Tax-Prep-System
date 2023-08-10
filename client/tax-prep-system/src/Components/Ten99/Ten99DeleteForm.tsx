@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import api from '../../api/axiosConfig';
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 
 export default function Ten99DeleteForm() {
+    const { t } = useTranslation();
     const [deleteTarget, setDeleteTarget] = useState("");
     const ten99Data = useSelector((state: any) => state.data.ten99Data)
     const userSSN = useSelector((state: any) => state.auth.ssn);
@@ -24,11 +26,11 @@ export default function Ten99DeleteForm() {
     return (
         <>
         <Form onSubmit={handleSubmit}>
-            <Label htmlFor='delete'>Select the correct Payer's TIN from the dropdown menu:</Label>
+            <Label htmlFor='delete'>{t('del1099')}</Label>
                 <Select id="delete" name="delete" onChange={(e) => setDeleteTarget(e.target.value)}>
                     <React.Fragment key=".0">
                         <option>
-                        - Select -{' '}
+                        - {t('select')} -{' '}
                         </option>
                         {ten99Data.map((ten99: any) => {
                             return (
@@ -39,7 +41,7 @@ export default function Ten99DeleteForm() {
                         })}
                     </React.Fragment>
                 </Select>
-                <Button className="deleteButton" type="submit" data-close-modal='true'>Delete</Button>
+                <Button className="deleteButton" type="submit" data-close-modal='true'>{t('delete')}</Button>
         </Form>
         
         

@@ -3,9 +3,11 @@ import api from '../../api/axiosConfig';
 import axios from "axios";
 import { useSelector, useStore } from "react-redux";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 
 export default function Ten99CreateForm() {
+    const { t } = useTranslation();
     const userSSN = useSelector((state: any) => state.auth.ssn);
     const [payerTinStatus, setPayerTinStatus] = useState("error");
     const [wageStatus, setWageStatus] = useState("error");
@@ -82,19 +84,19 @@ export default function Ten99CreateForm() {
     return (
         <>
             <Form  onSubmit={handleSubmit}>
-                <Label htmlFor="payerTin">Payer's TIN</Label>
-                {payerTinStatus === "error" && <ErrorMessage>Please enter a valid identification number. Do not include hyphens or dashes.</ErrorMessage>}
+                <Label htmlFor="payerTin">{t('ptin')}</Label>
+                {payerTinStatus === "error" && <ErrorMessage>{t('ptinerror')} </ErrorMessage>}
                 <TextInput id="payerTin" name="payerTin" type="text"  onChange={handlePayerTinInput} validationStatus={payerTinStatus}/>
-                <Label htmlFor="wages">Nonemployee compensation (Box 1)</Label>
-                {wageStatus === "error" && <ErrorMessage>Please enter a valid number.</ErrorMessage>}
+                <Label htmlFor="wages">{t('comp')}</Label>
+                {wageStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
                 <TextInput id="wages" name="wages" type="text" onChange={handleWageInput} validationStatus={wageStatus}/>
-                <Label htmlFor="fedWithheld">Federal income tax withheld (Box 4)</Label>
-                {fedWithheldStatus === "error" && <ErrorMessage>Please enter a valid number.</ErrorMessage>}
+                <Label htmlFor="fedWithheld">{t('ptax')}</Label>
+                {fedWithheldStatus === "error" && <ErrorMessage>{t('ptaxerror')}</ErrorMessage>}
                 <TextInput id="fedWithheld" name="fedWithheld" type="text" onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus}/>
                 <div style={{margin: '20px'}}>
-                {submissionError && <ErrorMessage>Failed to Add. Please ensure each field is filled out correctly.</ErrorMessage>}
+                {submissionError && <ErrorMessage>{t('failadd')}</ErrorMessage>}
                 </div>
-                <Button type="submit" data-close-modal='true'>Add</Button>
+                <Button type="submit" data-close-modal='true'>{t('add')}</Button>
             </Form>
         </>
     )

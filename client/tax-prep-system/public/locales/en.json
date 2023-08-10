@@ -1,4 +1,45 @@
 {
     "header": "Hello",
-    "footer": "Welcome to our website!"
+    "footer": "Welcome to our website!",
+    "owe": "You owe",
+    "taxes":  "in federal taxes.",
+    "dontowe": "You have a tax refund of ",
+    "notax": "!",
+    "ptin": "Payer's TIN",
+    "ptinerror": "Please enter a valid identification number. Do not include hyphens or dashes.",
+    "comp": "Nonemployee compensation (Box 1)",
+    "comperror": "Please enter a valid number.",
+    "ptax": "Federal income tax withheld (Box 4)",
+    "ptaxerror": "Please enter a valid number.",
+    "failadd": "Failed to Add. Please ensure each field is filled out correctly.",
+    "add": "Add",
+    "ein": "Employer identification number (Box b)",
+    "wages": "Wages, tips, and other compensation (Box 1)",
+    "ftax": "Federal income tax withheld (Box 2)",
+    "del1099": "Select the correct Payer's TIN from the dropdown menu:",
+    "select": "Select",
+    "w2del": "Select the correct Employer Identification Number from the dropdown menu:",
+    "delete": "Delete",
+    "Welcome": "Welcome",
+    "fin": "Here is your financial information.",
+    "Create": "Create",
+    "Delete": "Delete",
+    "Edit": "Edit",
+    "einn": "EIN",
+    "Wages": "Wages",
+    "fedwith": "Federal Tax Withheld",
+    "Save": "Save",
+    "PIN": "PIN",
+    "AddW2": "Add a new W2",
+    "Add1099": "Add a new 1099",
+    "whichW2": "Which W2 would you like to delete?",
+    "which1099": "Which 1099 would you like to delete?",
+    "Review": "Review",
+    "please": "Please ensure all of your personal and financial information is correct."
+
+
+
+
+
+
   }
