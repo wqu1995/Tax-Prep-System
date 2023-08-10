@@ -73,9 +73,9 @@ function TaxHeader() {
                 <Menu
                     id="extended-nav-section-one"
                     items = {[
-                        <Link to="/userInfo">About Me</Link>,
-                        <Link to="/financialInfo">My Tax Documents</Link>,
-                        <Link to="/results">Result</Link>,
+                        <Link to="/userInfo" onClick={()=>handleToggleNavDropdown(0)}>About Me</Link>,
+                        <Link to="/financialInfo" onClick={()=>handleToggleNavDropdown(0)}>My Tax Documents</Link>,
+                        <Link to="/results" onClick={()=>handleToggleNavDropdown(0)}>Result</Link>,
                         <Link to="#" onClick={()=> handleLogout()}>Log out</Link>
                     ]}
                     isOpen={navDropdownOpen[0]}
