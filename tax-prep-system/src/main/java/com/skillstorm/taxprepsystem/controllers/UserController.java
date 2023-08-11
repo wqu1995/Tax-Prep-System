@@ -17,10 +17,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+@CrossOrigin(origins = SecurityConstants.PROD_ORIGIN, allowCredentials = "true")
 public class UserController {
 
     @Autowired
@@ -66,7 +67,8 @@ public class UserController {
     }
 
     /**
-     * Handler for POST request("/users/newUser").
+     * Handler for POST request("/users/register").
+     * Attempt to register the user and send back an access token
      *
      * @param userData the user data
      * @return the response entity
@@ -77,6 +79,12 @@ public class UserController {
         HttpHeaders responseHeaders = new HttpHeaders();
         ResponseEntity<?> response = userService.addNewUser(userData);
 
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         if(response.getStatusCode()!=HttpStatus.BAD_REQUEST){
             String token = getToken(userData.getEmail(), pass);
             addAccessTokenCookie(responseHeaders, token, SecurityConstants.COOKIE_EXPIRATION);
@@ -86,6 +94,15 @@ public class UserController {
         }
     }
 
+    /**
+     * Handler for POST request ("/users/login")
+     * Attempts to authenticate user via valid access token cookie or username password combination
+     * If success, send back corresponding user info to the client
+     *
+     * @param accessToken  the access token
+     * @param loginRequest the login request
+     * @return the response entity
+     */
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@CookieValue(name = "test-cookie", required = false) String accessToken, @RequestBody LoginRequest loginRequest){
         String username;
@@ -151,7 +168,6 @@ public class UserController {
     }
 
     private String getToken(String username, String password){
-        System.out.println(username+" "+ password);
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtGenerator.generateToken(authentication);

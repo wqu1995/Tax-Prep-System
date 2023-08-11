@@ -1,12 +1,10 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next';
-import LanguageSwitcher from '../../i18n/LanguageSwitcher';
-import { Address, Footer, FooterNav, Grid, Logo, SocialLinks } from '@trussworks/react-uswds';
+import { Address, Footer, Grid, Logo } from '@trussworks/react-uswds';
 import clownToyImage from '../../assets/simple-calculator-01.svg';
 
-function TaxFooter() {
-    const { t } = useTranslation();
 
+// export footer component
+function TaxFooter() {
     const footerPrimary = (<div></div>)
     const footerSecondary = (
         <>

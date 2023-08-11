@@ -4,6 +4,9 @@ package com.skillstorm.taxprepsystem.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Model for 1099 entity.
+ */
 @Document(collection = "ten99s")
 public class Ten99 {
     

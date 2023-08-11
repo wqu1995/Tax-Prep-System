@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { setStoreW2Data } from '../../Slices/dataSlice';
 
-
+// form to create new w2
 export default function W2CreateForm() {
     const { t } = useTranslation();
     const userSSN = useSelector((state: any) => state.auth.ssn);
@@ -20,6 +20,17 @@ export default function W2CreateForm() {
     const [submissionError, setSubmissionError] = useState(false);
     const dispatch = useDispatch();
 
+    const cleanUp = () =>{
+        setEmpTinStatus("error")
+        setWageStatus("error")
+        setFedWithheldStatus("error")
+        setEmpTin("")
+        setWage("")
+        setFedWithheld("")
+        setSubmissionError(false)
+    }
+
+    //save new w2 in the server
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
@@ -37,12 +48,14 @@ export default function W2CreateForm() {
                 e.target.reset();
                 const updatedW2Data = [...w2Data, response.data];
                 dispatch(setStoreW2Data(updatedW2Data));
+                cleanUp();
             }).catch(error => {
                 console.error("Error:", error);
             })
         }
     }
 
+    //validation methods to check user input.
     const handleEmpTinInput = (e: any) => {
         setEmpTin(e.target.value);
         function isValidPositiveNumber(input: any) {

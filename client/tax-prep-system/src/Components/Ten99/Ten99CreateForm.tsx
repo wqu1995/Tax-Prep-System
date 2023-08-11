@@ -20,6 +20,17 @@ export default function Ten99CreateForm() {
     const [submissionError, setSubmissionError] = useState(false);
     const dispatch = useDispatch();
 
+    const cleanUp = () =>{
+        setPayerTinStatus("error")
+        setWageStatus("error")
+        setFedWithheldStatus("error")
+        setPayerTin("")
+        setWage("")
+        setFedWithheld("")
+        setSubmissionError(false)
+    }
+
+    //save new 1099 to the backend 
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
@@ -35,14 +46,16 @@ export default function Ten99CreateForm() {
                 "fedWithheld": fedWithheld
             }).then(response => {
                 e.target.reset();
-                const updatedTen99Data = ten99Data.push(response.data);
+                const updatedTen99Data = [...ten99Data, response.data];
                 dispatch(setStoreTen99Data(updatedTen99Data));
+                cleanUp();
             }).catch(error => {
                 console.error("Error:", error);
             })
         }
     }
 
+    //validation methods to validate user input 
     const handlePayerTinInput = (e: any) => {
         setPayerTin(e.target.value);
         function isValidPositiveNumber(input: any) {
@@ -90,13 +103,14 @@ export default function Ten99CreateForm() {
             <Form  onSubmit={handleSubmit}>
                 <Label htmlFor="payerTin">{t('ptin')}</Label>
                 {payerTinStatus === "error" && <ErrorMessage>{t('ptinerror')} </ErrorMessage>}
-                <TextInput id="payerTin" name="payerTin" type="text"  onChange={handlePayerTinInput} validationStatus={payerTinStatus  as ValidationStatus}/>
+                <TextInput id="payerTin" name="payerTin" type="text"  onChange={handlePayerTinInput} validationStatus={payerTinStatus as ValidationStatus}/>
                 <Label htmlFor="wages">{t('comp')}</Label>
                 {wageStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
-                <TextInput id="wages" name="wages" type="text" onChange={handleWageInput} validationStatus={wageStatus  as ValidationStatus}/>
+                <TextInput id="wages" name="wages" type="text" onChange={handleWageInput} validationStatus={wageStatus as ValidationStatus}/>
                 <Label htmlFor="fedWithheld">{t('ptax')}</Label>
                 {fedWithheldStatus === "error" && <ErrorMessage>{t('ptaxerror')}</ErrorMessage>}
-                <TextInput id="fedWithheld" name="fedWithheld" type="text" onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus  as ValidationStatus}/>
+                <TextInput id="fedWithheld" name="fedWithheld" type="text" onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus as ValidationStatus}/>
+
                 <div style={{margin: '20px'}}>
                 {submissionError && <ErrorMessage>{t('failadd')}</ErrorMessage>}
                 </div>

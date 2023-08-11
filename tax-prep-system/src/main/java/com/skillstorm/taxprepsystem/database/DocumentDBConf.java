@@ -18,6 +18,9 @@ import java.io.InputStream;
 @Configuration
 public class DocumentDBConf {
 
+    /**
+     * Configuration file for setting up documentdb.
+     */
     @Configuration
     @Profile("default")
     @PropertySource("classpath:application.yml")

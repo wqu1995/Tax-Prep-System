@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class TaxPreparationSystemApplication {
-	static boolean devMode = true;
+	static boolean devMode = false;
 
 
 	public static void main(String[] args) {

@@ -3,6 +3,9 @@ package com.skillstorm.taxprepsystem.models;
 
 import java.util.Objects;
 
+/**
+ * Model for UserDto.
+ */
 public class UserDto {
     private long social;
 

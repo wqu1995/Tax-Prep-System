@@ -1,60 +1,70 @@
 import { Button, Grid, GridContainer, Table, Title } from "@trussworks/react-uswds";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import api from '../../api/axiosConfig';
 import axios from "axios";
 import { selectCurrentSSN} from '../../Slices/AuthSlicer';
 import { useTranslation } from "react-i18next";
+import { setStoreW2Data, setStoreTen99Data } from '../../Slices/dataSlice';
 
+
+//page to review entered tax info
 export default function Review() {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const userSSN = useSelector(selectCurrentSSN);
-    console.log(userSSN)
+    //console.log(userSSN)
     const [userName, setUserName] = useState("");
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
     const [filingStatus, setFilingStatus] = useState("");
-    const [w2Data, setW2Data] = useState([]);
-    const [ten99Data, setTen99Data] = useState([]);
+    //const [w2Data, setW2Data] = useState([]);
+    //const [ten99Data, setTen99Data] = useState([]);
+    const w2Data = useSelector((state: any) => state.data.w2Data);
+    const ten99Data = useSelector((state: any) => state.data.ten99Data);
+    const dispatch = useDispatch();
 
+    //load required states
     useEffect(() => {
-        
-        api.get(`/w2s/${userSSN}`)
-            .then(response => {
-                setW2Data(response.data);
-            })
-            .catch(error => console.error(error));
-        api.get(`/ten99s/${userSSN}`)
-            .then(response => {
-                setTen99Data(response.data);
-            })
-            .catch(error => console.error(error));
-        api.get(`/users/user/${userSSN}`)
-            .then(response => {
-                setUserName(`${response.data.firstName} ${response.data.lastName}`);
-                setAddress(`${response.data.streetAddr}, ${response.data.city}, ${response.data.state}, ${response.data.zip}`);
-                setPhone(response.data.phone);
-                switch(response.data.status) {
-                    case "S":
-                        setFilingStatus("Single");
-                        break;
-                    case "MS":
-                        setFilingStatus("Married Filing Separately");
-                        break;
-                    case "MJ":
-                        setFilingStatus("Married Filing Jointly");
-                        break;
-                    case "H":
-                        setFilingStatus("Head of Household");
-                        break;
-                    default:
-                        console.log("invalid filing status");
-                }
-            })
-            .catch(error => console.error(error));
-    }, [userSSN]);
+        if(userSSN != null){
+            api.get(`/w2s/${userSSN}`)
+                .then(response => {
+                    //setW2Data(response.data);
+                    dispatch(setStoreW2Data(response.data));
+                })
+                .catch(error => console.error(error));
+            api.get(`/ten99s/${userSSN}`)
+                .then(response => {
+                    //setTen99Data(response.data);
+                    dispatch(setStoreTen99Data(response.data));
+                })
+                .catch(error => console.error(error));
+            api.get(`/users/user/${userSSN}`)
+                .then(response => {
+                    setUserName(`${response.data.firstName} ${response.data.lastName}`);
+                    setAddress(`${response.data.streetAddr}, ${response.data.city}, ${response.data.state}, ${response.data.zip}`);
+                    setPhone(response.data.phone);
+                    switch(response.data.status) {
+                        case "S":
+                            setFilingStatus(t('status2'));
+                            break;
+                        case "MS":
+                            setFilingStatus(t('status4'));
+                            break;
+                        case "MJ":
+                            setFilingStatus(t('status3'));
+                            break;
+                        case "H":
+                            setFilingStatus(t('status5'));
+                            break;
+                        default:
+                            console.log(t('status6'));
+                    }
+                })
+                .catch(error => console.error(error));
+        }
+    }, [userSSN, w2Data, ten99Data]);
 
     function formatPhoneNumber(number: any) {
 
@@ -97,37 +107,37 @@ export default function Review() {
                 <h3>{('please')} </h3>
             </Grid>
             <Grid row>
-                <h3>Personal Information </h3>
+                <h3>{t('personalInfoLabel')} </h3>
             </Grid>
             <Table bordered={false}>
                 <tbody>
                     <tr>
-                        <td scope="col"><b>Name: </b>{userName}</td>
+                        <td scope="col"><b>{t('nameLabel')}: </b>{userName}</td>
                     </tr>
                     <tr>
-                        <td scope="col"><b>Address: </b>{address}</td>
+                        <td scope="col"><b>{t('fullAddLabel')}: </b>{address}</td>
                     </tr>
                     <tr>
-                        <td scope="col"><b>Phone Number: </b>{formatPhoneNumber(phone)}</td>
+                        <td scope="col"><b>{t('phoneLabel')}: </b>{formatPhoneNumber(phone)}</td>
                     </tr>
                     <tr>
-                        <td scope="col"><b>Social Security Number: </b>{formatSSN(userSSN)}</td>
+                        <td scope="col"><b>{t('ssnLabel')}: </b>{formatSSN(userSSN)}</td>
                     </tr>
                     <tr>
-                        <td scope="col"><b>Filing Status: </b>{filingStatus}</td>
+                        <td scope="col"><b>{t('fillingStatusLabel')}: </b>{filingStatus}</td>
                     </tr>
                 </tbody>
             </Table>
             <Grid row>
-                <h3>Financial Information </h3>
+                <h3>{t('financialLabel')}</h3>
             </Grid>  
             <Table bordered={false}>
                 <thead>
                     <tr>
-                        <th scope="col">Document Type</th>
-                        <th scope="col">EIN/Payer TIN</th>
-                        <th scope="col">Wages/Compensation</th>
-                        <th scope="col">Federal Tax Withheld</th>
+                        <th scope="col">{t('documentType')}</th>
+                        <th scope="col">{t('ein/tin')}</th>
+                        <th scope="col">{t('wages/comp')}</th>
+                        <th scope="col">{t('fedwith')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -155,16 +165,16 @@ export default function Review() {
             </Table>
             <Grid row>
               <Grid className="proceed" col = {5} offset = {8}>
-                <h4>If everything looks correct, please proceed.</h4>
+                <h4>{t('correctMsg')}</h4>
               </Grid>
             </Grid>
             <Grid row>
               <Grid tablet={{ col: true }}>
-                <Button type="button" onClick={(e) =>{ navigate('/calculate')}} >Back</Button>   
+                <Button type="button" onClick={(e) =>{ navigate('/financialInfo')}} >{t('backBtn')}</Button>   
               </Grid>
               <Grid col = {9}></Grid>
               <Grid tablet={{ col: true }}>
-                <Button type="button" onClick={(e) => {navigate('/results'); }}>Results</Button>
+                <Button type="button" onClick={(e) => {navigate('/results'); }}>{t('result')}</Button>
               </Grid>
             </Grid>
           </GridContainer>

@@ -1,5 +1,8 @@
 package com.skillstorm.taxprepsystem.payload;
 
+/**
+ * Response object template for Authentication related request.
+ */
 public class AuthResponse {
     private long ssn;
     private String firstName;

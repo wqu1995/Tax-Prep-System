@@ -11,6 +11,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * model for user entity.
+ */
 @Document(collection = "users")
 public class User implements UserDetails{
 

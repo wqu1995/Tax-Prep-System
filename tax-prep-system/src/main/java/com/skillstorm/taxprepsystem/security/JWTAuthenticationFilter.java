@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Custom filter for handling JWT authentication.
+ */
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -24,12 +27,21 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private UserService userService;
 
+
+    /**
+     * Perform the token validation. If token does not exist in the cookie, proceed with the next filter chain ELSE
+     * validate the token and attempt to authenticate user
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = getJWTFromCookie(request);
+        if(token == null){
+            filterChain.doFilter(request, response);
+            return;
+        }
         if(StringUtils.hasText(token) && tokenGenerator.validateToken(token)){
             String username = tokenGenerator.getUsernameFromJWT(token);
-            
+
 
             UserDetails userDetails = userService.loadUserByUsername(username);
 
@@ -40,7 +52,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
         }
         filterChain.doFilter(request, response);
-
     }
 
     private String getJWTFromRequest(HttpServletRequest request){
@@ -50,15 +61,22 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         }
         return null;
     }
+    /**
+     * Get token from request header cookie.
+     */
     private String getJWTFromCookie(HttpServletRequest request){
-        Cookie[] cookies = request.getCookies();
-        for(Cookie cookie : cookies){
-            if(cookie.getName().equals("test-cookie")){
+        try{
+            Cookie[] cookies = request.getCookies();
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("test-cookie")){
 
-                return cookie.getValue();
+                    return cookie.getValue();
+                }
             }
+            return null;
+        }catch (NullPointerException ex){
+            return null;
         }
-        
-        return null;
+
     }
 }

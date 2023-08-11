@@ -15,6 +15,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
+/**
+ * Security configuration for spring backend
+ */
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
 public class SecurityConfig{
@@ -23,6 +26,13 @@ public class SecurityConfig{
     private JwtAuthEntryPoint jwtAuthEntryPoint;
 
 
+    /**
+     * Security filter chain.
+     *
+     * @param http the http
+     * @return the security filter chain
+     * @throws Exception the exception
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
         http
@@ -47,17 +57,33 @@ public class SecurityConfig{
     }
 
 
-
+    /**
+     * Password encoder.
+     *
+     * @return the password encoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder(10);
     }
 
+    /**
+     * Authentication manager.
+     *
+     * @param authenticationConfiguration the authentication configuration
+     * @return the authentication manager
+     * @throws Exception the exception
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    /**
+     * Jwt authentication filter.
+     *
+     * @return the jwt authentication filter
+     */
     @Bean
     JWTAuthenticationFilter jwtAuthenticationFilter(){
         return new JWTAuthenticationFilter();

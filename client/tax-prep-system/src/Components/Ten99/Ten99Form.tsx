@@ -22,6 +22,7 @@ export default function Ten99Form({index}: Ten99Props) {
         console.log("submitted 1099!!")
     }
     
+    //validation methods to check user input
     const handlePayerTinInput = (e: any) => {
         const {name, value} = e.target;
         dispatch(updateTen99Form({index, data: {...formData, [name]: value}}));
@@ -72,13 +73,15 @@ export default function Ten99Form({index}: Ten99Props) {
             <Form onSubmit={handleSubmit}>
                 <Label htmlFor="payerTin">{t('ptin')}</Label>
                 {payerTinStatus === "error" && <ErrorMessage>{t('ptinerror')}</ErrorMessage>}
-                <TextInput id="payerTin" name="payerTin" type="text" value={formData.payerTin} onChange={handlePayerTinInput} validationStatus={payerTinStatus  as ValidationStatus}/>
+
+                <TextInput id="payerTin" name="payerTin" type="text" value={formData.payerTin} onChange={handlePayerTinInput} validationStatus={payerTinStatus as ValidationStatus}/>
                 <Label htmlFor="wages">{t('comp')}</Label>
                 {wageStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
-                <TextInput id="wages" name="wages" type="text" value={formData.wages} onChange={handleWageInput} validationStatus={wageStatus  as ValidationStatus}/>
+                <TextInput id="wages" name="wages" type="text" value={formData.wages} onChange={handleWageInput} validationStatus={wageStatus as ValidationStatus}/>
                 <Label htmlFor="fedWithheld">{t('ptax')}</Label>
                 {fedWithheldStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
-                <TextInput id="fedWithheld" name="fedWithheld" type="text" value={formData.fedWithheld} onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus  as ValidationStatus}/>
+                <TextInput id="fedWithheld" name="fedWithheld" type="text" value={formData.fedWithheld} onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus as ValidationStatus}/>
+
             </Form>
         </>
     )

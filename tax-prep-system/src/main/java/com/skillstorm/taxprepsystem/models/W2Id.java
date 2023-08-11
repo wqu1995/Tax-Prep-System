@@ -2,6 +2,9 @@ package com.skillstorm.taxprepsystem.models;
 
 import java.io.Serializable;
 
+/**
+ * CLass for defining combined key for w2 form.
+ */
 public class W2Id implements Serializable{
     
 

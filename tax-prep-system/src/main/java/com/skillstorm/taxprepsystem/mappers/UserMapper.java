@@ -4,6 +4,9 @@ import com.skillstorm.taxprepsystem.models.User;
 import com.skillstorm.taxprepsystem.models.UserDto;
 import org.springframework.stereotype.Component;
 
+/**
+ * Mapper class to convert User object to UserDto object.
+ */
 @Component
 public class UserMapper {
     public UserDto toDto(User user){

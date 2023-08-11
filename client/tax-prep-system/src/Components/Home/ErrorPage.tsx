@@ -1,8 +1,10 @@
 import { Button, ButtonGroup, Grid, GridContainer } from '@trussworks/react-uswds'
-import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
+// export error page to dispaly when user has wrong authority 
 function ErrorPage({errorCode} : any) {
+    const {t} = useTranslation();
     const navigate = useNavigate();
     return (
         <div className='usa-section'>
@@ -10,28 +12,25 @@ function ErrorPage({errorCode} : any) {
                 <Grid row gap>
                     <main className="usa-layout-docs__main desktop:grid-col-9 usa-prose usa-layout-docs"
                     id="main-content">
-                        <h1>Page not found</h1>
+                        <h1>{t('title')}</h1>
 
                         <p className="usa-intro">
-                            We’re sorry, we can’t find the page you&apos;re looking for. It
-                            might have been removed, changed its name, or is otherwise
-                            unavailable.
+                        {t('pageNotFoundMsg1')}
                         </p>
 
                         <p>
-                            Visit our homepage for helpful tools and resources, or contact
-                            us and we’ll point you in the right direction.
+                        {t('pageNotFoundMsg2')}
                         </p>
 
                         <div className="margin-y-5">
                             <ButtonGroup>
-                            <Button type="button"onClick={()=>{navigate("/")}}>Visit homepage</Button>
+                            <Button type="button"onClick={()=>{navigate("/")}}>{t('visitHomeBtn')}</Button>
 
                             </ButtonGroup>
                         </div>
 
                         <p className="text-base">
-                            <strong>Error code:</strong> {errorCode}
+                            <strong>{t('errorCode')}</strong> {errorCode}
                         </p>
                     </main>
                 </Grid>

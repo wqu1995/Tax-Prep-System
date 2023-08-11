@@ -9,6 +9,7 @@ interface W2FormProps {
     index: number;
   }
 
+  //page for displaying the w2 form
 export default function W2Form({index}: W2FormProps) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -21,6 +22,7 @@ export default function W2Form({index}: W2FormProps) {
 
     };
 
+    //validation methods for user inputs 
     const handleEmpTinInput = (e: any) => {
         const {name, value} = e.target;
         dispatch(updateW2Form({index, data: {...formData, [name]: value}}));

@@ -4,6 +4,9 @@ import org.springframework.data.annotation.Id;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Model for w2 entity.
+ */
 @Document(collection = "W2s")
 public class W2 {
     

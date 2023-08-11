@@ -6,8 +6,12 @@ import { useDispatch } from 'react-redux';
 import { setCredentials, setName } from '../../Slices/AuthSlicer';
 import { UserActionType, UserInfoType } from '../../types/CustomTypes';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
+
+//user register page
 function UserRegisterForm() {
+    const {t} = useTranslation();
 
     const [showPassword, setShowPassword] = useState(false)
     const [showSSN, setShowSSN] = useState(false)
@@ -32,6 +36,8 @@ function UserRegisterForm() {
         status : '',
     }
 
+
+    //reducer to update user info
     const userInfoReducer = (state: UserInfoType, action: UserActionType) =>{
         switch(action.type) {
             case 'setFirst':
@@ -74,6 +80,7 @@ function UserRegisterForm() {
     }
     
 
+    //attempt to register user in the backend 
     const handleRegisterSubmit =  (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
         const registerPayload = {
@@ -92,6 +99,7 @@ function UserRegisterForm() {
         })
     }
 
+    //attempt to update user's personal information
     const handleUserInfoSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
 
@@ -113,7 +121,7 @@ function UserRegisterForm() {
 
     useEffect(() => {
         if (password !== '' && passwordConfirm!=='' && password !== passwordConfirm) {
-          setErrMsg("Password does not match");
+          setErrMsg(t('passMismatch'));
         } else {
           setErrMsg('');
         }
@@ -127,17 +135,17 @@ function UserRegisterForm() {
                             <Grid col={12} tablet={{col:8}} desktop={{col:8}} mobileLg={{col:10}} className="padding-x-205">
                                 {!registerationSuccess ? (
                                     <div className='bg-white padding-y-3 padding-x-5 border border-base-lighter'>
-                                        <h1 className='margin-bottom-0'>Create account</h1>
+                                        <h1 className='margin-bottom-0'>{t('createAcc2')}</h1>
                                         <Form onSubmit={handleRegisterSubmit}>
-                                            <Fieldset legend="Get started with an account">
+                                            <Fieldset legend={t('createAccTooltip')}>
                                                 <p>
                                                     <abbr title='required' className='usa-hint usa-hint--required'>*</abbr>{' '}
-                                                    indicates a required field.
+                                                    {t('requiredFields')}
                                                 </p>
 
                                                 <ErrorMessage>{registerError}</ErrorMessage>
 
-                                                <Label htmlFor="email">Email address {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                <Label htmlFor="email">{t('emailLabel')} {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
                                                 <TextInput
                                                     id="email"
                                                     name="email"
@@ -149,7 +157,7 @@ function UserRegisterForm() {
                                                     required={true}
                                                 />
 
-                                                <Label htmlFor="password-create-account">Password {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                <Label htmlFor="password-create-account">{t('passwordLabel')} {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
                                                 <TextInput
                                                     id="password-create-account"
                                                     name="password"
@@ -167,11 +175,11 @@ function UserRegisterForm() {
                                                         className='usa-show-password'
                                                         aria-controls='password-create-account password-create-account-confirm'
                                                         onClick={(): void => setShowPassword((showPassword) => ! showPassword)}>
-                                                            {showPassword ? 'Hide password' : 'Show passowrd'}
+                                                            {showPassword ? t('hidePass') : t('showPass')}
                                                         </a>
                                                 </p>
 
-                                                <Label htmlFor="password-create-account-confirm">Re-type password {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                <Label htmlFor="password-create-account-confirm">{t('passConfirm')} {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
                                                 <TextInput
                                                     id="password-create-account-confirm"
                                                     name="password"
@@ -185,7 +193,7 @@ function UserRegisterForm() {
 
                                                 <ErrorMessage>{errMsg}</ErrorMessage>
 
-                                                <Label htmlFor="ssn">Social Security Number {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                <Label htmlFor="ssn">{t('ssnLabel')} {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
                                                 <TextInput
                                                     id="ssn"
                                                     name="password"
@@ -202,28 +210,28 @@ function UserRegisterForm() {
                                                         className='usa-show-password'
                                                         aria-controls='ssn'
                                                         onClick={(): void => setShowSSN((showSSN) => ! showPassword)}>
-                                                            {showSSN ? 'Hide SSN' : 'Show SSN'}
+                                                            {showSSN ? t('hideSSN') : t('showSSN')}
                                                         </a>
                                                 </p>
 
-                                                <Button type='submit'>Create account</Button>
+                                                <Button type='submit'>{t('createAccBtn')}</Button>
                                             </Fieldset>
                                         </Form>
                                     </div>
                                     
                                 ) :( 
                                     <div className='bg-white padding-y-3 padding-x-5 border border-base-lighter'>
-                                    <h1 className='margin-bottom-0'>Personal Infomation</h1>
+                                    <h1 className='margin-bottom-0'>{t('personalInfoLabel')}</h1>
                                     <Form onSubmit={handleUserInfoSubmit}>
-                                        <Fieldset legend="Please tell us about you">
+                                        <Fieldset legend={t('personalInfoToolTip')}>
                                             <p>
                                                 <abbr title='required' className='usa-hint usa-hint--required'>*</abbr>{' '}
-                                                indicates a required field.
+                                                {t('requiredFields')}
                                             </p>
 
                                             <div style={{ display: 'flex', gap: '16px' }}>
                                                 <div>
-                                                    <Label htmlFor="firstName">First Name {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                    <Label htmlFor="firstName">{t('firstNameLabel')} {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
                                                     <TextInput
                                                         id="firstName"
                                                         name="firstName"
@@ -236,7 +244,7 @@ function UserRegisterForm() {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <Label htmlFor="lastName">Last Name {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                    <Label htmlFor="lastName">{t('lastNameLabel')} {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
                                                     <TextInput
                                                         id="lastName"
                                                         name="lastName"
@@ -252,7 +260,7 @@ function UserRegisterForm() {
 
 
 
-                                            <Label htmlFor="streetAddr">Street Address {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                            <Label htmlFor="streetAddr">{t('streetLabel')} {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
                                             <TextInput
                                                 id="streetAddr"
                                                 name="streetAddr"
@@ -265,7 +273,7 @@ function UserRegisterForm() {
                                             />
                                             <div style={{ display: 'flex', gap: '16px' }}>
                                                 <div>
-                                                    <Label htmlFor="city">City {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                    <Label htmlFor="city">{t('cityLabel')} {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
                                                     <TextInput
                                                         id="city"
                                                         name="city"
@@ -278,7 +286,7 @@ function UserRegisterForm() {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <Label htmlFor="state">State {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                    <Label htmlFor="state">{t('stateLabel')} {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
                                                     <TextInput
                                                         id="state"
                                                         name="state"
@@ -291,7 +299,7 @@ function UserRegisterForm() {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <Label htmlFor="zip">Zip Code {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                    <Label htmlFor="zip">{t('zipLabel')} {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
                                                     <TextInput
                                                         id="zip"
                                                         name="zip"
@@ -307,7 +315,7 @@ function UserRegisterForm() {
 
                                             <div style={{ display: 'flex', gap: '16px' }}>
                                                 <div>
-                                                    <Label htmlFor="phone">Phone Number {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                    <Label htmlFor="phone">{t('phoneLabel')} {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
                                                     <TextInput
                                                         id="phone"
                                                         name="phone"
@@ -320,27 +328,27 @@ function UserRegisterForm() {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <Label htmlFor="status">Tax filling Status {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
+                                                    <Label htmlFor="status">{t('fillingStatusLabel')} {' '}<abbr title='required' className='usa-label--required'>*</abbr></Label>
                                                     <Select id="status" name = "status"
                                                     onChange={(e) => userInfoDispatch({type: 'setStatus', value: e.target.value})}>
                                                         <React.Fragment key=".0">
                                                             <option>
-                                                            - Select -{' '}
+                                                            - {t('status1')} -{' '}
                                                             </option>
                                                             <option value="S">
-                                                            Single
+                                                            {t('status2')}
                                                             </option>
                                                             <option value="MJ">
-                                                            Married Joint
+                                                            {t('status3')}
                                                             </option>
                                                             <option value="MS">
-                                                            Married Separate
+                                                            {t('status4')}
                                                             </option>
                                                         </React.Fragment>
                                                     </Select>
                                                 </div>
                                             </div>
-                                            <Button type='submit'>Submit!</Button>
+                                            <Button type='submit'>{t('submitBtn')}!</Button>
                                         </Fieldset>
                                     </Form>
                                 </div>

@@ -2,6 +2,9 @@ package com.skillstorm.taxprepsystem.payload;
 
 import java.util.Objects;
 
+/**
+ * Object model for login request.
+ */
 public class LoginRequest {
     private String username;
     private String password;
