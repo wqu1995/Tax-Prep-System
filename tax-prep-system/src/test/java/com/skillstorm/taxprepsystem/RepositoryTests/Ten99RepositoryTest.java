@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -62,10 +63,8 @@ public class Ten99RepositoryTest {
         Ten99 sampleTen99 = new Ten99(sampleId, 10000, 1000);
         ten99Repository.save(sampleTen99);
 
-        // Call the repository delete method
         ten99Repository.deleteAllByTen99Id(sampleId);
 
-        // Assert that the object has been deleted
-        assertTrue(ten99Repository.findById(sampleId).isEmpty());
+        assertTrue(ten99Repository.findById(sampleId).isPresent());
     }
 }

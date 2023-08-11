@@ -22,7 +22,7 @@ const authSlicer = createSlice({
             state.firstName = firstName
             state.lastName = lastName
         },
-        logOut: (state, action) =>{
+        logOut: (state) =>{
             state.ssn = null
         }
     }
