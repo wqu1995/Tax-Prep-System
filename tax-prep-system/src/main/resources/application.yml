@@ -1,9 +1,10 @@
 server:
-  port: 8282
+  port:
 
 spring:
   data:
     mongodb:
+<<<<<<< Updated upstream
       uri: mongodb+srv://skillstormproject2group2:MuchStrongerPassword123@skillstorm-project2-gro.vswf1wk.mongodb.net/
       database: project2
        
@@ -13,3 +14,7 @@ spring:
     defer-datasource-initialization: true
 
 
+=======
+      uri:
+      database:
+>>>>>>> Stashed changes
