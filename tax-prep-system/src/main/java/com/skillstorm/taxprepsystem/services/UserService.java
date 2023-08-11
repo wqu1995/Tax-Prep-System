@@ -1,22 +1,37 @@
 package com.skillstorm.taxprepsystem.services;
 
+import com.skillstorm.taxprepsystem.mappers.UserMapper;
 import com.skillstorm.taxprepsystem.models.User;
+import com.skillstorm.taxprepsystem.models.UserDto;
 import com.skillstorm.taxprepsystem.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserMapper userMapper;
+
+
+
     /**
      * Find all users from User table.
      *
-     * @return the list
+     * @return the list of user
      */
     public List<User> findAllUsers() {
 
@@ -29,9 +44,14 @@ public class UserService {
      * @param social the ssn
      * @return the user
      */
-    public User findUserBySocial(long social) {
+    public UserDto findUserBySocial(long social) {
 
-        return userRepository.findById(social).orElse(null);
+        User user = userRepository.findById(social).orElse(null);
+        if(user!=null){
+            return userMapper.toDto(user);
+        }
+        return null;
+
     }
 
     /**
@@ -40,8 +60,19 @@ public class UserService {
      * @param userData the user data
      * @return the user
      */
-    public User addNewUser(User userData) {
-        return userRepository.save(userData);
+    public ResponseEntity<Object> addNewUser(User userData) {
+        if(userRepository.findByEmail(userData.getUsername()).isPresent()){
+            return ResponseEntity.badRequest().body("Email already exist!");
+        }else if(userRepository.findById(userData.getSocial()).isPresent()){
+            return ResponseEntity.badRequest().body("Account associated with this SSN already exist!");
+        }else{
+            userData.setPassword(passwordEncoder.encode(userData.getPassword()));
+            userData.setRole("ROLE_USER");
+            userRepository.save(userData);
+        }
+
+
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -50,9 +81,24 @@ public class UserService {
      * @param userData the user data
      * @return the user
      */
-    public User updateUser(User userData) {
+    public ResponseEntity<Object> updateUser(User userData) {
         //probably need to rewrite this method to be more specific
-        return userRepository.save(userData);
+        User user = userRepository.findBySocial(userData.getSocial()).orElse(null);
+        if(user==null){
+            return ResponseEntity.badRequest().body("User does not exist!");
+        }else{
+            user.setFirstName(userData.getFirstName());
+            user.setLastName(userData.getLastName());
+            user.setPhone(userData.getPhone());
+            user.setStreetAddr(userData.getStreetAddr());
+            user.setCity(userData.getCity());
+            user.setState(userData.getState());
+            user.setZip(userData.getZip());
+            user.setStatus(userData.getStatus());
+
+            userRepository.save(user);
+        }
+        return ResponseEntity.ok().body(userMapper.toDto(user));
     }
 
     /**
@@ -63,5 +109,23 @@ public class UserService {
      */
     public int deleteUser(Long social) {
         return userRepository.deleteBySocial(social);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException(username+ " not found!"));
+        //System.out.println(user.getUsername());
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getAuthorities());
+    }
+
+
+    /**
+     * Gets user using username.
+     *
+     * @param username the username
+     * @return the user
+     */
+    public User getUser (String username) {
+        return userRepository.findByEmail(username).orElse(null);
     }
 }

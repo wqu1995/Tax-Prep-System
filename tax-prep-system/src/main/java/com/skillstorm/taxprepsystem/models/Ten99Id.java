@@ -2,6 +2,9 @@ package com.skillstorm.taxprepsystem.models;
 
 import java.io.Serializable;
 
+/**
+ * CLass for defining combined key for 1099 form.
+ */
 public class Ten99Id implements Serializable{
     
     private long social;

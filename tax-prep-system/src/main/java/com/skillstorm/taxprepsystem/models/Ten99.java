@@ -4,22 +4,25 @@ package com.skillstorm.taxprepsystem.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Model for 1099 entity.
+ */
 @Document(collection = "ten99s")
 public class Ten99 {
     
     @Id
     private Ten99Id ten99Id;
 
-    private double compensation;
+    private double wages;
 
     private double fedWithheld;
 
     public Ten99() {
     }
 
-    public Ten99(Ten99Id ten99Id, double compensation, double fedWithheld) {
+    public Ten99(Ten99Id ten99Id, double wages, double fedWithheld) {
         this.ten99Id = ten99Id;
-        this.compensation = compensation;
+        this.wages = wages;
         this.fedWithheld = fedWithheld;
     }
 
@@ -31,12 +34,12 @@ public class Ten99 {
         this.ten99Id = ten99Id;
     }
 
-    public double getCompensation() {
-        return compensation;
+    public double getWages() {
+        return wages;
     }
 
-    public void setCompensation(double compensation) {
-        this.compensation = compensation;
+    public void setWages(double wages) {
+        this.wages = wages;
     }
 
     public double getFedWithheld() {
@@ -53,7 +56,7 @@ public class Ten99 {
         int result = 1;
         result = prime * result + ((ten99Id == null) ? 0 : ten99Id.hashCode());
         long temp;
-        temp = Double.doubleToLongBits(compensation);
+        temp = Double.doubleToLongBits(wages);
         result = prime * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(fedWithheld);
         result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -74,7 +77,7 @@ public class Ten99 {
                 return false;
         } else if (!ten99Id.equals(other.ten99Id))
             return false;
-        if (Double.doubleToLongBits(compensation) != Double.doubleToLongBits(other.compensation))
+        if (Double.doubleToLongBits(wages) != Double.doubleToLongBits(other.wages))
             return false;
         if (Double.doubleToLongBits(fedWithheld) != Double.doubleToLongBits(other.fedWithheld))
             return false;
@@ -83,7 +86,7 @@ public class Ten99 {
 
     @Override
     public String toString() {
-        return "Ten99 [ten99Id=" + ten99Id + ", compensation=" + compensation + ", fedWithheld=" + fedWithheld + "]";
+        return "Ten99 [ten99Id=" + ten99Id + ", wages=" + wages + ", fedWithheld=" + fedWithheld + "]";
     }
 
     
