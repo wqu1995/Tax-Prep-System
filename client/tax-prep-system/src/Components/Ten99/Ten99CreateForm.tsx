@@ -20,6 +20,16 @@ export default function Ten99CreateForm() {
     const [submissionError, setSubmissionError] = useState(false);
     const dispatch = useDispatch();
 
+    const cleanUp = () =>{
+        setPayerTinStatus("error")
+        setWageStatus("error")
+        setFedWithheldStatus("error")
+        setPayerTin("")
+        setWage("")
+        setFedWithheld("")
+        setSubmissionError(false)
+    }
+
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
@@ -37,6 +47,7 @@ export default function Ten99CreateForm() {
                 e.target.reset();
                 const updatedTen99Data = [...ten99Data, response.data];
                 dispatch(setStoreTen99Data(updatedTen99Data));
+                cleanUp();
             }).catch(error => {
                 console.error("Error:", error);
             })

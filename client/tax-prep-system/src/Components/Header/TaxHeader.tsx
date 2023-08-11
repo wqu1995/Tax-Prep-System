@@ -79,17 +79,17 @@ function TaxHeader() {
             <NavDropDownButton
                 menuId='extended-nav-section-two'
                 isOpen={navDropdownOpen[1]}
-                label="Language"
+                label={t('languageLabel')}
                 onToggle={() =>{handleToggleNavDropdown(1)}}
             />
             <Menu
                 id="extended-nav-section-one"
                 items = {[
                     <Link to="#" onClick={() => changeLanguage('en')}>
-                        {t('english')}
+                        English
                     </Link>,
                     <Link to="#" onClick={() => changeLanguage('cn')}>
-                        {t('chinese')}
+                        中文
                     </Link>
                 ]}
                 isOpen={navDropdownOpen[1]}

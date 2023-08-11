@@ -20,6 +20,16 @@ export default function W2CreateForm() {
     const [submissionError, setSubmissionError] = useState(false);
     const dispatch = useDispatch();
 
+    const cleanUp = () =>{
+        setEmpTinStatus("error")
+        setWageStatus("error")
+        setFedWithheldStatus("error")
+        setEmpTin("")
+        setWage("")
+        setFedWithheld("")
+        setSubmissionError(false)
+    }
+
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
@@ -38,6 +48,7 @@ export default function W2CreateForm() {
                 const updatedW2Data = [...w2Data, response.data];
                 //const updatedW2Data = w2Data.push(response.data);
                 dispatch(setStoreW2Data(updatedW2Data));
+                cleanUp();
             }).catch(error => {
                 console.error("Error:", error);
             })

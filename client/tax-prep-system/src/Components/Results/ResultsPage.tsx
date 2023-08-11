@@ -1,10 +1,11 @@
-import { Grid, GridContainer, SummaryBox, SummaryBoxHeading } from "@trussworks/react-uswds";
+import { Button, Grid, GridContainer, SummaryBox, SummaryBoxHeading } from "@trussworks/react-uswds";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import api from '../../api/axiosConfig';
 import ErrorPage from "../Home/ErrorPage";
+import { Link } from "react-router-dom";
 
 interface W2 {
     empTin: number,
@@ -187,13 +188,17 @@ export default function ResultsPage() {
             ) : (
                 <div className='bg-white padding-y-10 padding-x-10'>
                 <GridContainer>
-                    <Grid className='bg-white padding-y-10 padding-x-10' row offset={3}>
+                    <Grid className='bg-white padding-y-10 padding-x-10' row offset={2}>
                     <SummaryBox className='bg-green border-base-lightest'>
                         <SummaryBoxHeading headingLevel="h3">
                         {t('dontowe')} ${taxOwedValue} {t('notax')}
+
                         </SummaryBoxHeading>
+
                     </SummaryBox>
+
                     </Grid>
+
                 </GridContainer>
                 </div>
             )

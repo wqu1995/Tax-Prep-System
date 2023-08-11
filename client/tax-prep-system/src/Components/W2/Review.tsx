@@ -1,59 +1,66 @@
 import { Button, Grid, GridContainer, Table, Title } from "@trussworks/react-uswds";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import api from '../../api/axiosConfig';
 import axios from "axios";
 import { selectCurrentSSN} from '../../Slices/AuthSlicer';
 import { useTranslation } from "react-i18next";
+import { setStoreW2Data, setStoreTen99Data } from '../../Slices/dataSlice';
 
 export default function Review() {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const userSSN = useSelector(selectCurrentSSN);
-    console.log(userSSN)
+    //console.log(userSSN)
     const [userName, setUserName] = useState("");
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
     const [filingStatus, setFilingStatus] = useState("");
-    const [w2Data, setW2Data] = useState([]);
-    const [ten99Data, setTen99Data] = useState([]);
+    //const [w2Data, setW2Data] = useState([]);
+    //const [ten99Data, setTen99Data] = useState([]);
+    const w2Data = useSelector((state: any) => state.data.w2Data);
+    const ten99Data = useSelector((state: any) => state.data.ten99Data);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        
-        api.get(`/w2s/${userSSN}`)
-            .then(response => {
-                setW2Data(response.data);
-            })
-            .catch(error => console.error(error));
-        api.get(`/ten99s/${userSSN}`)
-            .then(response => {
-                setTen99Data(response.data);
-            })
-            .catch(error => console.error(error));
-        api.get(`/users/user/${userSSN}`)
-            .then(response => {
-                setUserName(`${response.data.firstName} ${response.data.lastName}`);
-                setAddress(`${response.data.streetAddr}, ${response.data.city}, ${response.data.state}, ${response.data.zip}`);
-                setPhone(response.data.phone);
-                switch(response.data.status) {
-                    case "S":
-                        setFilingStatus(t('status2'));
-                        break;
-                    case "MS":
-                        setFilingStatus(t('status4'));
-                        break;
-                    case "MJ":
-                        setFilingStatus(t('status3'));
-                        break;
-                    case "H":
-                        setFilingStatus(t('status5'));
-                        break;
-                    default:
-                        console.log(t('status6'));
-                }
-            })
-            .catch(error => console.error(error));
+        if(userSSN != null){
+            api.get(`/w2s/${userSSN}`)
+                .then(response => {
+                    //setW2Data(response.data);
+                    dispatch(setStoreW2Data(response.data));
+                })
+                .catch(error => console.error(error));
+            api.get(`/ten99s/${userSSN}`)
+                .then(response => {
+                    //setTen99Data(response.data);
+                    dispatch(setStoreTen99Data(response.data));
+                })
+                .catch(error => console.error(error));
+            api.get(`/users/user/${userSSN}`)
+                .then(response => {
+                    setUserName(`${response.data.firstName} ${response.data.lastName}`);
+                    setAddress(`${response.data.streetAddr}, ${response.data.city}, ${response.data.state}, ${response.data.zip}`);
+                    setPhone(response.data.phone);
+                    switch(response.data.status) {
+                        case "S":
+                            setFilingStatus(t('status2'));
+                            break;
+                        case "MS":
+                            setFilingStatus(t('status4'));
+                            break;
+                        case "MJ":
+                            setFilingStatus(t('status3'));
+                            break;
+                        case "H":
+                            setFilingStatus(t('status5'));
+                            break;
+                        default:
+                            console.log(t('status6'));
+                    }
+                })
+                .catch(error => console.error(error));
+        }
     }, [userSSN]);
 
     function formatPhoneNumber(number: any) {
