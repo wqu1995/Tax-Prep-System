@@ -73,6 +73,7 @@ export default function Ten99Form({index}: Ten99Props) {
             <Form onSubmit={handleSubmit}>
                 <Label htmlFor="payerTin">{t('ptin')}</Label>
                 {payerTinStatus === "error" && <ErrorMessage>{t('ptinerror')}</ErrorMessage>}
+
                 <TextInput id="payerTin" name="payerTin" type="text" value={formData.payerTin} onChange={handlePayerTinInput} validationStatus={payerTinStatus as ValidationStatus}/>
                 <Label htmlFor="wages">{t('comp')}</Label>
                 {wageStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
@@ -80,6 +81,7 @@ export default function Ten99Form({index}: Ten99Props) {
                 <Label htmlFor="fedWithheld">{t('ptax')}</Label>
                 {fedWithheldStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
                 <TextInput id="fedWithheld" name="fedWithheld" type="text" value={formData.fedWithheld} onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus as ValidationStatus}/>
+
             </Form>
         </>
     )

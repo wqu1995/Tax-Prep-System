@@ -77,5 +77,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         }catch (NullPointerException ex){
             return null;
         }
+
     }
 }

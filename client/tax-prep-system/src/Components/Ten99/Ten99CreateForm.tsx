@@ -110,6 +110,7 @@ export default function Ten99CreateForm() {
                 <Label htmlFor="fedWithheld">{t('ptax')}</Label>
                 {fedWithheldStatus === "error" && <ErrorMessage>{t('ptaxerror')}</ErrorMessage>}
                 <TextInput id="fedWithheld" name="fedWithheld" type="text" onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus as ValidationStatus}/>
+
                 <div style={{margin: '20px'}}>
                 {submissionError && <ErrorMessage>{t('failadd')}</ErrorMessage>}
                 </div>

@@ -47,7 +47,6 @@ export default function W2CreateForm() {
             }).then(response => {
                 e.target.reset();
                 const updatedW2Data = [...w2Data, response.data];
-                //const updatedW2Data = w2Data.push(response.data);
                 dispatch(setStoreW2Data(updatedW2Data));
                 cleanUp();
             }).catch(error => {

@@ -49,7 +49,6 @@ public class SecurityConfig{
                                 .mvcMatchers(HttpMethod.POST,"/users/login").permitAll()//allowing all access to /users/hello without authentication
                                 .anyRequest().authenticated()
         ).httpBasic();
-
         http.csrf((csrf)->
                 csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/users/newUser", "/users/login"));
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
