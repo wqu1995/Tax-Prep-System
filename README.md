@@ -3,10 +3,15 @@
 
 One Calculation at a Time: Your Path to Accurate Tax Insights!
 
-Authors:
+Developers:
 - Eric Stein
 - Wenjun Qu
 
+
+Technical Business Analysts:
+- Alexander Makiyama
+- Colton Haynes (Special thanks for the outstanding banner image)
+- Patrick Gustafson
 # To Start
 
 ## Backend
