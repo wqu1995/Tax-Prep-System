@@ -1,7 +1,6 @@
 package com.skillstorm.taxprepsystem.RepositoryTests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -65,6 +64,6 @@ public class Ten99RepositoryTest {
 
         ten99Repository.deleteAllByTen99Id(sampleId);
 
-        assertTrue(ten99Repository.findById(sampleId).isPresent());
+        assertFalse(ten99Repository.findById(sampleId).isPresent());
     }
 }

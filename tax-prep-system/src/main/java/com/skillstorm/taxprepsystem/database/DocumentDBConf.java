@@ -22,8 +22,8 @@ public class DocumentDBConf {
      * Configuration file for setting up documentdb.
      */
     @Configuration
-    @Profile("default")
-    @PropertySource("classpath:application.yml")
+    @Profile("prod")
+    @PropertySource("classpath:application-prod.yml")
     static class DefaultConfig{
         private MongoProperties properties;
 
@@ -72,8 +72,8 @@ public class DocumentDBConf {
     }
 
     @Configuration
-    @Profile("dev")
-    @PropertySource("classpath:application-dev.yml")
+    @Profile("default")
+    @PropertySource("classpath:application.yml")
     static class DevConfig{
 
     }

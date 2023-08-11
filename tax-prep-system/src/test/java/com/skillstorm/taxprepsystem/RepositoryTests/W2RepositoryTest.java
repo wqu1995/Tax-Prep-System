@@ -1,7 +1,6 @@
 package com.skillstorm.taxprepsystem.RepositoryTests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -64,6 +63,6 @@ public class W2RepositoryTest {
 
         w2Repository.deleteAllByW2Id(sampleId);
 
-        assertTrue(w2Repository.findById(sampleId).isPresent());
+        assertFalse(w2Repository.findById(sampleId).isPresent());
     }
 }

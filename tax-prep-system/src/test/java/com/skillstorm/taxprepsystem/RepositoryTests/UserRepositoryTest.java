@@ -35,7 +35,7 @@ public class UserRepositoryTest {
         Optional<User> foundUser = userRepository.findBySocial(123123123);
 
         assertTrue(foundUser.isPresent());
-        assertEquals("John Doe", foundUser.get().getFirstName());
+        assertEquals("John", foundUser.get().getFirstName());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class UserRepositoryTest {
         Optional<User> foundUser = userRepository.findByEmail("john@john.com");
 
         assertTrue(foundUser.isPresent());
-        assertEquals(987654321L, foundUser.get().getSocial());
+        assertEquals(123123123L, foundUser.get().getSocial());
     }
 
     @Test

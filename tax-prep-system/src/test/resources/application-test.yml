@@ -2,5 +2,5 @@ spring:
   data:
     mongodb:
       port: 0
-      uri: mongodb://username:password@host:port/database
+      uri: mongodb+srv://skillstormproject2group2:MuchStrongerPassword123@skillstorm-project2-gro.vswf1wk.mongodb.net/
 
