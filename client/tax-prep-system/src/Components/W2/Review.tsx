@@ -61,7 +61,7 @@ export default function Review() {
                 })
                 .catch(error => console.error(error));
         }
-    }, [userSSN]);
+    }, [userSSN, w2Data, ten99Data]);
 
     function formatPhoneNumber(number: any) {
 
