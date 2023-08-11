@@ -1,8 +1,6 @@
-import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import UserFinancialInfo from '../Components/User/UserFinancialInfo';
 import store from '../store';
 

@@ -22,13 +22,13 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.skillstorm.taxprepsystem.models.Ten99;
 import com.skillstorm.taxprepsystem.models.Ten99Id;
 import com.skillstorm.taxprepsystem.repositories.Ten99Repository;
 
 @DataMongoTest
-@ExtendWith(SpringExtension.class)
 public class Ten99RepositoryTest {
 
     @Autowired

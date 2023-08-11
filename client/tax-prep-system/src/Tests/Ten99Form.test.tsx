@@ -1,7 +1,5 @@
-import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 import Ten99Form from '../Components/Ten99/Ten99Form'; 
 import store from '../store';
 

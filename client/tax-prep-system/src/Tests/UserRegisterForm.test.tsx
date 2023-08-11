@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { Provider, useDispatch } from 'react-redux';
 import UserRegisterForm from '../Components/User/UserRegisterForm'; 

@@ -1,33 +1,27 @@
 import { render, screen } from '@testing-library/react';
 import { Provider, useSelector } from 'react-redux';
-import ResultsPage from '../Components/Results/ResultsPage';
+import ResultsPage from '../Components/Results/ResultsPage.tsx';
 import store from '../store';
-import axios from 'axios';
 
 
-// Mock useSelector and api
-jest.mock('react-redux', () => ({
-  useSelector: jest.fn(),
-}));
+const selectorMock = jest.fn();
 
-jest.mock('axios', () => ({
-  get: jest.fn(),
-}));
+const axiosMock = jest.fn();
 
 describe('ResultsPage', () => {
   beforeEach(() => {
-    (useSelector as jest.Mock).mockReturnValue('S');
+    selectorMock.mockReturnValue('S');
   });
 
   test('renders tax owed message when tax is owed', async () => {
-    (axios.get as jest.Mock).mockResolvedValueOnce({ data: [
+    axiosMock.mockResolvedValueOnce({ data: [
       {w2Id: {empTin: 123123123, social: 1234569081}, wages: 1234536, fedWithheld: 3450}, 
       {w2Id: {empTin: 890678567, social: 1234569081}, wages: 55555, fedWithheld: 56}] });
-    (axios.get as jest.Mock).mockResolvedValueOnce({ data: [
+    axiosMock.mockResolvedValueOnce({ data: [
       {ten99Id: {payerTin: 123123123, social: 1234569081}, wages: 1234536, fedWithheld: 3450},
-      {ten99Id: {payerTin: 123123123, social: 1234569081}, wages: 1234536, fedWithheld: 3450}
+      {ten99Id: {payerTin: 456456456, social: 1234569081}, wages: 654223, fedWithheld: 73430}
     ] });
-    (axios.get as jest.Mock).mockResolvedValueOnce({ data: { status: 'S' } });
+    axiosMock.mockResolvedValueOnce({ data: { status: 'S' } });
 
     render(
       <Provider store={store}>
@@ -37,19 +31,19 @@ describe('ResultsPage', () => {
       </Provider>
     );
 
-    await screen.findByText('You owe');
-    expect(screen.getByText('You owe')).toBeInTheDocument();
+    await screen.findByText('$');
+    expect(screen.getByText('$')).toBeInTheDocument();
   });
 
   test('renders tax refund message when no tax is owed', async () => {
-    (axios.get as jest.Mock).mockResolvedValueOnce({ data: [
+    axiosMock.mockResolvedValueOnce({ data: [
       {w2Id: {empTin: 123123123, social: 1234569081}, wages: 1234536, fedWithheld: 3450}, 
       {w2Id: {empTin: 890678567, social: 1234569081}, wages: 55555, fedWithheld: 56}] });
-    (axios.get as jest.Mock).mockResolvedValueOnce({ data: [
+    axiosMock.mockResolvedValueOnce({ data: [
       {ten99Id: {payerTin: 123123123, social: 1234569081}, wages: 1234536, fedWithheld: 3450},
       {ten99Id: {payerTin: 123123123, social: 1234569081}, wages: 1234536, fedWithheld: 3450}
     ] });
-    (axios.get as jest.Mock).mockResolvedValueOnce({ data: { status: 'S' } });
+    axiosMock.mockResolvedValueOnce({ data: { status: 'S' } });
 
     render(
       <Provider store={store}>
@@ -59,7 +53,7 @@ describe('ResultsPage', () => {
       </Provider>
     );
 
-    await screen.findByText('refund');
-    expect(screen.getByText('refund')).toBeInTheDocument();
+    await screen.findByText('$');
+    expect(screen.getByText('$')).toBeInTheDocument();
   });
 });

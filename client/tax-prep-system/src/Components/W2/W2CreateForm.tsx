@@ -1,4 +1,4 @@
-import { Button, ErrorMessage, Form, Label, TextInput } from "@trussworks/react-uswds";
+import { Button, ErrorMessage, Form, Label, TextInput, ValidationStatus } from "@trussworks/react-uswds";
 import api from '../../api/axiosConfig';
 import axios from "axios";
 import { useDispatch, useSelector, useStore } from "react-redux";
@@ -90,13 +90,13 @@ export default function W2CreateForm() {
             <Form  onSubmit={handleSubmit}>
                 <Label htmlFor="empTin">{t('ein')}</Label>
                 {empTinStatus === "error" && <ErrorMessage>{t('ptinerror')}</ErrorMessage>}
-                <TextInput id="empTin" name="empTin" type="text"  onChange={handleEmpTinInput} validationStatus={empTinStatus}/>
+                <TextInput id="empTin" name="empTin" type="text"  onChange={handleEmpTinInput} validationStatus={empTinStatus as ValidationStatus}/>
                 <Label htmlFor="wages">{t('wages')}</Label>
                 {wageStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
-                <TextInput id="wages" name="wages" type="text" onChange={handleWageInput} validationStatus={wageStatus}/>
+                <TextInput id="wages" name="wages" type="text" onChange={handleWageInput} validationStatus={wageStatus as ValidationStatus}/>
                 <Label htmlFor="fedWithheld">{t('ftax')}</Label>
                 {fedWithheldStatus === "error" && <ErrorMessage>{t('comperror')}</ErrorMessage>}
-                <TextInput id="fedWithheld" name="fedWithheld" type="text" onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus}/>
+                <TextInput id="fedWithheld" name="fedWithheld" type="text" onChange={handleFedWithheldInput} validationStatus={fedWithheldStatus as ValidationStatus}/>
                 <div style={{margin: '20px'}}>
                 {submissionError && <ErrorMessage>{t('failadd')}</ErrorMessage>}
                 </div>

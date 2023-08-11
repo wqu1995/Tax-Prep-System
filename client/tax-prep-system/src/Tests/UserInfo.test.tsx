@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { Provider, useSelector } from 'react-redux';
 import UserInfo from '../Components/User/UserInfo';
