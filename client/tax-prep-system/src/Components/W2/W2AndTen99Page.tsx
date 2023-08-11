@@ -11,6 +11,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
+
 var w2InitialArray: AccordionItemProps[] = [{
   title: 'W2 #1',                               //TODO: TRY CSS STYLING
   content:<W2Form index={0}/>,
@@ -27,6 +28,7 @@ var ten99InitialArray: AccordionItemProps[] = [{
   headingLevel: 'h4',
 }]
 
+//page for the calculation component when user first register the site
 export default function W2AndTen99Page() {
     const {t} = useTranslation();
 

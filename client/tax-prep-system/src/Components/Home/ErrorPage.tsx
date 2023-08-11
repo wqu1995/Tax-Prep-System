@@ -2,7 +2,7 @@ import { Button, ButtonGroup, Grid, GridContainer } from '@trussworks/react-uswd
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-
+// export error page to dispaly when user has wrong authority 
 function ErrorPage({errorCode} : any) {
     const {t} = useTranslation();
     const navigate = useNavigate();

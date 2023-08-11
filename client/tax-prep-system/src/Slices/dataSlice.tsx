@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-
+// redux slicer for storing w2 and 1099
 interface DataState {
   w2Data: any[];
   ten99Data: any[];

@@ -8,6 +8,8 @@ import { selectCurrentSSN} from '../../Slices/AuthSlicer';
 import { useTranslation } from "react-i18next";
 import { setStoreW2Data, setStoreTen99Data } from '../../Slices/dataSlice';
 
+
+//page to review entered tax info
 export default function Review() {
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -23,6 +25,7 @@ export default function Review() {
     const ten99Data = useSelector((state: any) => state.data.ten99Data);
     const dispatch = useDispatch();
 
+    //load required states
     useEffect(() => {
         if(userSSN != null){
             api.get(`/w2s/${userSSN}`)

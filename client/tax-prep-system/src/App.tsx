@@ -26,6 +26,7 @@ function App() {
     const dispatch = useDispatch();
     const ssn = useSelector(selectCurrentSSN)
 
+    //attempt to log user in using access token 
     useEffect(()=>{
         console.log(ssn)
         if(!ssn){

@@ -9,8 +9,17 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+/**
+ * Class for handle JWT token related functionalities.
+ */
 @Component
 public class JWTGenerator {
+    /**
+     * Generate token.
+     *
+     * @param authentication the authentication
+     * @return the string
+     */
     public String generateToken(Authentication authentication){
         String username = authentication.getName();
         Date currentDate = new Date();
@@ -25,6 +34,12 @@ public class JWTGenerator {
         return token;
     }
 
+    /**
+     * Get username from jwt token.
+     *
+     * @param token the token
+     * @return the string
+     */
     public String getUsernameFromJWT(String token){
         Claims claims = Jwts.parser()
                 .setSigningKey(SecurityConstants.JWT_SECRET)
@@ -42,6 +57,12 @@ public class JWTGenerator {
         }
     }
 
+    /**
+     * Invalidate token.
+     *
+     * @param token the token
+     * @return the string
+     */
     public String invalidateToken(String token){
         Claims claims = Jwts.parser()
                 .setSigningKey(SecurityConstants.JWT_SECRET)

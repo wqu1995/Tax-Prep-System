@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+//redux slicer for tracking w2 form data 
 interface W2FormData {
     empTin: string;
     wages: string;

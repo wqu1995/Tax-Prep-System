@@ -22,10 +22,22 @@ public class Ten99Service {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Find all 1099 associated with ssn.
+     *
+     * @param social the social
+     * @return the list of 1099
+     */
     public List<Ten99> findAllBySocial(long social) {
         return ten99Repository.findByTen99IdSocial(social);
     }
-    
+
+    /**
+     * Save new 1099 to the database.
+     *
+     * @param ten99 1099 from request
+     * @return 1099
+     */
     public Ten99 saveNewTen99(Ten99 ten99) {
 
         Optional<User> user = userRepository.findBySocial(ten99.getTen99Id().getSocial());         // Check if the associated user exists
@@ -36,6 +48,12 @@ public class Ten99Service {
         return ten99Repository.save(ten99);
     }
 
+    /**
+     * Update 1099 form.
+     *
+     * @param ten99 1099 from request
+     * @return updated 1099
+     */
     public Ten99 updateTen99(Ten99 ten99) {
         System.out.println(ten99);
         List<Ten99> allTen99 = ten99Repository.findAll();
@@ -49,11 +67,22 @@ public class Ten99Service {
 
     }
 
+    /**
+     * Delete all 1099 associated with social.
+     *
+     * @param social the social
+     */
     @Transactional
     public void deleteBySocial(long social) {
         ten99Repository.deleteBySocial(social);
     }
 
+    /**
+     * Delete 1099 associated with ssn and payerTin.
+     *
+     * @param social   the social
+     * @param payerTin the payer tin
+     */
     @Transactional
     public void deleteByTen99Id(long social, long payerTin) {
         

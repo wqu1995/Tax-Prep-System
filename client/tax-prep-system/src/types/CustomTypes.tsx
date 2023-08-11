@@ -1,4 +1,5 @@
 
+//some custom types 
 export interface UserInfoType {
     firstName: string;
     lastName: string;

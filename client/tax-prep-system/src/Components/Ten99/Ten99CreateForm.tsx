@@ -30,6 +30,7 @@ export default function Ten99CreateForm() {
         setSubmissionError(false)
     }
 
+    //save new 1099 to the backend 
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
@@ -54,6 +55,7 @@ export default function Ten99CreateForm() {
         }
     }
 
+    //validation methods to validate user input 
     const handlePayerTinInput = (e: any) => {
         setPayerTin(e.target.value);
         function isValidPositiveNumber(input: any) {

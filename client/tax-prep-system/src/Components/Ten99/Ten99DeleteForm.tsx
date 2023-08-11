@@ -22,6 +22,7 @@ export default function Ten99DeleteForm() {
         wages : number
     }
 
+    //delete 1099 from the database
     const handleSubmit = (e: any) => {
         e.preventDefault();
         api.delete(`/ten99s/ten99/deleteFor${userSSN}/${deleteTarget}`)

@@ -8,6 +8,8 @@ import { UserActionType, UserInfoType } from '../../types/CustomTypes';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+
+//user register page
 function UserRegisterForm() {
     const {t} = useTranslation();
 
@@ -34,6 +36,8 @@ function UserRegisterForm() {
         status : '',
     }
 
+
+    //reducer to update user info
     const userInfoReducer = (state: UserInfoType, action: UserActionType) =>{
         switch(action.type) {
             case 'setFirst':
@@ -76,6 +80,7 @@ function UserRegisterForm() {
     }
     
 
+    //attempt to register user in the backend 
     const handleRegisterSubmit =  (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
         const registerPayload = {
@@ -94,6 +99,7 @@ function UserRegisterForm() {
         })
     }
 
+    //attempt to update user's personal information
     const handleUserInfoSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
 

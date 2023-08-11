@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 
-
+//default home page
 function Home() {
     const {t} = useTranslation();
     const currentFirstName = useSelector(selectCurrentFirstName);
@@ -22,6 +22,8 @@ function Home() {
         }
     },[currentFirstName, currentLastName])
 
+
+    //display different components base on if user is login or not 
     return (
         <main id="main-content">
         <section className="custome-usa-hero" aria-label="Introduction">

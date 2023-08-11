@@ -7,6 +7,8 @@ import { UserAction, UserActionType, UserDto, UserInfoType } from '../../types/C
 import ErrorPage from '../Home/ErrorPage';
 import { useTranslation } from 'react-i18next';
 
+
+//page to display user's personal information
 function UserInfo() {
     const {t} = useTranslation();
     const userSSN = useSelector(selectCurrentSSN);
@@ -24,6 +26,7 @@ function UserInfo() {
         status: ''
     }
 
+    //reducer to update user info
     const userInfoReducer = (state: UserDto, action:UserAction) =>{
         switch(action.type) {
             case 'setPhone':
@@ -72,6 +75,8 @@ function UserInfo() {
         }
     }, [enableEdit])
 
+
+    //update user info
     const handleUserInfoSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault()
 

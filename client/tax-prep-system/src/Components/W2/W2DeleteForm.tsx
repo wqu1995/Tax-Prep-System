@@ -6,7 +6,7 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { setStoreW2Data } from '../../Slices/dataSlice';
 
-
+//form for delete w2 entry 
 export default function W2DeleteForm() {
     const { t } = useTranslation();
     const [deleteTarget, setDeleteTarget] = useState("");
@@ -23,6 +23,7 @@ export default function W2DeleteForm() {
         wages : number
     }
 
+    //attempt to delete the selected w2
     const handleSubmit = (e: any) => {
         e.preventDefault();
         api.delete(`/w2s/w2/deleteFor${userSSN}/${deleteTarget}`)

@@ -31,7 +31,7 @@ public class UserService implements UserDetailsService {
     /**
      * Find all users from User table.
      *
-     * @return the list
+     * @return the list of user
      */
     public List<User> findAllUsers() {
 
@@ -119,6 +119,12 @@ public class UserService implements UserDetailsService {
     }
 
 
+    /**
+     * Gets user using username.
+     *
+     * @param username the username
+     * @return the user
+     */
     public User getUser (String username) {
         return userRepository.findByEmail(username).orElse(null);
     }

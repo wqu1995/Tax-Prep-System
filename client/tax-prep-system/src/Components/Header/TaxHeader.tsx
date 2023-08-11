@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n';
 import api from '../../api/axiosConfig'
 
+// export header component
 function TaxHeader() {
 
     const currentFirstName = useSelector(selectCurrentFirstName);

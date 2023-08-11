@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "http://3.239.159.169/", allowCredentials = "true")
+@CrossOrigin(origins = SecurityConstants.PROD_ORIGIN, allowCredentials = "true")
 public class UserController {
 
     @Autowired
@@ -67,7 +67,8 @@ public class UserController {
     }
 
     /**
-     * Handler for POST request("/users/newUser").
+     * Handler for POST request("/users/register").
+     * Attempt to register the user and send back an access token
      *
      * @param userData the user data
      * @return the response entity
@@ -93,6 +94,15 @@ public class UserController {
         }
     }
 
+    /**
+     * Handler for POST request ("/users/login")
+     * Attempts to authenticate user via valid access token cookie or username password combination
+     * If success, send back corresponding user info to the client
+     *
+     * @param accessToken  the access token
+     * @param loginRequest the login request
+     * @return the response entity
+     */
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@CookieValue(name = "test-cookie", required = false) String accessToken, @RequestBody LoginRequest loginRequest){
         String username;

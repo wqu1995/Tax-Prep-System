@@ -6,6 +6,8 @@ import { setCredentials, setName } from '../../Slices/AuthSlicer';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+
+//user login page
 function UserLogInForm() {
     const {t} = useTranslation();
     const [username, setUsername] = useState('');
@@ -19,6 +21,7 @@ function UserLogInForm() {
         setErrMsg('');
     },[username, password])
 
+    //attempt to log user in
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
         const loginPayload = {username, password}

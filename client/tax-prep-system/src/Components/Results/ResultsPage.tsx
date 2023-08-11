@@ -19,7 +19,7 @@ interface Ten99 {
     fedWithheld: number,
 }
 
-
+//result page for displaying tax results 
 export default function ResultsPage() {
     const { t } = useTranslation();
     const userSSN = useSelector((state: any) => state.auth.ssn);
@@ -59,6 +59,7 @@ export default function ResultsPage() {
         w2Array.forEach((w2) => totalWages = totalWages + w2.wages);
         ten99Array.forEach((ten99) => totalWages = totalWages + ten99.wages);
  
+        //set up deduction 
         let deduction = 0;
         switch (filingStatus) {
             case "S":
@@ -97,6 +98,7 @@ export default function ResultsPage() {
             return taxableIncome - totalWithheld;
         }
 
+        //perform tax calculation 
         switch (filingStatus) {
             case "S":
                 if (taxableIncome <= 10275) {

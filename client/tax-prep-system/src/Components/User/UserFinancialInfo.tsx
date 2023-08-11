@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import ErrorPage from "../Home/ErrorPage";
 import { useNavigate, useNavigation } from "react-router-dom";
 
-
+//page for displaying user's financial information
 export default function UserFinancialInfo() {
     const { t } = useTranslation();
     const userSSN = useSelector(selectCurrentSSN);
@@ -28,6 +28,7 @@ export default function UserFinancialInfo() {
     const modalRef4 = useRef(null);
     const navigate = useNavigate();
 
+    //setup required states 
     useEffect(() => {
         if(userSSN!==null){
             api.get(`/w2s/${userSSN}`)
@@ -52,6 +53,7 @@ export default function UserFinancialInfo() {
 
     })
 
+    //handler for update w2
     const handleW2InputChange = (index: any, field: any, value: any) => {
         const updatedW2Data: any = [...w2Data];
             updatedW2Data[index] = {
@@ -61,6 +63,7 @@ export default function UserFinancialInfo() {
         dispatch(setStoreW2Data(updatedW2Data));
     };
 
+    //handler for update 1099
     const handleTen99InputChange = (index: any, field: any, value: any) => {
         const updatedTen99Data: any = [...ten99Data];
             updatedTen99Data[index] = {
@@ -74,6 +77,7 @@ export default function UserFinancialInfo() {
         setEditW2(!editW2)
     }
 
+    //send request to the server to update w2
     const toggleW2Save = () => {
 
         w2Data.forEach((w2: any) => {
@@ -97,6 +101,7 @@ export default function UserFinancialInfo() {
         setEdit1099(!edit1099)
     }
 
+    //send request to the server to update 1099
     const toggle1099Save = () => {
 
         ten99Data.forEach((ten99: any) => {

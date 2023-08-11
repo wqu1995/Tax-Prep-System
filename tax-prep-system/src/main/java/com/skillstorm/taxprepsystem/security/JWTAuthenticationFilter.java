@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Custom filter for handling JWT authentication.
+ */
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -24,6 +27,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private UserService userService;
 
+
+    /**
+     * Perform the token validation. If token does not exist in the cookie, proceed with the next filter chain ELSE
+     * validate the token and attempt to authenticate user
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = getJWTFromCookie(request);
@@ -53,6 +61,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         }
         return null;
     }
+    /**
+     * Get token from request header cookie.
+     */
     private String getJWTFromCookie(HttpServletRequest request){
         try{
             Cookie[] cookies = request.getCookies();

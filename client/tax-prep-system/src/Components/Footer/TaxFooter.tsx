@@ -2,6 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { Address, Footer, Grid, Logo } from '@trussworks/react-uswds';
 import clownToyImage from '../../assets/simple-calculator-01.svg';
 
+
+// export footer component
 function TaxFooter() {
     const footerPrimary = (<div></div>)
     const footerSecondary = (

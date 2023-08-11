@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+//redux slicer for tracking 1099 form data 
 interface Ten99FormData {
     payerTin: string;
     wages: string;

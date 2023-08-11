@@ -22,6 +22,7 @@ export default function Ten99Form({index}: Ten99Props) {
         console.log("submitted 1099!!")
     }
     
+    //validation methods to check user input
     const handlePayerTinInput = (e: any) => {
         const {name, value} = e.target;
         dispatch(updateTen99Form({index, data: {...formData, [name]: value}}));
